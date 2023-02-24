@@ -1,0 +1,52 @@
+{
+  "name": "nextjs-lightning-auth-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node --project tsconfig.server.json server/index.js",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:next": "next build",
+    "build": "npm run build:next && npm run build:server",
+    "start": "NODE_ENV=production node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.276.0",
+    "@headlessui/react": "^1.7.11",
+    "@heroicons/react": "^2.0.16",
+    "@tanstack/react-query": "^4.24.9",
+    "@tippyjs/react": "^4.2.6",
+    "axios": "^0.20.0",
+    "connect-mongo": "^4.6.0",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "google-map-react": "^2.2.0",
+    "mongodb": "^4.14.0",
+    "next": "^13.1.6",
+    "passport": "^0.6.0",
+    "passport-lnurl-auth": "^1.5.1",
+    "path": "^0.12.7",
+    "postcss-cli": "^10.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-qr-code": "^2.0.11",
+    "sharp": "^0.31.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.7.1",
+    "@types/react": "^16.9.19",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7",
+    "ts-node": "^8.6.2",
+    "typescript": "^4.9.5"
+  }
+}
