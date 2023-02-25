@@ -22,7 +22,7 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 			session({
 				secret: process.env.SESSION_SECRET || 'secret',
 				store: MongoStore.create({
-					mongoUrl: process.env.MONGODB_URI
+					mongoUrl: dev ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI
 				}),
 				resave: true,
 				saveUninitialized: true
