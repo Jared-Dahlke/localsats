@@ -65,7 +65,11 @@ export default async function handler(req, res) {
 				'notifications@localsats.org'
 			)
 
-			await sesClient.send(sendEmailCommand)
+			try {
+				sesClient.send(sendEmailCommand)
+			} catch (err) {
+				console.log('Error', err)
+			}
 		}
 
 		res.json(result)
