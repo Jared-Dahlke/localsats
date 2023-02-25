@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 import Axios from 'axios'
 import { rqKeys } from '../constants'
+import { PostType } from '../types/types'
 
-export const usePosts = () => {
-	const { data } = useQuery(
+export const usePosts = ({ initialPosts }: { initialPosts: PostType[] }) => {
+	const postsQuery = useQuery<PostType[]>(
 		rqKeys.postsKey(),
 		() => Axios.get('/api/get_posts'),
 		{
-			refetchInterval: 20000
+			refetchInterval: 20000,
+			initialData: initialPosts
 		}
 	)
 
-	return data
+	return postsQuery?.data?.data
 }

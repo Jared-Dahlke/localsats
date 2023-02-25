@@ -7,8 +7,9 @@ import { useDatabaseUser } from '../hooks/useDatabaseUser'
 import { getNameFromId } from '../utils/utils'
 import { SuccessAlert } from '../components/successAlert'
 import * as EmailValidator from 'email-validator'
+import { getPosts } from './api/get_posts'
 
-export default function Home({ user }) {
+export default function Home({ user, posts }) {
 	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 
@@ -96,7 +97,7 @@ export default function Home({ user }) {
 				</div>
 			</div>
 
-			<SimpleMap user={user} />
+			<SimpleMap user={user} posts={posts} />
 
 			<div
 				aria-live='assertive'
@@ -129,7 +130,8 @@ export const getServerSideProps = async function ({ req, res }) {
 		}
 	}
 
+	const posts = await getPosts()
 	return {
-		props: { user }
+		props: { user, posts: JSON.parse(JSON.stringify(posts)) }
 	}
 }

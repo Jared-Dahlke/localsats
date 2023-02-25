@@ -77,7 +77,13 @@ const MarkerComponent = ({
 		</svg>
 	)
 
-export default function SimpleMap({ user }: { user: string }) {
+export default function SimpleMap({
+	user,
+	posts: initialPosts
+}: {
+	user: string
+	posts: PostType[]
+}) {
 	const queryClient = useQueryClient()
 	const [showPaymentSuccess, setShowPaymentSuccess] = React.useState(false)
 	const [showQr, setShowQr] = React.useState(false)
@@ -102,8 +108,7 @@ export default function SimpleMap({ user }: { user: string }) {
 		}
 	}, [invoiceStatus?.data?.data?.paid])
 
-	const data = usePosts()
-	const posts = data?.data
+	const posts = usePosts({ initialPosts })
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const openPost = posts?.find((post: PostType) => post._id === openId)
 
