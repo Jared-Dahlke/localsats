@@ -4,17 +4,27 @@ import axios from 'axios'
 import { GroupedMessage } from '../types/types'
 import { rqKeys } from '../constants'
 
-export const useMessages = ({ userId }: { userId: string }) => {
+const getMessages = async (userId: string) => {
+	const messages = await axios.post<MessageType[]>('/api/get_messages', {
+		userId
+	})
+	return messages.data
+}
+
+export const useMessages = ({
+	userId,
+	initialMessages
+}: {
+	userId: string
+	initialMessages: MessageType[]
+}) => {
 	const messagesQuery = useQuery(
 		rqKeys.messagesKey(),
-		() => {
-			return axios.post<MessageType[]>('/api/get_messages', {
-				userId
-			})
-		},
+		() => getMessages(userId),
 		{
 			enabled: !!userId,
-			refetchInterval: 10000
+			refetchInterval: 10000,
+			initialData: initialMessages
 		}
 	)
 
@@ -33,7 +43,7 @@ export const useMessages = ({ userId }: { userId: string }) => {
 
 	const distinctChatPaywallIds = []
 
-	for (const message of messagesQuery?.data?.data || []) {
+	for (const message of messagesQuery?.data || []) {
 		// get distinct list of chatPaywallIds
 		if (!distinctChatPaywallIds.includes(message.chatPaywallId)) {
 			distinctChatPaywallIds.push(message.chatPaywallId)
@@ -43,7 +53,7 @@ export const useMessages = ({ userId }: { userId: string }) => {
 	const messagesGroupedByChatPaywallId: GroupedMessage[] = []
 	for (const chatPaywallId of distinctChatPaywallIds) {
 		// get the messages from messagesQuery?.data?.data for each chatPaywallId
-		const messagesForChatPaywallId = messagesQuery?.data?.data.filter(
+		const messagesForChatPaywallId = messagesQuery?.data?.filter(
 			(message) => message.chatPaywallId === chatPaywallId
 		)
 		messagesGroupedByChatPaywallId.push({

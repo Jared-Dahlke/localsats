@@ -79,10 +79,12 @@ const MarkerComponent = ({
 
 export default function SimpleMap({
 	user,
-	posts: initialPosts
+	posts: initialPosts,
+	messages: initialMessages
 }: {
 	user: string
 	posts: PostType[]
+	messages: MessageType[]
 }) {
 	const queryClient = useQueryClient()
 	const [showPaymentSuccess, setShowPaymentSuccess] = React.useState(false)
@@ -114,11 +116,12 @@ export default function SimpleMap({
 
 	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
 		{
-			userId: user
+			userId: user,
+			initialMessages
 		}
 	)
 
-	const messages = messagesQuery?.data?.data
+	const messages = messagesQuery?.data
 
 	const postsWithNewMessages = groupedMessages?.filter(
 		(message) => message?.hasUnreadMessages

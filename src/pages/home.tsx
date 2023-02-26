@@ -8,8 +8,9 @@ import { getNameFromId } from '../utils/utils'
 import { SuccessAlert } from '../components/successAlert'
 import * as EmailValidator from 'email-validator'
 import { getPosts } from './api/get_posts'
+import { getMessages } from './api/get_messages'
 
-export default function Home({ user, posts }) {
+export default function Home({ user, posts, messages }) {
 	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 
@@ -97,7 +98,7 @@ export default function Home({ user, posts }) {
 				</div>
 			</div>
 
-			<SimpleMap user={user} posts={posts} />
+			<SimpleMap user={user} posts={posts} messages={messages} />
 
 			<div
 				aria-live='assertive'
@@ -131,7 +132,12 @@ export const getServerSideProps = async function ({ req, res }) {
 	}
 
 	const posts = await getPosts()
+	const messages = await getMessages(user)
 	return {
-		props: { user, posts: JSON.parse(JSON.stringify(posts)) }
+		props: {
+			user,
+			posts: JSON.parse(JSON.stringify(posts)),
+			messages: JSON.parse(JSON.stringify(messages))
+		}
 	}
 }
