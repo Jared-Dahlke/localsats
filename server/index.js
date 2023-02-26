@@ -24,6 +24,7 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 				store: MongoStore.create({
 					mongoUrl: dev ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI
 				}),
+				unset: 'destroy',
 				resave: true,
 				saveUninitialized: true
 			})
@@ -50,14 +51,6 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 			})
 		)
 		server.use(passport.authenticate('lnurl-auth'))
-		// server.get('/', function (req, res) {
-		// 	if (!req.user) {
-		// 		return res.send(
-		// 			'You are not authenticated. To login go <a href="/login">here</a>.'
-		// 		)
-		// 	}
-		// 	res.send('Logged-in')
-		// })
 
 		server.get(
 			'/login',
@@ -80,8 +73,6 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 		server.get('/logout', function (req, res, next) {
 			if (req.user) {
 				req.session.destroy()
-				//res.json({ message: 'user logged out' })
-				// Already authenticated.
 				return res.redirect(baseUrl)
 			}
 			next()
