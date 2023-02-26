@@ -351,7 +351,7 @@ export default function SimpleMap({
 						type='checkbox'
 						className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 '
 					/>
-					<div className='text-sm'>Show only my posts</div>
+					<div className='text-sm'>Show only your posts</div>
 				</div>
 			)}
 

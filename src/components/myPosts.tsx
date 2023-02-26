@@ -27,7 +27,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 			/>
 			<div className='sm:flex sm:items-center'>
 				<div className='sm:flex-auto'>
-					<h1 className='text-md font-semibold text-gray-900'>My Posts</h1>
+					<h1 className='text-md font-semibold text-gray-900'>Your Posts</h1>
 				</div>
 			</div>
 			<div className='mt-3 flex flex-col'>
