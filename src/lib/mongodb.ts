@@ -2,11 +2,15 @@ import { MongoClient } from 'mongodb'
 require('dotenv').config()
 const dev = process.env.NODE_ENV !== 'production'
 
-if (!process.env.MONGODB_URI) {
-	throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
+if (!process.env.NEXT_PUBLIC_MONGODB_URI) {
+	throw new Error(
+		'Invalid/Missing environment variable: "NEXT_PUBLIC_MONGODB_URI"'
+	)
 }
 
-const uri = dev ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI
+const uri = dev
+	? process.env.NEXT_PUBLIC_MONGODB_URI_DEV
+	: process.env.NEXT_PUBLIC_MONGODB_URI
 const options = {}
 
 let client

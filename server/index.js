@@ -22,7 +22,9 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 			session({
 				secret: process.env.SESSION_SECRET || 'secret',
 				store: MongoStore.create({
-					mongoUrl: dev ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI
+					mongoUrl: dev
+						? process.env.NEXT_PUBLIC_MONGODB_URI_DEV
+						: process.env.NEXT_PUBLIC_MONGODB_URI
 				}),
 				unset: 'destroy',
 				resave: true,
