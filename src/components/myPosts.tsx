@@ -1,4 +1,4 @@
-import { PostType } from '@/types/types'
+import { PostType } from '../types/types'
 import React from 'react'
 import { DeletePostConfirmationModal } from './deletePostConfirmationModal'
 const dayjs = require('dayjs')
