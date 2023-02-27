@@ -1,5 +1,6 @@
 import clientPromise from '../../lib/mongodb'
 import { database } from './util'
+require('dotenv').config()
 
 export async function getMessages(userId: string) {
 	const client = await clientPromise
