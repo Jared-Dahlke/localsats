@@ -7,10 +7,10 @@ const nextConfig = {
 		// your project has type errors.
 		// !! WARN !!
 		ignoreBuildErrors: true
-	},
-	env: {
-		NEXT_PUBLIC_MONGODB_URI: process.env.NEXT_PUBLIC_MONGODB_URI
 	}
+	//	env: {
+	//	NEXT_PUBLIC_MONGODB_URI: process.env.NEXT_PUBLIC_MONGODB_URI
+	//	}
 }
 
 module.exports = nextConfig

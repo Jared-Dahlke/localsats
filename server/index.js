@@ -1,5 +1,7 @@
 import express from 'express'
 import next from 'next'
+import { loadEnvConfig } from '@next/env'
+loadEnvConfig('./', process.env.NODE_ENV !== 'production')
 const LnurlAuth = require('passport-lnurl-auth')
 const passport = require('passport')
 const session = require('express-session')
