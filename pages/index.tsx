@@ -24,7 +24,7 @@ export default function Home() {
 
 				<div>
 					<div className={styles.description}>
-						Don'&apos;t have a wallet? Try one of these:
+						Don&apos;t have a wallet? Try one of these:
 					</div>
 
 					<ul className={styles.list}>
