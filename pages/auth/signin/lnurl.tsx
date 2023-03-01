@@ -73,7 +73,7 @@ export default function LnurlAuthSignIn({
 
 	// if logged in, redirect to dashboard
 	React.useEffect(() => {
-		if (session.status === 'authenticated') {
+		if (session.status === 'authenticated' && !isRedirecting) {
 			router.push(callbackUrlWithFallback)
 		}
 	}, [callbackUrlWithFallback, router, status, session])
