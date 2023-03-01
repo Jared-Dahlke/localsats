@@ -13,23 +13,18 @@ const useLnurlStatusConfig: SWRConfiguration = { refreshInterval: 1000 }
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
-	isPreview?: boolean
 }
 
-export default function LnurlAuthSignIn({
-	callbackUrl,
-	isPreview
-}: LnurlAuthSignInProps) {
+export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 	const router = useRouter()
 	const session = useSession()
-	const linkExistingAccount = router.query['link'] === 'true'
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
 		callbackUrl || (router.query['callbackUrl'] as string) || '/dashboard'
 	// only retrieve the qr code once
 	const { data: lnurlAuthLoginInfo, mutate: fetchNewQR } =
 		useSWRImmutable<LnurlAuthLoginInfo>(
-			`/api/auth/lnurl/generate-secret?linkExistingAccount=${linkExistingAccount}&isPreview=${isPreview}}`,
+			`/api/auth/lnurl/generate-secret`,
 			defaultFetcher
 		)
 
@@ -42,10 +37,10 @@ export default function LnurlAuthSignIn({
 	)
 
 	React.useEffect(() => {
-		if (status?.used && !status.verified && !isRedirecting && !isPreview) {
+		if (status?.used && !status.verified && !isRedirecting) {
 			fetchNewQR()
 		}
-	}, [fetchNewQR, isRedirecting, status?.used, status?.verified, isPreview])
+	}, [fetchNewQR, isRedirecting, status?.used, status?.verified])
 
 	React.useEffect(() => {
 		if (lnurlAuthLoginInfo && status?.verified) {
@@ -69,7 +64,7 @@ export default function LnurlAuthSignIn({
 				}
 			})()
 		}
-	}, [callbackUrlWithFallback, isPreview, lnurlAuthLoginInfo, router, status])
+	}, [callbackUrlWithFallback, lnurlAuthLoginInfo, router, status])
 
 	// if logged in, redirect to dashboard
 	React.useEffect(() => {

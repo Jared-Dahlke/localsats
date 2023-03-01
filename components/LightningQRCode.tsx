@@ -3,45 +3,9 @@ import QRCode, { QRCodeProps } from 'react-qr-code'
 
 type LightningQRCodeProps = QRCodeProps
 
-function calculateLogoSize(
-	value: string,
-	height: string | number | undefined
-): number {
-	const isLargeUrl = value.startsWith('lnurl')
-	return (
-		(((typeof height === 'string'
-			? height.indexOf('%') < 0
-				? parseInt(height)
-				: 0
-			: height) ?? 0) /
-			(isLargeUrl ? 64 : 32)) *
-		(isLargeUrl ? 7.04 : 4.78)
-	)
-}
-
 export function LightningQRCode(props: LightningQRCodeProps) {
-	const [logoSize, setLogoSize] = React.useState(
-		calculateLogoSize(props.value, props.height)
-	)
-
-	const wrapperRef = React.useRef<HTMLDivElement>(null)
-	React.useEffect(() => {
-		if (!props.height && wrapperRef.current?.offsetHeight) {
-			setLogoSize(
-				calculateLogoSize(
-					props.value,
-					Math.min(
-						wrapperRef.current?.offsetWidth,
-						wrapperRef.current?.offsetHeight
-					)
-				)
-			)
-		}
-	}, [props.height, props.value])
-
 	return (
 		<QRCode
-			// FIXME: qr code props
 			{...(props as any)}
 			size={256}
 			style={{
