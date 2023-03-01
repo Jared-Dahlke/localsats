@@ -73,11 +73,12 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 		}
 	}, [callbackUrlWithFallback, router, status, session])
 
+	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
 	return (
 		<>
 			{lnurlAuthLoginInfo ? (
-				<Link href={`lightning:${lnurlAuthLoginInfo.lnurl_auth}`}>
-					<LightningQRCode value={lnurlAuthLoginInfo.lnurl_auth} />
+				<Link href={url}>
+					<LightningQRCode value={url} />
 				</Link>
 			) : (
 				<p>loading</p>
