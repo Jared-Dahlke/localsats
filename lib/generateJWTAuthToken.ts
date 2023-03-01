@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { TwoFactorAuthToken } from 'types/TwoFactorAuthToken'
 
-export function generateJWTAuthToken(twoFactorAuthToken: TwoFactorAuthToken) {
+export function generateJWTAuthToken(twoFactorAuthToken: any) {
 	if (
 		[
 			twoFactorAuthToken.phoneNumber,
