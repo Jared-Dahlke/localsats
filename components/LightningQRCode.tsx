@@ -42,7 +42,6 @@ export function LightningQRCode(props: LightningQRCodeProps) {
 	return (
 		<QRCode
 			// FIXME: qr code props
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			{...(props as any)}
 			size={256}
 			style={{
