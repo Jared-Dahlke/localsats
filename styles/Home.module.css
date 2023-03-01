@@ -6,6 +6,17 @@
 	align-items: center;
 	padding: 6rem;
 	min-height: 100vh;
+	position: relative;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: red;
+	color: white;
+	text-align: center;
 }
 
 .list {
@@ -240,20 +251,6 @@
 		); */
 		background-clip: padding-box;
 		backdrop-filter: blur(24px);
-	}
-
-	.description div {
-		align-items: flex-end;
-		pointer-events: none;
-		inset: auto 0 0;
-		padding: 2rem;
-		height: 200px;
-		/* background: linear-gradient(
-			to bottom,
-			transparent 0%,
-			rgb(var(--background-end-rgb)) 40%
-		); */
-		z-index: 1;
 	}
 }
 
