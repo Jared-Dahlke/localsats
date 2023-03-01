@@ -1,5 +1,13 @@
 ### This is a template to use LNURL-auth login with Next.js using NextAuth. Thanks to https://github.com/lightsats/lightsats for discovering and creating the general work-flow from which this template was derived.
 
+## add these env vars:
+
+```
+APP_URL=https://yoursite.com
+NEXTAUTH_URL=https://yoursite.com
+NEXTAUTH_SECRET=anysecretstring
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
