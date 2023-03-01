@@ -1,8 +1,7 @@
 import { LightningQRCode } from 'components/LightningQRCode'
-import { NextLink } from 'components/NextLink'
-import { PageRoutes } from 'lib/PageRoutes'
 import { defaultFetcher } from 'lib/swr'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
@@ -22,12 +21,11 @@ export default function LnurlAuthSignIn({
 	isPreview
 }: LnurlAuthSignInProps) {
 	const router = useRouter()
+	const session = useSession()
 	const linkExistingAccount = router.query['link'] === 'true'
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
-		callbackUrl ||
-		(router.query['callbackUrl'] as string) ||
-		PageRoutes.dashboard
+		callbackUrl || (router.query['callbackUrl'] as string) || '/dashboard'
 	// only retrieve the qr code once
 	const { data: lnurlAuthLoginInfo, mutate: fetchNewQR } =
 		useSWRImmutable<LnurlAuthLoginInfo>(
@@ -45,18 +43,15 @@ export default function LnurlAuthSignIn({
 
 	React.useEffect(() => {
 		if (status?.used && !status.verified && !isRedirecting && !isPreview) {
-			// toast.error("Generating new QR code");
 			fetchNewQR()
 		}
 	}, [fetchNewQR, isRedirecting, status?.used, status?.verified, isPreview])
 
 	React.useEffect(() => {
-		console.log('useeffect')
 		if (lnurlAuthLoginInfo && status?.verified) {
 			setRedirecting(true)
 			;(async () => {
 				try {
-					console.log('lnurlAuthLoginInfo && status?.verified')
 					const result = await signIn('lnurl', {
 						k1: lnurlAuthLoginInfo.k1,
 						callbackUrl: callbackUrlWithFallback,
@@ -71,18 +66,24 @@ export default function LnurlAuthSignIn({
 					}
 				} catch (error) {
 					console.error(error)
-					//  toast.error("login failed");
 				}
 			})()
 		}
 	}, [callbackUrlWithFallback, isPreview, lnurlAuthLoginInfo, router, status])
 
+	// if logged in, redirect to dashboard
+	React.useEffect(() => {
+		if (session.status === 'authenticated') {
+			router.push(callbackUrlWithFallback)
+		}
+	}, [callbackUrlWithFallback, router, status, session])
+
 	return (
 		<>
 			{lnurlAuthLoginInfo ? (
-				<NextLink href={`lightning:${lnurlAuthLoginInfo.lnurl_auth}`}>
+				<Link href={`lightning:${lnurlAuthLoginInfo.lnurl_auth}`}>
 					<LightningQRCode value={lnurlAuthLoginInfo.lnurl_auth} />
-				</NextLink>
+				</Link>
 			) : (
 				<p>loading</p>
 			)}

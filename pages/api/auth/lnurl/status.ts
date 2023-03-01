@@ -7,8 +7,6 @@ export default async function handler(
 	res: NextApiResponse<LnurlAuthStatus>
 ) {
 	const { k1 } = req.query
-	console.log('herekey', k1)
 	const authKey = await getAuthKey(k1 as string)
-	console.log('here pas key', authKey)
 	res.json({ verified: !!authKey?.key, used: !authKey })
 }

@@ -40,51 +40,16 @@ export function LightningQRCode(props: LightningQRCodeProps) {
 	}, [props.height, props.value])
 
 	return (
-		<div
+		<QRCode
+			// FIXME: qr code props
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			{...(props as any)}
+			size={256}
 			style={{
-				flex: 1,
-				display: 'flex',
-				flexDirection: 'column',
-				width: props.height ?? '100%',
-				height: props.height ?? '100%',
-				position: 'relative',
-				justifyContent: 'center',
-				alignItems: 'center'
+				height: 'auto',
+				maxWidth: '100%',
+				width: '100%'
 			}}
-			ref={wrapperRef}>
-			<div
-				style={{
-					position: 'absolute',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					width: '100%',
-					height: '100%'
-				}}>
-				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img
-					src='/icons/icon-192x192.png'
-					alt=''
-					width={logoSize}
-					height={logoSize}
-					style={{
-						objectFit: 'contain',
-						zIndex: 1
-					}}
-				/>
-			</div>
-
-			<QRCode
-				// FIXME: qr code props
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				{...(props as any)}
-				size={256}
-				style={{
-					height: 'auto',
-					maxWidth: '100%',
-					width: '100%'
-				}}
-				viewBox={`0 0 256 256`}></QRCode>
-		</div>
+			viewBox={`0 0 256 256`}></QRCode>
 	)
 }

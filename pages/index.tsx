@@ -1,10 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
-//import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import LnurlAuthSignIn from './auth/signin/lnurl'
+import Link from 'next/link'
 
-//const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 	return (
@@ -16,7 +17,45 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main className={styles.main}>
+				<div className={styles.description}>
+					Click the QR Code or scan it with a lightning wallet to login
+				</div>
 				<LnurlAuthSignIn callbackUrl={'/dashboard'} isPreview={false} />
+
+				<div>
+					<div className={styles.description}>
+						Don't have a wallet? Try one of these:
+					</div>
+
+					<ul className={styles.list}>
+						<li className={styles.description}>
+							<a href='https://breez.technology/'>Breez</a>
+						</li>
+						<li className={styles.description}>
+							<a href='https://phoenix.acinq.co/'>Phoenix</a>
+						</li>
+						<li className={styles.description}>
+							<a href='https://zeusln.app/'>Zeus</a>
+						</li>
+						<li className={styles.description}>
+							<a href='https://lightning-wallet.com/'>Lightning Wallet</a>
+						</li>
+						<li className={styles.description}>
+							<a href='https://lightningjoule.com/'>Joule</a>
+						</li>
+						<li className={styles.description}>
+							<a href='https://bluewallet.io/'>BlueWallet</a>
+						</li>
+					</ul>
+				</div>
+
+				<a
+					href='https://github.com/fiatjaf/lnurl-rfc/blob/master/lnurl-auth.md'
+					className={styles.description}
+					target='_blank'
+					rel='noopener noreferrer'>
+					<div className={styles.list}>What is Lightning Login?</div>
+				</a>
 			</main>
 		</>
 	)

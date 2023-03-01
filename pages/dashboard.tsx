@@ -2,11 +2,14 @@ import Head from 'next/head'
 //import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 //const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 	const { data: session, status: sessionStatus } = useSession()
+	const router = useRouter()
 	return (
 		<>
 			<Head>
@@ -20,6 +23,15 @@ export default function Home() {
 				<p style={{ width: 300, wordWrap: 'break-word' }}>
 					{JSON.stringify(session)}
 				</p>
+				<button
+					onClick={async () => {
+						await signOut({
+							redirect: false
+						})
+						router.push('/')
+					}}>
+					Logout
+				</button>
 			</main>
 		</>
 	)

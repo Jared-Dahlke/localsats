@@ -24,18 +24,14 @@ export const authOptions: NextAuthOptions = {
 				locale: { type: 'text' }
 			},
 			async authorize(credentials) {
-				console.log('authorize', credentials)
-				// console.log("LNURL AUTH", credentials?.k1);
 				if (!credentials) {
 					return null
 				}
 
 				const authKey = await getAuthKey(credentials.k1)
-				// console.log("AUTH KEY", authKey);
 				if (!authKey || !authKey.key) {
 					return null
 				}
-				console.log('here2', authKey)
 				// auth key has been used already, so delete it
 				const client = await clientPromise
 				const db = client.db('authtest')
@@ -111,7 +107,6 @@ export const authOptions: NextAuthOptions = {
 	],
 	callbacks: {
 		session: async ({ session, token }) => {
-			// console.log("session.session", session, "session.token", token);
 			return Promise.resolve({
 				...session,
 				user: token.user as User
