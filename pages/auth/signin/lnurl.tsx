@@ -20,7 +20,11 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 	// only retrieve the qr code once
 	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
 		['generate-secret'],
-		() => axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data)
+		() =>
+			axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data),
+		{
+			refetchOnWindowFocus: false
+		}
 	)
 
 	const { data: status, refetch: statusMutate } = useQuery<LnurlAuthStatus>(
