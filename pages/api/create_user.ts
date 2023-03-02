@@ -1,10 +1,9 @@
 import clientPromise from '../../lib/mongodb'
-import { database } from './util'
 
 export default async function handler(req, res) {
 	try {
 		const client = await clientPromise
-		const db = client.db(database)
+		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 		const user = await db.collection('users').insertOne({
 			userId: req.body.userId,
 			createDate: new Date(),

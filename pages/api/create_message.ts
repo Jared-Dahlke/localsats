@@ -1,5 +1,4 @@
 import clientPromise from '../../lib/mongodb'
-import { database } from './util'
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
 
 const createSendEmailCommand = (toAddress, fromAddress) => {
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
 	try {
 		const message = req.body.message
 		const client = await clientPromise
-		const db = client.db(database)
+		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 		const result = await db.collection('messages').insertOne(message)
 		// send email to toUserId
 
