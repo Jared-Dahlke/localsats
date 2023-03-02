@@ -1,15 +1,11 @@
 import { LightningQRCode } from 'components/LightningQRCode'
-import { defaultFetcher } from 'lib/swr'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import useSWR, { SWRConfiguration } from 'swr'
-import useSWRImmutable from 'swr/immutable'
-import { LnurlAuthLoginInfo } from 'types/LnurlAuthLoginInfo'
 import { LnurlAuthStatus } from 'types/LnurlAuthStatus'
-
-const useLnurlStatusConfig: SWRConfiguration = { refreshInterval: 1000 }
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
@@ -20,20 +16,22 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 	const session = useSession()
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
-		callbackUrl || (router.query['callbackUrl'] as string) || '/dashboard'
+		callbackUrl || (router.query['callbackUrl'] as string) || '/home'
 	// only retrieve the qr code once
-	const { data: lnurlAuthLoginInfo, mutate: fetchNewQR } =
-		useSWRImmutable<LnurlAuthLoginInfo>(
-			`/api/auth/lnurl/generate-secret`,
-			defaultFetcher
-		)
+	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
+		['generate-secret'],
+		() => axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data)
+	)
 
-	const { data: status, mutate: statusMutate } = useSWR<LnurlAuthStatus>(
-		lnurlAuthLoginInfo
-			? `/api/auth/lnurl/status?k1=${lnurlAuthLoginInfo.k1}`
-			: null,
-		defaultFetcher,
-		useLnurlStatusConfig
+	const { data: status, refetch: statusMutate } = useQuery<LnurlAuthStatus>(
+		['status'],
+		() =>
+			axios
+				.get(`/api/auth/lnurl/status?k1=${lnurlAuthLoginInfo?.k1}`)
+				.then((data) => data.data),
+		{
+			refetchInterval: 1000
+		}
 	)
 
 	React.useEffect(() => {

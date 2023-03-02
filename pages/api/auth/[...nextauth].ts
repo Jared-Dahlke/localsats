@@ -36,16 +36,16 @@ export const authOptions: NextAuthOptions = {
 					k1: authKey.k1
 				})
 
-				let user = await db.collection('User').findOne({
-					lnurlPublicKey: authKey.key
+				let user = await db.collection('users').findOne({
+					userId: authKey.key
 				})
 
 				if (!user) {
-					user = await db.collection('User').insertOne({
-						lnurlPublicKey: authKey.key,
+					user = await db.collection('users').insertOne({
+						userId: authKey.key,
 						locale: credentials.locale
 					})
-					user.lnurlPublicKey = authKey.key
+					user.userId = authKey.key
 					delete user.acknowledged
 					delete user.insertedId
 				}
@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
 	},
 	debug: false,
 	pages: {
-		signIn: '/dashboard' // PageRoutes.dashboard
+		signIn: '/home' // PageRoutes.dashboard
 	},
 	session: { strategy: 'jwt' }
 }

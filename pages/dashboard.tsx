@@ -21,7 +21,7 @@ export default function Home() {
 			<main className={styles.main}>
 				<p>Your LNURL public key:</p>
 				<p style={{ width: 300, wordWrap: 'break-word' }}>
-					{session?.user?.lnurlPublicKey}
+					{session?.user?.userId}
 				</p>
 				status:
 				{sessionStatus}

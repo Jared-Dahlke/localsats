@@ -40,7 +40,7 @@ export default async function handler(
 	}
 	if (jwt === 'true') {
 		response.token = generateJWTAuthToken({
-			lnurlPublicKey: key as string,
+			userId: key as string,
 			callbackUrl: `${getAppUrl()}/dashboard`
 		})
 		// we have a JWT, no need to keep the authkey now.
