@@ -69,7 +69,7 @@ export default function WelcomePage() {
 							href='https://github.com/Jared-Dahlke/localsats'
 							className='inline-flex space-x-6'>
 							<span className='rounded-full bg-indigo-600/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 ring-1 ring-inset ring-indigo-600/10'>
-								What's new
+								What&apos;s new
 							</span>
 							<span className='inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600'>
 								<span>Just shipped v1.0</span>
@@ -127,7 +127,7 @@ export default function WelcomePage() {
 								href={'https://tippin.me/@sndbtc'}
 								className='text-gray-400 hover:text-gray-500'>
 								<span className='sr-only'>{'Tip me'}</span>
-								Tips
+								Tip me
 								{/* <item.icon className='h-6 w-6' aria-hidden='true' /> */}
 							</a>
 							{navigation.social.map((item) => (
