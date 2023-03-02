@@ -48,7 +48,6 @@ export const authOptions: NextAuthOptions = {
 					user.lnurlPublicKey = authKey.key
 					delete user.acknowledged
 					delete user.insertedId
-					console.log('user', user)
 				}
 				return user
 			}

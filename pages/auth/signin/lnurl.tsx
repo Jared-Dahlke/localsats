@@ -28,7 +28,7 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 			defaultFetcher
 		)
 
-	const { data: status } = useSWR<LnurlAuthStatus>(
+	const { data: status, mutate: statusMutate } = useSWR<LnurlAuthStatus>(
 		lnurlAuthLoginInfo
 			? `/api/auth/lnurl/status?k1=${lnurlAuthLoginInfo.k1}`
 			: null,
@@ -53,6 +53,8 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 						locale: router.locale || 'en',
 						redirect: false
 					})
+
+					statusMutate()
 
 					if (result && result.ok && result.url) {
 						router.push(result.url)

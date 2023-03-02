@@ -23,7 +23,6 @@ export default async function handler(
 	await db.collection('lnurlAuthKey').insertOne({
 		k1
 	})
-	console.log('inserted one', k1)
 
 	const params = new URLSearchParams({
 		k1,
