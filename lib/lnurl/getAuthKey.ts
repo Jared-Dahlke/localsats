@@ -3,7 +3,7 @@ import clientPromise from '../mongodb'
 
 export async function getAuthKey(k1: string) {
 	const client = await clientPromise
-	const db = client.db('authtest')
+	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 	const result = await db.collection('lnurlAuthKey').deleteMany({
 		created: {
 			$lt: sub(new Date(), {

@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
 				}
 				// auth key has been used already, so delete it
 				const client = await clientPromise
-				const db = client.db('authtest')
+				const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 				await db.collection('lnurlAuthKey').deleteMany({
 					k1: authKey.k1
 				})
