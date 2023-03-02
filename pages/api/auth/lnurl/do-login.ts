@@ -34,25 +34,6 @@ export default async function handler(
 
 	const client = await clientPromise
 	const db = client.db('authtest')
-	// check if this key is already being used (cannot link to a wallet that is linked to another account)
-	if (authKey.linkUserId) {
-		if (
-			await db.collection('User').findOne({
-				lnurlPublicKey: key
-			})
-
-			// await prisma.user.findUnique({
-			//   where: {
-			//     lnurlPublicKey: key as string,
-			//   },
-			// })
-		) {
-			return res.json({
-				status: 'ERROR',
-				reason: 'This wallet is already connected to another account'
-			})
-		}
-	}
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'
@@ -67,27 +48,10 @@ export default async function handler(
 		await db.collection('lnurlAuthKey').deleteMany({
 			k1: authKey.k1
 		})
-		//
-
-		// await prisma.lnurlAuthKey.delete({
-		// 	where: {
-		// 		k1: authKey.k1
-		// 	}
-		// })
 	} else {
 		await db
 			.collection('lnurlAuthKey')
 			.updateOne({ k1: authKey.k1 }, { $set: { key: key as string } })
-		//
-
-		// await prisma.lnurlAuthKey.update({
-		// 	where: {
-		// 		k1: authKey.k1
-		// 	},
-		// 	data: {
-		// 		key: key as string
-		// 	}
-		// })
 	}
 
 	return res.status(200).json(response)

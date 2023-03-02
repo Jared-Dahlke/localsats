@@ -41,33 +41,14 @@ export const authOptions: NextAuthOptions = {
 				})
 
 				if (!user) {
-					if (authKey.linkUserId) {
-						user = await db.collection('User').findOne({
-							id: authKey.linkUserId
-						})
-
-						if (!user) {
-							throw new Error(
-								'User to link does not exist: ' + authKey.linkUserId
-							)
-						} else {
-							await db
-								.collection('User')
-								.updateOne(
-									{ id: user.id },
-									{ $set: { lnurlPublicKey: authKey.key } }
-								)
-						}
-					} else {
-						user = await db.collection('User').insertOne({
-							lnurlPublicKey: authKey.key,
-							locale: credentials.locale
-						})
-						user.lnurlPublicKey = authKey.key
-						delete user.acknowledged
-						delete user.insertedId
-						console.log('user', user)
-					}
+					user = await db.collection('User').insertOne({
+						lnurlPublicKey: authKey.key,
+						locale: credentials.locale
+					})
+					user.lnurlPublicKey = authKey.key
+					delete user.acknowledged
+					delete user.insertedId
+					console.log('user', user)
 				}
 				return user
 			}
