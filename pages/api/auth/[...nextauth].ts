@@ -1,13 +1,10 @@
 import clientPromise from '@/lib/mongodb'
-//import { PrismaAdapter } from '@next-auth/prisma-adapter'
-//import { User } from '@prisma/client'
 import { getAuthKey } from 'lib/lnurl/getAuthKey'
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 
-//const adapter = PrismaAdapter(prisma)
 export const authOptions: NextAuthOptions = {
 	adapter: MongoDBAdapter(clientPromise),
 	providers: [
@@ -35,25 +32,13 @@ export const authOptions: NextAuthOptions = {
 				// auth key has been used already, so delete it
 				const client = await clientPromise
 				const db = client.db('authtest')
-				await db.collection('lnurlAuthKey').deleteOne({
-					k1: credentials.k1
+				await db.collection('lnurlAuthKey').deleteMany({
+					k1: authKey.k1
 				})
-
-				// await prisma.lnurlAuthKey.delete({
-				// 	where: {
-				// 		k1: authKey.k1
-				// 	}
-				// })
 
 				let user = await db.collection('User').findOne({
 					lnurlPublicKey: authKey.key
 				})
-
-				// let user = await prisma.user.findUnique({
-				// 	where: {
-				// 		lnurlPublicKey: authKey.key
-				// 	}
-				// })
 
 				if (!user) {
 					if (authKey.linkUserId) {
@@ -61,11 +46,6 @@ export const authOptions: NextAuthOptions = {
 							id: authKey.linkUserId
 						})
 
-						// user = await prisma.user.findUnique({
-						// 	where: {
-						// 		id: authKey.linkUserId
-						// 	}
-						// })
 						if (!user) {
 							throw new Error(
 								'User to link does not exist: ' + authKey.linkUserId
@@ -77,28 +57,16 @@ export const authOptions: NextAuthOptions = {
 									{ id: user.id },
 									{ $set: { lnurlPublicKey: authKey.key } }
 								)
-
-							// await prisma.user.update({
-							// 	where: {
-							// 		id: user.id
-							// 	},
-							// 	data: {
-							// 		lnurlPublicKey: authKey.key
-							// 	}
-							// })
 						}
 					} else {
 						user = await db.collection('User').insertOne({
 							lnurlPublicKey: authKey.key,
 							locale: credentials.locale
 						})
-
-						// user = await prisma.user.create({
-						// 	data: {
-						// 		lnurlPublicKey: authKey.key,
-						// 		locale: credentials.locale
-						// 	}
-						// })
+						user.lnurlPublicKey = authKey.key
+						delete user.acknowledged
+						delete user.insertedId
+						console.log('user', user)
 					}
 				}
 				return user

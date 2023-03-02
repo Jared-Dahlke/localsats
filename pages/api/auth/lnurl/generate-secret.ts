@@ -3,6 +3,9 @@ import { randomBytes } from 'crypto'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LnurlAuthLoginInfo } from 'types/LnurlAuthLoginInfo'
+import { getServerSession, unstable_getServerSession } from 'next-auth'
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { StatusCodes } from 'http-status-codes'
 
 export default async function handler(
 	req: NextApiRequest,
@@ -20,6 +23,7 @@ export default async function handler(
 	await db.collection('lnurlAuthKey').insertOne({
 		k1
 	})
+	console.log('inserted one', k1)
 
 	const params = new URLSearchParams({
 		k1,

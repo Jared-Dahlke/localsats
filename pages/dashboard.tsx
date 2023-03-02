@@ -19,10 +19,12 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main className={styles.main}>
-				<p>dashboard</p>
+				<p>Your LNURL public key:</p>
 				<p style={{ width: 300, wordWrap: 'break-word' }}>
-					{JSON.stringify(session)}
+					{session?.user?.lnurlPublicKey}
 				</p>
+				status:
+				{sessionStatus}
 				<button
 					onClick={async () => {
 						await signOut({

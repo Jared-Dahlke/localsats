@@ -17,6 +17,7 @@ type LnurlAuthSignInProps = {
 
 export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 	const router = useRouter()
+	const linkExistingAccount = router.query['link'] === 'true'
 	const session = useSession()
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
@@ -24,7 +25,7 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 	// only retrieve the qr code once
 	const { data: lnurlAuthLoginInfo, mutate: fetchNewQR } =
 		useSWRImmutable<LnurlAuthLoginInfo>(
-			`/api/auth/lnurl/generate-secret`,
+			`/api/auth/lnurl/generate-secret?linkExistingAccount=${linkExistingAccount}`,
 			defaultFetcher
 		)
 
