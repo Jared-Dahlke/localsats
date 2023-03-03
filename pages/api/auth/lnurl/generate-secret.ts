@@ -30,7 +30,7 @@ export default async function handler(
 	})
 
 	const callbackUrl = `${
-		process.env.APP_URL
+		process.env.NEXT_PUBLIC_APP_URL
 	}/api/auth/lnurl/do-login?${params.toString()}`
 
 	const encoded = lnurl.encode(callbackUrl).toUpperCase()
