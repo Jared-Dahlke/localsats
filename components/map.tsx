@@ -204,7 +204,7 @@ export default function SimpleMap({ user }: { user: string }) {
 				</div>
 			)}
 			{myPosts && myPosts.length > 0 && messages && messages.length < 1 && (
-				<div className='rounded-md bg-green-50 p-4 mt-3'>
+				<div className='rounded-md bg-green-50 p-4 mt-5'>
 					<div className='flex'>
 						<div className='flex-shrink-0'>
 							<CheckCircleIcon
