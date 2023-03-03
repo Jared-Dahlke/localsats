@@ -3,10 +3,14 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import LnurlAuthSignIn from './auth/signin/lnurl'
 import { classNames } from '@/utils/utils'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]'
+import axios from 'axios'
+import { getEncoded } from './api/auth/lnurl/generate-secret'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Login({ lnurlAuthLoginInfo }: any) {
 	return (
 		<>
 			<Head>
@@ -30,7 +34,10 @@ export default function Home() {
 						Click the QR Code or scan it with a lightning wallet to login
 					</div>
 					<div style={{ marginBottom: 24 }}>
-						<LnurlAuthSignIn callbackUrl={'/home'} />
+						<LnurlAuthSignIn
+							callbackUrl={'/home'}
+							lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+						/>
 					</div>
 
 					<div style={{ marginTop: 48 }}>
@@ -77,4 +84,12 @@ export default function Home() {
 			</main>
 		</>
 	)
+}
+
+export const getServerSideProps = async function ({ req, res }) {
+	const lnurlAuthLoginInfo = await getEncoded()
+
+	return {
+		props: { lnurlAuthLoginInfo }
+	}
 }

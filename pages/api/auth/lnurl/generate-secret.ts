@@ -7,14 +7,7 @@ import { getServerSession, unstable_getServerSession } from 'next-auth'
 import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { StatusCodes } from 'http-status-codes'
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<LnurlAuthLoginInfo>
-) {
-	if (!req.headers.host) {
-		throw new Error('No host in request headers')
-	}
-
+export const getEncoded = async () => {
 	const k1 = generateSecret()
 
 	// store the random secret in the DB so it can only be used once
@@ -34,11 +27,23 @@ export default async function handler(
 	}/api/auth/lnurl/do-login?${params.toString()}`
 
 	const encoded = lnurl.encode(callbackUrl).toUpperCase()
-
-	res.json({
+	return {
 		lnurl_auth: encoded,
 		k1
-	})
+	}
+}
+
+export default async function handler(
+	req: NextApiRequest,
+	res: NextApiResponse<LnurlAuthLoginInfo>
+) {
+	if (!req.headers.host) {
+		throw new Error('No host in request headers')
+	}
+
+	const result = await getEncoded()
+
+	res.json(result)
 }
 
 const generateSecret = function () {

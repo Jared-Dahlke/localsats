@@ -9,9 +9,13 @@ import axios from 'axios'
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
+	lnurlAuthLoginInfo?: any
 }
 
-export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
+export default function LnurlAuthSignIn({
+	callbackUrl,
+	lnurlAuthLoginInfo: initialLoginInfo
+}: LnurlAuthSignInProps) {
 	const router = useRouter()
 	const session = useSession()
 	const [isRedirecting, setRedirecting] = React.useState(false)
@@ -23,7 +27,8 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 		() =>
 			axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data),
 		{
-			refetchOnWindowFocus: false
+			refetchOnWindowFocus: false,
+			initialData: initialLoginInfo
 		}
 	)
 
@@ -85,7 +90,7 @@ export default function LnurlAuthSignIn({ callbackUrl }: LnurlAuthSignInProps) {
 					<LightningQRCode value={url} />
 				</Link>
 			) : (
-				<p>loading</p>
+				<p>Loading...</p>
 			)}
 		</>
 	)
