@@ -3,7 +3,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import {
 	ChatBubbleLeftIcon,
 	EnvelopeIcon,
-	MegaphoneIcon
+	MegaphoneIcon,
+	NewspaperIcon
 } from '@heroicons/react/24/outline'
 import { getNameFromId } from '../utils/utils'
 import { FingerPrintIcon } from '@heroicons/react/24/outline'
@@ -33,6 +34,12 @@ const features = [
 		description:
 			'Make sure to meet in a crowded public place. Do not give out your personal information.',
 		icon: FingerPrintIcon
+	},
+	{
+		name: 'This is new!',
+		description:
+			'There are not many posts yet because this site is brand new, it was just shipped February 2023. Please, create a post and help us grow! Be patient.',
+		icon: NewspaperIcon
 	}
 ]
 
