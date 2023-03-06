@@ -10,14 +10,16 @@ import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
-import { PostType } from '@/types/types'
+import { GroupedMessage, PostType } from '@/types/types'
+import { getMessages } from './api/get_messages'
 
 interface IProps {
 	user: string
 	posts: PostType[]
+	messages: GroupedMessage[]
 }
 
-export default function Home({ user, posts }: IProps) {
+export default function Home({ user, posts, messages }: IProps) {
 	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 
@@ -105,7 +107,7 @@ export default function Home({ user, posts }: IProps) {
 				</div>
 			</div>
 
-			<SimpleMap user={user} posts={posts} />
+			<SimpleMap user={user} posts={posts} messages={messages} />
 
 			<div
 				aria-live='assertive'
@@ -140,8 +142,13 @@ export const getServerSideProps = async function ({ req, res }) {
 	}
 
 	const posts = await getPosts()
+	const messages = await getMessages(user)
 
 	return {
-		props: { user, posts: JSON.parse(JSON.stringify(posts)) }
+		props: {
+			user,
+			posts: JSON.parse(JSON.stringify(posts)),
+			messages: JSON.parse(JSON.stringify(messages))
+		}
 	}
 }

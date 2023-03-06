@@ -12,7 +12,12 @@ import QrCodeModal from './qrCodeModal'
 import { useCheckInvoiceStatus } from '../hooks/useCheckInvoiceStatus'
 import { SuccessAlert } from './successAlert'
 import { ChatSlideOver } from './chatSlideOver'
-import { MessageType, PaywallRecordType, PostType } from '../types/types'
+import {
+	GroupedMessage,
+	MessageType,
+	PaywallRecordType,
+	PostType
+} from '../types/types'
 import {
 	CheckCircleIcon,
 	InformationCircleIcon
@@ -28,10 +33,12 @@ const containerStyle = {
 
 export default function SimpleMap({
 	user,
-	posts
+	posts: initialPosts,
+	messages: initialMessages
 }: {
 	user: string
 	posts: PostType[]
+	messages: MessageType[]
 }) {
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -62,18 +69,20 @@ export default function SimpleMap({
 		}
 	}, [invoiceStatus?.data?.data?.paid])
 
-	//const data = usePosts()
+	const posts = usePosts({ initialPosts })
+	//console.log('posts', posts)
 	//	const posts = data?.data
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const openPost = posts?.find((post: PostType) => post._id === openId)
 
 	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
 		{
-			userId: user
+			userId: user,
+			initialMessages
 		}
 	)
 
-	const messages = messagesQuery?.data?.data
+	const messages = messagesQuery?.data
 
 	const postsWithNewMessages = groupedMessages?.filter(
 		(message) => message?.hasUnreadMessages
