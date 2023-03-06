@@ -12,12 +12,7 @@ import QrCodeModal from './qrCodeModal'
 import { useCheckInvoiceStatus } from '../hooks/useCheckInvoiceStatus'
 import { SuccessAlert } from './successAlert'
 import { ChatSlideOver } from './chatSlideOver'
-import {
-	GroupedMessage,
-	MessageType,
-	PaywallRecordType,
-	PostType
-} from '../types/types'
+import { MessageType, PaywallRecordType, PostType } from '../types/types'
 import {
 	CheckCircleIcon,
 	InformationCircleIcon
@@ -70,8 +65,7 @@ export default function SimpleMap({
 	}, [invoiceStatus?.data?.data?.paid])
 
 	const posts = usePosts({ initialPosts })
-	//console.log('posts', posts)
-	//	const posts = data?.data
+
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const openPost = posts?.find((post: PostType) => post._id === openId)
 

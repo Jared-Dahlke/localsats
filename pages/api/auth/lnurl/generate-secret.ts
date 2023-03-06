@@ -3,9 +3,6 @@ import { randomBytes } from 'crypto'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LnurlAuthLoginInfo } from 'types/LnurlAuthLoginInfo'
-import { getServerSession, unstable_getServerSession } from 'next-auth'
-import { authOptions } from 'pages/api/auth/[...nextauth]'
-import { StatusCodes } from 'http-status-codes'
 
 export const getEncoded = async () => {
 	const k1 = generateSecret()
