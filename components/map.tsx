@@ -26,27 +26,17 @@ const containerStyle = {
 	height: '100%'
 }
 
-export default function SimpleMap({ user }: { user: string }) {
+export default function SimpleMap({
+	user,
+	posts
+}: {
+	user: string
+	posts: PostType[]
+}) {
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey: 'AIzaSyBzbCrAFKFxe5ytG-z2kCZf1MNiYzccjto'
 	})
-	const [map, setMap] = React.useState(null)
-	const [isMounted, setIsMounted] = React.useState(false)
-
-	React.useEffect(() => setIsMounted(true), [])
-	const onLoad = React.useCallback(function callback(map) {
-		// This is just an example of getting and using the map instance!!! don't just blindly copy!
-		//	const bounds = new window.google.maps.LatLngBounds(center)
-		//const zoom = new window.google.maps.z
-		//map.fitBounds(bounds)
-		///	map.fitZoom()
-		setMap(map)
-	}, [])
-
-	const onUnmount = React.useCallback(function callback(map) {
-		setMap(null)
-	}, [])
 
 	const queryClient = useQueryClient()
 	const [showPaymentSuccess, setShowPaymentSuccess] = React.useState(false)
@@ -72,8 +62,8 @@ export default function SimpleMap({ user }: { user: string }) {
 		}
 	}, [invoiceStatus?.data?.data?.paid])
 
-	const data = usePosts()
-	const posts = data?.data
+	//const data = usePosts()
+	//	const posts = data?.data
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const openPost = posts?.find((post: PostType) => post._id === openId)
 
@@ -319,14 +309,10 @@ export default function SimpleMap({ user }: { user: string }) {
 
 			{isLoaded && (
 				<GoogleMap
-					//mapTypeId='satellite'
-					//mapContainerClassName='text-red-500 bg-red-500 h-96 w-full'
 					mapContainerStyle={containerStyle}
 					center={locationProps.center}
 					onClick={handleMapClick}
-					zoom={locationProps.zoom}
-					onLoad={onLoad}
-					onUnmount={onUnmount}>
+					zoom={locationProps.zoom}>
 					{filteredPosts &&
 						filteredPosts?.map((post: PostType) => {
 							return (
