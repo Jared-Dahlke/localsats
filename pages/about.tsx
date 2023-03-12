@@ -27,7 +27,8 @@ const faqs = [
 				</a>
 				) on a Node.js Express server. The paywall to start a chat uses LNBits.
 				The frontend is built with Next.js and Tailwind CSS. The database is
-				MongoDB. The site, domain, and email service is hosted on AWS.
+				MongoDB. The email service is hosted on AWS. The site is hosted on
+				Vercel.
 			</div>
 		)
 	},
