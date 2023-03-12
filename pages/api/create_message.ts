@@ -1,4 +1,6 @@
+import { getServerSession } from 'next-auth'
 import clientPromise from '../../lib/mongodb'
+import { authOptions } from './auth/[...nextauth]'
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
 
 const createSendEmailCommand = (toAddress, fromAddress) => {
@@ -42,7 +44,19 @@ const createSendEmailCommand = (toAddress, fromAddress) => {
 
 export default async function handler(req, res) {
 	try {
+		const session = await getServerSession(req, res, authOptions)
+
+		if (!session) {
+			res.status(401).json({ error: 'Not authenticated' })
+			return
+		}
 		const message = req.body.message
+
+		if (message.fromUserId !== session?.user?.userId) {
+			res.status(401).json({ error: 'Not authorized' })
+			return
+		}
+
 		const client = await clientPromise
 		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 		const result = await db.collection('messages').insertOne(message)
