@@ -5,6 +5,7 @@ import { authOptions } from './auth/[...nextauth]'
 
 export default async function handler(req, res) {
 	const session = await getServerSession(req, res, authOptions)
+
 	if (!session) {
 		res.status(401).json({ error: 'Not authenticated' })
 		return
@@ -15,8 +16,12 @@ export default async function handler(req, res) {
 		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
 		const result = await db
 			.collection('posts')
-			.deleteOne({ _id: new ObjectId(postId) })
+			.deleteOne({ _id: new ObjectId(postId), userId: session.user.userId })
 
+		if (result.deletedCount === 0) {
+			res.status(401).json({ error: 'Not authorized' })
+			return
+		}
 		await db.collection('messages').deleteMany({ postId })
 		await db.collection('chatPaywalls').deleteMany({ postId })
 
