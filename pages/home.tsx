@@ -46,6 +46,7 @@ export default function Home({ user, posts, messages }: IProps) {
 				await Axios.post('/api/add_pgp_to_user', {
 					userId: user
 				})
+				router.reload() // reload page to make pgp cookie available
 			}
 			if (!userFromDb.data.seenWelcome) {
 				setShowWelcomeModal(true)
