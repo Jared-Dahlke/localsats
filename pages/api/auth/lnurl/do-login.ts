@@ -39,15 +39,16 @@ export default async function handler(
 		status: 'OK'
 	}
 	if (jwt === 'true') {
-		response.token = generateJWTAuthToken({
-			userId: key as string,
-			callbackUrl: `${getAppUrl()}/dashboard`
-		})
+		// this is old code from lightsats, keeping in case i decide to do jwt login
+		// response.token = generateJWTAuthToken({
+		// 	userId: key as string,
+		// 	callbackUrl: `${getAppUrl()}/dashboard`
+		// })
 		// we have a JWT, no need to keep the authkey now.
 		// user will use the 2fa auth method with the jwt token.
-		await db.collection('lnurlAuthKey').deleteMany({
-			k1: authKey.k1
-		})
+		// await db.collection('lnurlAuthKey').deleteMany({
+		// 	k1: authKey.k1
+		// })
 	} else {
 		await db
 			.collection('lnurlAuthKey')
