@@ -299,7 +299,7 @@ export default function SimpleMap({
 
 					let finalMessage = body
 					if (publicKeyArmored && myPublicKeyArmored) {
-						const finalMessage = await encryptMessage({
+						finalMessage = await encryptMessage({
 							publicKey1: publicKeyArmored,
 							publicKey2: myPublicKeyArmored,
 							message: body
