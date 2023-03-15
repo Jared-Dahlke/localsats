@@ -296,15 +296,20 @@ export default function SimpleMap({
 					const publicKeyArmored = toUserPgpPublicKey
 					const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 					console.log('298', publicKeyArmored, myPublicKeyArmored, body)
-					const encryptedMessage = await encryptMessage({
-						publicKey1: publicKeyArmored,
-						publicKey2: myPublicKeyArmored,
-						message: body
-					})
+
+					let finalMessage = body
+					if (publicKeyArmored && myPublicKeyArmored) {
+						const finalMessage = await encryptMessage({
+							publicKey1: publicKeyArmored,
+							publicKey2: myPublicKeyArmored,
+							message: body
+						})
+					}
+
 					console.log(304)
 
 					const message: Omit<MessageType, '_id'> = {
-						body: encryptedMessage,
+						body: finalMessage,
 						fromUserId: user,
 						toUserId,
 						postId: openMessages[0].postId,
