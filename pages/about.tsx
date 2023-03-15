@@ -1,46 +1,74 @@
+import axios from 'axios'
+import dayjs from 'dayjs'
 import { getServerSession } from 'next-auth'
 import { Layout } from '../components/layout'
 import { authOptions } from './api/auth/[...nextauth]'
 
-const faqs = [
-	{
-		question: 'What is this?',
-		answer: `It is an easy way to buy and sell bitcoin locally. Just create a post to either buy or sell bitcoin, 
-      then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your post.
-      We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.`
-	},
-	{
-		question: 'What data do you store?',
-		answer: `We store the messages and posts associated with your LNURL-Auth address. If you choose to add an email address for notifications, we will store that as well. When you delete a post, that post and all of its associated messages are permanently deleted as well. If you choose to remove your email, that is permanently deleted as well.`
-	},
-	{
-		question: 'Why do you charge sats to start a chat?',
-		answer: 'I charge a small amount of sats to start a chat to prevent spam.'
-	},
-	{
-		question: 'What is the tech stack for this?',
-		answer: (
-			<div>
-				Login uses LNURL-auth (thanks{' '}
-				<a href='https://github.com/chill117/passport-lnurl-auth'>
-					passport-lnurl-auth
-				</a>
-				) on a Node.js Express server. The paywall to start a chat uses LNBits.
-				The frontend is built with Next.js and Tailwind CSS. The database is
-				MongoDB. The email service is hosted on AWS. The site is hosted on
-				Vercel.
-			</div>
-		)
-	},
-	{
-		question: 'How do I contribute?',
-		answer:
-			'Send me an email at jared.dahlke@protonmail.com. I was thinking it would be cool to use Nostr for the chat.'
-	}
-	// More questions...
-]
-
 export default function About({ user }) {
+	const faqs = [
+		{
+			question: 'What is this?',
+			answer: `It is an easy way to buy and sell bitcoin locally. Just create a post to either buy or sell bitcoin, 
+				then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your post.
+				We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.`
+		},
+		{
+			question: 'What data do you store?',
+			answer: (
+				<div>
+					<div>
+						We store the messages and posts associated with your LNURL-Auth
+						address. If you choose to add an email address for notifications, we
+						will store that as well. When you delete a post, that post and all
+						of its associated messages are permanently deleted as well. If you
+						choose to remove your email, that is permanently deleted as well.
+					</div>
+					<div className='mt-4'>
+						Dump all of the site data (except emails and messages) into a JSON
+						file:
+						<br />
+						<button
+							className='inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150'
+							onClick={async () => {
+								const res = await axios.post('/api/dump_data')
+								const blob = new Blob([JSON.stringify(res.data)], {
+									type: 'application/json'
+								})
+								const url = window.URL.createObjectURL(blob)
+								const a = document.createElement('a')
+								a.href = url
+								a.download = `localsats_data_dump_${dayjs().format(
+									'YYYY-MM-DDTHH:mm:ss'
+								)}.json`
+								document.body.appendChild(a)
+								a.click()
+								a.remove()
+							}}>
+							Download
+						</button>
+					</div>
+				</div>
+			)
+		},
+
+		{
+			question: 'What is the tech stack for this?',
+			answer: (
+				<div>
+					Login uses LNURL-auth. The frontend is built with Next.js and Tailwind
+					CSS. The database is MongoDB. The email service is hosted on AWS. The
+					site is hosted on Vercel.
+				</div>
+			)
+		},
+		{
+			question: 'How do I contribute?',
+			answer:
+				'Send me an email at jared.dahlke@protonmail.com. I was thinking it would be cool to use Nostr for the chat.'
+		}
+		// More questions...
+	]
+
 	return (
 		<div className='bg-white'>
 			<div className='mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:py-40 lg:px-8'>
