@@ -13,6 +13,8 @@ import { getPosts } from './api/get_posts'
 import { GroupedMessage, PostType } from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
+import { parseCookies, setCookie } from 'nookies'
+import nookies from 'nookies'
 
 interface IProps {
 	user: string
@@ -22,8 +24,12 @@ interface IProps {
 
 export default function Home({ user, posts, messages }: IProps) {
 	const [email, setEmail] = React.useState('')
+	const [passphrase, setPassphrase] = React.useState('')
+
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 	const router = useRouter()
+	const cookies = parseCookies()
+
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
 		if (!user) return
@@ -34,6 +40,12 @@ export default function Home({ user, posts, messages }: IProps) {
 			if (!userFromDb.data) {
 				// log error
 				return
+			}
+			//if no pgp private key in db, then add one
+			if (userFromDb && !userFromDb?.data?.pgpPrivateKeyEncrypted) {
+				await Axios.post('/api/add_pgp_to_user', {
+					userId: user
+				})
 			}
 			if (!userFromDb.data.seenWelcome) {
 				setShowWelcomeModal(true)
@@ -113,6 +125,59 @@ export default function Home({ user, posts, messages }: IProps) {
 				</div>
 			</div>
 
+			<div className='bg-white shadow sm:rounded-lg mt-3'>
+				<div className='px-4 py-5 sm:p-6'>
+					<h3 className='text-md font-medium leading-6 text-gray-900'>
+						Your Messages are end-to-end encrypted using PGP
+					</h3>
+					<div className='mt-2 max-w-xl text-sm text-gray-500'>
+						<p>
+							{`Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie.  Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.`}
+						</p>
+					</div>
+					<div className='mt-5 sm:flex sm:items-center'>
+						<div className='w-full sm:max-w-xs'>
+							<label htmlFor='email' className='sr-only'>
+								PGP Phassphrase
+							</label>
+							<input
+								type='text'
+								name='privateKeyPassphrase'
+								id='privateKeyPassphrase'
+								onChange={(e) => {
+									setPassphrase(e.target.value)
+								}}
+								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+								placeholder='your PGP passphrase...'
+								defaultValue={cookies.privateKeyPassphrase}
+							/>
+						</div>
+						<button
+							disabled={passphrase.length < 1}
+							onClick={async () => {
+								setCookie(null, 'privateKeyPassphrase', passphrase, {
+									maxAge: 2147483647,
+									path: '/'
+								})
+								router.reload()
+							}}
+							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
+							Save
+						</button>
+					</div>
+					{/* {userFromDatabase?.data?.data?.pgpPublicKey && (
+						<Prism  language='tsx'>
+							{userFromDatabase?.data?.data?.pgpPublicKey}
+						</Prism>
+					)}
+					{cookies?.pgpPrivateKey && (
+						<Prism hidden language='tsx'>
+							{cookies?.pgpPrivateKey}
+						</Prism>
+					)} */}
+				</div>
+			</div>
+
 			<SimpleMap user={user} posts={posts} messages={messages} />
 
 			<div
@@ -137,6 +202,7 @@ Home.getLayout = function getLayout(page) {
 
 export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
+	const cookies = nookies.get({ req })
 	const user = session?.user?.userId
 	if (!user) {
 		return {
@@ -148,7 +214,7 @@ export const getServerSideProps = async function ({ req, res }) {
 	}
 
 	const posts = await getPosts()
-	const messages = await getMessages(user)
+	const messages = await getMessages(user, cookies.privateKeyPassphrase)
 
 	return {
 		props: {

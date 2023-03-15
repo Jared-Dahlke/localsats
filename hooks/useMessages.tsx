@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { GroupedMessage } from '../types/types'
 import { rqKeys } from '../constants'
+import { parseCookies } from 'nookies'
 
 export const useMessages = ({
 	userId,
@@ -11,12 +12,14 @@ export const useMessages = ({
 	userId: string
 	initialMessages: MessageType[]
 }) => {
+	const cookies = parseCookies()
 	const messagesQuery = useQuery(
 		rqKeys.messagesKey(),
 		() => {
 			return axios
 				.post<MessageType[]>('/api/get_messages', {
-					userId
+					userId,
+					privateKeyPassphrase: cookies.privateKeyPassphrase
 				})
 				.then((data) => data.data)
 		},

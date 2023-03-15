@@ -20,6 +20,8 @@ import {
 import { NewPostSuccessModal } from './newPostSuccessModal'
 import { rqKeys } from '../constants'
 import { usePosts } from '../hooks/usePosts'
+import { encryptMessage } from '@/lib/pgp'
+import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 
 const containerStyle = {
 	width: '100%',
@@ -39,7 +41,7 @@ export default function SimpleMap({
 		id: 'google-map-script',
 		googleMapsApiKey: 'AIzaSyBzbCrAFKFxe5ytG-z2kCZf1MNiYzccjto'
 	})
-
+	const userFromDatabase = useDatabaseUser({ userId: user })
 	const queryClient = useQueryClient()
 	const [showPaymentSuccess, setShowPaymentSuccess] = React.useState(false)
 	const [showQr, setShowQr] = React.useState(false)
@@ -97,10 +99,19 @@ export default function SimpleMap({
 		setShowQr(false)
 		setPendingInvoice(null)
 
+		const publicKeyArmored = openPost?.author[0].pgpPublicKey
+		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+
+		const encryptedMessage = await encryptMessage({
+			publicKey1: publicKeyArmored,
+			publicKey2: myPublicKeyArmored,
+			message: 'Hello, I am interested in your post.'
+		})
+
 		// insert new initial message here
 		const newMessage: Omit<MessageType, '_id'> = {
 			chatPaywallId: newPaywallId.data,
-			body: 'Hi! I would like to chat with you about your post.',
+			body: encryptedMessage,
 			postId: openPost?._id,
 			fromUserId: user,
 			toUserId: openPost?.userId,
@@ -266,15 +277,32 @@ export default function SimpleMap({
 				open={!!openChatPaywallId}
 				setOpen={setOpenChatPaywallId}
 				messages={openMessages}
-				createMessageMutation={(body: string) => {
+				createMessageMutation={async (body: string) => {
 					if (!openChatPaywallId || !body) return
+
+					const toUserId =
+						openMessages[0].fromUserId === user
+							? openMessages[0].toUserId
+							: openMessages[0].fromUserId
+
+					const toUser = await axios.post('/api/get_user', {
+						userId: toUserId
+					})
+
+					const toUserPgpPublicKey = toUser.data.pgpPublicKey
+
+					const publicKeyArmored = toUserPgpPublicKey
+					const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+					const encryptedMessage = await encryptMessage({
+						publicKey1: publicKeyArmored,
+						publicKey2: myPublicKeyArmored,
+						message: body
+					})
+
 					const message: Omit<MessageType, '_id'> = {
-						body,
+						body: encryptedMessage,
 						fromUserId: user,
-						toUserId:
-							openMessages[0].fromUserId === user
-								? openMessages[0].toUserId
-								: openMessages[0].fromUserId,
+						toUserId,
 						postId: openMessages[0].postId,
 						seen: false,
 						sentDate: new Date(),
