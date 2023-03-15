@@ -12,6 +12,7 @@ import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import { GroupedMessage, PostType } from '@/types/types'
 import { getMessages } from './api/get_messages'
+import { useRouter } from 'next/router'
 
 interface IProps {
 	user: string
@@ -22,7 +23,7 @@ interface IProps {
 export default function Home({ user, posts, messages }: IProps) {
 	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
-
+	const router = useRouter()
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
 		if (!user) return
@@ -36,6 +37,7 @@ export default function Home({ user, posts, messages }: IProps) {
 			}
 			if (!userFromDb.data.seenWelcome) {
 				setShowWelcomeModal(true)
+				router.push('#welcomemodal')
 				await Axios.post('/api/update_user_seen_welcome', {
 					userId: user
 				})

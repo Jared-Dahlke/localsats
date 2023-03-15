@@ -53,16 +53,16 @@ export default function SimpleMap({
 	const [showNewPostSuccess, setShowNewPostSuccess] = React.useState(false)
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
 
-	const invoiceStatus = useCheckInvoiceStatus({
-		paywallId: pendingInvoice?.paywallId,
-		paymentHash: pendingInvoice?.paymentHash
-	})
+	// const invoiceStatus = useCheckInvoiceStatus({
+	// 	paywallId: pendingInvoice?.paywallId,
+	// 	paymentHash: pendingInvoice?.paymentHash
+	// })
 
-	React.useEffect(() => {
-		if (invoiceStatus?.data?.data?.paid) {
-			handleInvoicePaid()
-		}
-	}, [invoiceStatus?.data?.data?.paid])
+	// React.useEffect(() => {
+	// 	if (invoiceStatus?.data?.data?.paid) {
+	// 		handleInvoicePaid()
+	// 	}
+	// }, [invoiceStatus?.data?.data?.paid])
 
 	const posts = usePosts({ initialPosts })
 
@@ -83,7 +83,7 @@ export default function SimpleMap({
 	)
 
 	const handleInvoicePaid = async () => {
-		setShowPaymentSuccess(true)
+		//	setShowPaymentSuccess(true)
 		const paywallRecord: Omit<PaywallRecordType, '_id'> = {
 			userId: user,
 			postId: openPost?._id,
@@ -227,7 +227,8 @@ export default function SimpleMap({
 				post={openPost}
 				open={openId !== null}
 				setOpen={() => setOpenId(null)}
-				createPaywall={createPaywall}
+				//createPaywall={createPaywall}
+				createPaywall={handleInvoicePaid}
 				isCreatingPaywall={isCreatingPaywall}
 				deletePost={deletePost}
 				activeChats={groupedMessages.filter((m) => m.postId === openId)}
