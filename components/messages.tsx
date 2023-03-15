@@ -1,7 +1,6 @@
 import { Layout } from '../components/layout'
 import { GroupedMessage } from '../types/types'
 import { getNameFromId, getPostId } from '../utils/utils'
-import Tippy from '@tippyjs/react'
 import React from 'react'
 import { useSession } from 'next-auth/react'
 
@@ -74,22 +73,20 @@ export function Messages({
 															personIdx % 2 === 0 ? undefined : 'bg-gray-50'
 														}>
 														<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
-															<Tippy content='Zoom to this post on the map'>
-																<a
-																	onClick={() =>
-																		setLocationProps({
-																			center: {
-																				lat: post?.lat,
-																				lng: post?.lng
-																			},
-																			zoom: 29
-																		})
-																	}
-																	className='text-indigo-600 hover:text-indigo-900 cursor-pointer'>
-																	{getPostId(message.postId)}
-																	<span className='sr-only'></span>
-																</a>
-															</Tippy>
+															<a
+																onClick={() =>
+																	setLocationProps({
+																		center: {
+																			lat: post?.lat,
+																			lng: post?.lng
+																		},
+																		zoom: 29
+																	})
+																}
+																className='text-indigo-600 hover:text-indigo-900 cursor-pointer'>
+																{getPostId(message.postId)}
+																<span className='sr-only'></span>
+															</a>
 														</td>
 														<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500 truncate'>
 															{message.messages[0].fromUserId === user

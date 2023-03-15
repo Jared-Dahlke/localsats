@@ -31,10 +31,14 @@ export default function Home({ user, posts, messages }: IProps) {
 				userId: user
 			})
 			if (!userFromDb.data) {
-				const newUser = await Axios.post('/api/create_user', {
+				// log error
+				return
+			}
+			if (!userFromDb.data.seenWelcome) {
+				setShowWelcomeModal(true)
+				await Axios.post('/api/update_user_seen_welcome', {
 					userId: user
 				})
-				setShowWelcomeModal(true)
 			}
 		}
 		processUser()
@@ -44,7 +48,7 @@ export default function Home({ user, posts, messages }: IProps) {
 	const userEmail = userFromDatabase?.data?.data?.email
 
 	const saveEmail = async () => {
-		await Axios.post('/api/update_user', {
+		await Axios.post('/api/update_user_email', {
 			userId: user,
 			email
 		})

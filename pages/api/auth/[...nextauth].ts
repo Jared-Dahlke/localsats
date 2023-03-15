@@ -43,7 +43,9 @@ export const authOptions: NextAuthOptions = {
 				if (!user) {
 					user = await db.collection('users').insertOne({
 						userId: authKey.key,
-						locale: credentials.locale
+						locale: credentials.locale,
+						createDate: new Date(),
+						seenWelcome: false
 					})
 					user.userId = authKey.key
 					delete user.acknowledged
