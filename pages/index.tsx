@@ -87,7 +87,7 @@ export default function WelcomePage() {
 					<p className='mt-6 text-lg leading-8 text-gray-600'>
 						Create an anonymous post at the location you want to meet. Once
 						someone responds to your post, meet up and complete the transaction
-						in person.
+						in person. Free and open source.
 					</p>
 					<div className='mt-10 flex items-center gap-x-6'>
 						<a
