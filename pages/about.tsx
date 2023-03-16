@@ -1,6 +1,9 @@
+import { usePosts } from '@/hooks/usePosts'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { getServerSession } from 'next-auth'
+import Link from 'next/link'
 import { Layout } from '../components/layout'
 import { authOptions } from './api/auth/[...nextauth]'
 
@@ -17,11 +20,12 @@ export default function About({ user }) {
 			answer: (
 				<div>
 					<div>
-						We store the messages and posts associated with your LNURL-Auth
-						address. If you choose to add an email address for notifications, we
-						will store that as well. When you delete a post, that post and all
-						of its associated messages are permanently deleted as well. If you
-						choose to remove your email, that is permanently deleted as well.
+						We store the encrypted messages and posts associated with your
+						LNURL-Auth address. If you choose to add an email address for
+						notifications, we will store that as well. When you delete a post,
+						that post and all of its associated messages are permanently deleted
+						as well. If you choose to remove your email, that is permanently
+						deleted as well.
 					</div>
 					<div className='mt-4'>
 						Dump all of the site data (except emails and messages) into a JSON
@@ -63,14 +67,57 @@ export default function About({ user }) {
 		},
 		{
 			question: 'How do I contribute?',
-			answer:
-				'Send me an email at jared.dahlke@protonmail.com. I was thinking it would be cool to use Nostr for the chat.'
+			answer: (
+				<div>
+					Ideas / Contributors / contributions are welcome! Here is the github:{' '}
+					<Link
+						className='text-blue-500 underline'
+						href={'https://github.com/Jared-Dahlke/localsats'}>
+						https://github.com/Jared-Dahlke/localsats
+					</Link>
+					{'. '}
+					Feel free to make a PR or open an issue. My email is
+					jared.dahlke@protonmail.com if you have any questions.
+				</div>
+			)
 		}
 		// More questions...
 	]
 
+	const daysLive = dayjs().diff(dayjs('2023-03-01'), 'day')
+	const posts = usePosts({ initialPosts: [] })
+
+	const { data: users } = useQuery(['allUsers'], () =>
+		axios.get('/api/get_users').then((res) => res.data)
+	)
+	console.log('users', users)
+	const stats = [
+		{ id: 1, name: 'Days LocalSats.org has been Live', value: daysLive },
+		{ id: 2, name: 'Total Posts', value: posts.length },
+		{ id: 3, name: ' Total Users', value: users?.length }
+	]
+
 	return (
 		<div className='bg-white'>
+			<div className='bg-white pt-24 pb-12'>
+				<div className='mx-auto max-w-7xl px-6 lg:px-8'>
+					<dl className='grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-3'>
+						{stats.map((stat) => (
+							<div
+								key={stat.id}
+								className='mx-auto flex max-w-xs flex-col gap-y-4'>
+								<dt className='text-base leading-7 text-gray-600'>
+									{stat.name}
+								</dt>
+								<dd className='order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl'>
+									{stat.value}
+								</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</div>
+
 			<div className='mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:py-40 lg:px-8'>
 				<div className='lg:grid lg:grid-cols-12 lg:gap-8'>
 					<div className='lg:col-span-5'>
@@ -80,9 +127,9 @@ export default function About({ user }) {
 						<p className='mt-4 text-base leading-7 text-gray-600'>
 							Can’t find the answer you’re looking for? Reach out to{' '}
 							<a
-								href='mailto:jared.dahlke@protonmail.com'
+								href='https://twitter.com/LocalSatsOrg'
 								className='font-semibold text-indigo-600 hover:text-indigo-500'>
-								customer support
+								https://twitter.com/LocalSatsOrg
 							</a>{' '}
 						</p>
 					</div>
