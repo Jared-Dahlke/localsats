@@ -102,13 +102,11 @@ export default function SimpleMap({
 		const publicKeyArmored = openPost?.author[0].pgpPublicKey
 		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-		console.log('here')
 		const encryptedMessage = await encryptMessage({
 			publicKey1: publicKeyArmored,
 			publicKey2: myPublicKeyArmored,
 			message: 'Hello, I am interested in your post.'
 		})
-		console.log('here2')
 
 		// insert new initial message here
 		const newMessage: Omit<MessageType, '_id'> = {
@@ -295,7 +293,6 @@ export default function SimpleMap({
 
 					const publicKeyArmored = toUserPgpPublicKey
 					const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
-					console.log('298', publicKeyArmored, myPublicKeyArmored, body)
 
 					let finalMessage = body
 					if (publicKeyArmored && myPublicKeyArmored) {
@@ -305,8 +302,6 @@ export default function SimpleMap({
 							message: body
 						})
 					}
-
-					console.log(304)
 
 					const message: Omit<MessageType, '_id'> = {
 						body: finalMessage,

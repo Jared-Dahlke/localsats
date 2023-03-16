@@ -3,6 +3,7 @@ import clientPromise from '../../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
 const openpgp = require('openpgp')
 import nookies from 'nookies'
+import dayjs from 'dayjs'
 var crypto = require('crypto')
 
 export default async function handler(req, res) {
@@ -42,7 +43,8 @@ export default async function handler(req, res) {
 				$set: {
 					pgpPublicKey: publicKey,
 					pgpPrivateKeyEncrypted: privateKey,
-					pgpRevocationCertificate: revocationCertificate
+					updatedPrivateKeysDate: dayjs().format()
+					//	pgpRevocationCertificate: revocationCertificate
 				}
 			}
 		)
