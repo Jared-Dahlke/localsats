@@ -15,20 +15,27 @@ import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
 import { parseCookies, setCookie } from 'nookies'
 import nookies from 'nookies'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 interface IProps {
 	user: string
 	posts: PostType[]
 	messages: GroupedMessage[]
+	privateKeyPassphrase: string | undefined
 }
 
-export default function Home({ user, posts, messages }: IProps) {
+export default function Home({
+	user,
+	posts,
+	messages,
+	privateKeyPassphrase
+}: IProps) {
 	const [email, setEmail] = React.useState('')
 	const [passphrase, setPassphrase] = React.useState('')
 
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 	const router = useRouter()
-	const cookies = parseCookies()
+	//const cookies = parseCookies()
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
@@ -128,6 +135,48 @@ export default function Home({ user, posts, messages }: IProps) {
 
 			<div className='bg-white shadow sm:rounded-lg mt-3'>
 				<div className='px-4 py-5 sm:p-6'>
+					{!privateKeyPassphrase && (
+						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
+							<div className='flex'>
+								<div className='flex-shrink-0'>
+									<ExclamationTriangleIcon
+										className='h-5 w-5 text-yellow-400'
+										aria-hidden='true'
+									/>
+								</div>
+								<div className='ml-3'>
+									<h3 className='text-sm font-medium text-yellow-800'>
+										Attention needed in order to decrypt future messages
+									</h3>
+									<div className='mt-2 text-sm text-yellow-700'>
+										<p>
+											We have a record of your PGP public key, but your private
+											key is not found in your cookies. You have 2 options:
+											<br />
+											1. (Recommended) Get your private key from the first
+											device you logged into with this account and save it in
+											the input field below. This will allow you to decrypt old
+											messages and future messages.
+											<br />
+											2. Generate a new keypair, you will be able to read all
+											future messages, but this will prevent you from decrypting
+											old messages
+										</p>
+										<button
+											onClick={async () => {
+												await Axios.post('/api/add_pgp_to_user', {
+													userId: user
+												})
+												router.reload() // reload page to make pgp cookie available
+											}}
+											className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto sm:text-sm'>
+											Generate new PGP key pair
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					)}
 					<h3 className='text-md font-medium leading-6 text-gray-900'>
 						Your Messages are end-to-end encrypted using PGP
 					</h3>
@@ -150,7 +199,7 @@ export default function Home({ user, posts, messages }: IProps) {
 								}}
 								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 								placeholder='your PGP passphrase...'
-								defaultValue={cookies.privateKeyPassphrase}
+								defaultValue={privateKeyPassphrase}
 							/>
 						</div>
 						<button
@@ -221,7 +270,10 @@ export const getServerSideProps = async function ({ req, res }) {
 		props: {
 			user,
 			posts: JSON.parse(JSON.stringify(posts)),
-			messages: JSON.parse(JSON.stringify(messages))
+			messages: JSON.parse(JSON.stringify(messages)),
+			privateKeyPassphrase: cookies?.privateKeyPassphrase || null
+
+			//9aa0e8d8660827abdffd5b17c5be2fe7859e3a5f
 		}
 	}
 }

@@ -18,31 +18,28 @@ export const getMessages = async (
 	const user = await db.collection('users').findOne({ userId: userId })
 	const pgpPrivateKey = user?.pgpPrivateKeyEncrypted
 
-	console.log('pgpPrivateKey', pgpPrivateKey)
 	try {
-		console.log('here 3')
 		const privateKey = await openpgp.decryptKey({
 			privateKey: await openpgp.readPrivateKey({ armoredKey: pgpPrivateKey }),
 			passphrase: privateKeyPassphrase
 		})
-		console.log('here4')
-
 		const finalMessages = []
 		for await (const m of messages) {
-			if (m.body.includes('BEGIN PGP MESSAGE')) {
-				console.log('here 5')
-				const message = await openpgp.readMessage({
-					armoredMessage: m.body // parse armored message
-				})
-				console.log('here 6')
+			if (m.body.includes('---BEGIN PGP MESSAGE---')) {
+				try {
+					const message = await openpgp.readMessage({
+						armoredMessage: m.body // parse armored message
+					})
 
-				const { data: decrypted } = await openpgp.decrypt({
-					message,
-					decryptionKeys: privateKey
-				})
-				console.log('here 7')
-				m.body = decrypted
-				finalMessages.push(m)
+					const { data: decrypted } = await openpgp.decrypt({
+						message,
+						decryptionKeys: privateKey
+					})
+					m.body = decrypted
+					finalMessages.push(m)
+				} catch (err) {
+					finalMessages.push(m)
+				}
 			} else {
 				finalMessages.push(m)
 			}
