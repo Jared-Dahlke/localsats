@@ -46,17 +46,18 @@ export default function Home({
 			})
 			if (!userFromDb.data) {
 				// log error
+				console.error('no user in db')
 				return
 			}
 			//if no pgp private key in db, then add one
 			if (userFromDb && !userFromDb?.data?.pgpPrivateKeyEncrypted) {
-				await Axios.post('/api/add_pgp_to_user', {
+				const privateKey = await Axios.post('/api/add_pgp_to_user', {
 					userId: user
 				})
 				router.reload() // reload page to make pgp cookie available
 			}
 			if (!userFromDb.data.seenWelcome) {
-				setShowWelcomeModal(true)
+				//	setShowWelcomeModal(true)
 				router.push('#welcomemodal')
 				await Axios.post('/api/update_user_seen_welcome', {
 					userId: user
