@@ -29,16 +29,23 @@ export default function NewPostModal({
 	const [type, setType] = React.useState('buy')
 	const [amount, setAmount] = React.useState<number | null>(null)
 	const createPost = async () => {
-		const res = await axios.post('/api/create_post', {
-			post: {
-				lat,
-				lng,
-				type,
-				amount,
-				userId,
-				postedAt: new Date()
-			}
-		})
+		const res = await axios
+			.post('/api/create_post', {
+				post: {
+					lat,
+					lng,
+					type,
+					amount,
+					userId,
+					postedAt: new Date()
+				}
+			})
+			.catch((err) => {
+				//user should never see this, but just in case
+				alert('You can only have 3 active posts at any given time.')
+				return
+			})
+		//console.log('res', res)
 		await queryClient.invalidateQueries(rqKeys.postsKey())
 		handleSuccess()
 	}

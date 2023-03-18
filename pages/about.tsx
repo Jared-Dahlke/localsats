@@ -1,4 +1,5 @@
 import { usePosts } from '@/hooks/usePosts'
+import { PostType } from '@/types/types'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -6,8 +7,17 @@ import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { Layout } from '../components/layout'
 import { authOptions } from './api/auth/[...nextauth]'
+import { getPosts } from './api/get_posts'
+import { getUsers } from './api/get_users'
+import CountUp from 'react-countup'
 
-export default function About({ user }) {
+export default function About({
+	posts: initialPosts,
+	users: initialUsers
+}: {
+	posts: PostType[]
+	users: any
+}) {
 	const faqs = [
 		{
 			question: 'What is this?',
@@ -85,16 +95,25 @@ export default function About({ user }) {
 	]
 
 	const daysLive = dayjs().diff(dayjs('2023-03-01'), 'day')
-	const posts = usePosts({ initialPosts: [] })
+	const posts = usePosts({ initialPosts: initialPosts })
 
-	const { data: users } = useQuery(['allUsers'], () =>
-		axios.get('/api/get_users').then((res) => res.data)
+	const { data: users } = useQuery(
+		['allUsers'],
+		() => axios.get('/api/get_users').then((res) => res.data),
+		{
+			initialData: initialUsers,
+			refetchInterval: 8000
+		}
 	)
 	console.log('users', users)
 	const stats = [
-		{ id: 1, name: 'Days LocalSats.org has been Live', value: daysLive },
-		{ id: 2, name: 'Total Posts', value: posts.length },
-		{ id: 3, name: ' Total Users', value: users?.length }
+		{
+			id: 1,
+			name: 'Days LocalSats.org has been Live',
+			value: <CountUp end={daysLive} />
+		},
+		{ id: 2, name: 'Total Posts', value: <CountUp end={posts?.length} /> },
+		{ id: 3, name: ' Total Users', value: <CountUp end={users?.length} /> }
 	]
 
 	return (
@@ -167,7 +186,13 @@ export const getServerSideProps = async function ({ req, res }) {
 			}
 		}
 	}
+	const posts = await getPosts()
+	const users = await getUsers()
 	return {
-		props: { user }
+		props: {
+			posts: JSON.parse(JSON.stringify(posts)),
+			users: JSON.parse(JSON.stringify(users)),
+			user
+		}
 	}
 }
