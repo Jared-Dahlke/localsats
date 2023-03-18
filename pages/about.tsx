@@ -9,6 +9,7 @@ import { Layout } from '../components/layout'
 import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import { getUsers } from './api/get_users'
+import CountUp from 'react-countup'
 
 export default function About({
 	posts: initialPosts,
@@ -106,9 +107,13 @@ export default function About({
 	)
 	console.log('users', users)
 	const stats = [
-		{ id: 1, name: 'Days LocalSats.org has been Live', value: daysLive },
-		{ id: 2, name: 'Total Posts', value: posts.length },
-		{ id: 3, name: ' Total Users', value: users?.length }
+		{
+			id: 1,
+			name: 'Days LocalSats.org has been Live',
+			value: <CountUp end={daysLive} />
+		},
+		{ id: 2, name: 'Total Posts', value: <CountUp end={posts?.length} /> },
+		{ id: 3, name: ' Total Users', value: <CountUp end={users?.length} /> }
 	]
 
 	return (
