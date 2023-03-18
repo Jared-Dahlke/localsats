@@ -273,8 +273,6 @@ export const getServerSideProps = async function ({ req, res }) {
 			posts: JSON.parse(JSON.stringify(posts)),
 			messages: JSON.parse(JSON.stringify(messages)),
 			privateKeyPassphrase: cookies?.privateKeyPassphrase || null
-
-			//9aa0e8d8660827abdffd5b17c5be2fe7859e3a5f
 		}
 	}
 }
