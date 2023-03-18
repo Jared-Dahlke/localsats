@@ -22,6 +22,7 @@ import { rqKeys } from '../constants'
 import { usePosts } from '../hooks/usePosts'
 import { encryptMessage } from '@/lib/pgp'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
+import { MaxPostsModal } from './maxPostsModal'
 
 const containerStyle = {
 	width: '100%',
@@ -54,6 +55,7 @@ export default function SimpleMap({
 	const [showOnlyMyPosts, setShowOnlyMyPosts] = React.useState(false)
 	const [showNewPostSuccess, setShowNewPostSuccess] = React.useState(false)
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
+	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
 
 	// const invoiceStatus = useCheckInvoiceStatus({
 	// 	paywallId: pendingInvoice?.paywallId,
@@ -155,6 +157,10 @@ export default function SimpleMap({
 	const handleMapClick = (e: any) => {
 		const lat = e.latLng.lat()
 		const lng = e.latLng.lng()
+		if (myPosts?.length > 2) {
+			setShowMaxPostsModal(true)
+			return
+		}
 		setNewPost({ lat, lng })
 	}
 
@@ -182,6 +188,10 @@ export default function SimpleMap({
 	return (
 		// Important! Always set the container height explicitly
 		<div className='mt-3' style={{ height: '100vh', width: '100%' }}>
+			<MaxPostsModal
+				open={showMaxPostsModal}
+				setOpen={() => setShowMaxPostsModal(false)}
+			/>
 			{postsWithNewMessages && postsWithNewMessages.length > 0 && (
 				<div className='rounded-md bg-blue-50 p-4 mt-3'>
 					<div className='flex'>
