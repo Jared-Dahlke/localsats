@@ -101,20 +101,25 @@ export default function SimpleMap({
 		setShowQr(false)
 		setPendingInvoice(null)
 
-		//const publicKeyArmored = openPost?.author[0].pgpPublicKey
-		//	const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+		const publicKeyArmored = openPost?.author[0].pgpPublicKey
+		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-		// const encryptedMessage = await encryptMessage({
-		// 	publicKey1: publicKeyArmored,
-		// 	publicKey2: myPublicKeyArmored,
-		// 	message: 'Hello, I am interested in your post.'
-		// })
+		let finalMessage = 'Hello, I am interested in your post.'
+		try {
+			const encryptedMessage = await encryptMessage({
+				publicKey1: publicKeyArmored,
+				publicKey2: myPublicKeyArmored,
+				message: 'Hello, I am interested in your post.'
+			})
+			finalMessage = encryptedMessage
+		} catch (e) {
+			// ok, user may not have a pgp key (maybe signed up before we added this feature)
+		}
 
 		// insert new initial message here
 		const newMessage: Omit<MessageType, '_id'> = {
 			chatPaywallId: newPaywallId.data,
-			//	body: encryptedMessage,
-			body: 'Hello, I am interested in your post.',
+			body: finalMessage,
 			postId: openPost?._id,
 			fromUserId: user,
 			toUserId: openPost?.userId,
@@ -300,22 +305,22 @@ export default function SimpleMap({
 						userId: toUserId
 					})
 
-					//	const toUserPgpPublicKey = toUser.data.pgpPublicKey
+					const toUserPgpPublicKey = toUser.data.pgpPublicKey
 
-					//	const publicKeyArmored = toUserPgpPublicKey
-					//	const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+					const publicKeyArmored = toUserPgpPublicKey
+					const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-					//	let finalMessage = body
-					// if (publicKeyArmored && myPublicKeyArmored) {
-					// 	finalMessage = await encryptMessage({
-					// 		publicKey1: publicKeyArmored,
-					// 		publicKey2: myPublicKeyArmored,
-					// 		message: body
-					// 	})
-					// }
+					let finalMessage = body
+					if (publicKeyArmored && myPublicKeyArmored) {
+						finalMessage = await encryptMessage({
+							publicKey1: publicKeyArmored,
+							publicKey2: myPublicKeyArmored,
+							message: body
+						})
+					}
 
 					const message: Omit<MessageType, '_id'> = {
-						body: body, // finalMessage,
+						body: finalMessage,
 						fromUserId: user,
 						toUserId,
 						postId: openMessages[0].postId,
