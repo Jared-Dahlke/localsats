@@ -101,19 +101,20 @@ export default function SimpleMap({
 		setShowQr(false)
 		setPendingInvoice(null)
 
-		const publicKeyArmored = openPost?.author[0].pgpPublicKey
-		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+		//const publicKeyArmored = openPost?.author[0].pgpPublicKey
+		//	const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-		const encryptedMessage = await encryptMessage({
-			publicKey1: publicKeyArmored,
-			publicKey2: myPublicKeyArmored,
-			message: 'Hello, I am interested in your post.'
-		})
+		// const encryptedMessage = await encryptMessage({
+		// 	publicKey1: publicKeyArmored,
+		// 	publicKey2: myPublicKeyArmored,
+		// 	message: 'Hello, I am interested in your post.'
+		// })
 
 		// insert new initial message here
 		const newMessage: Omit<MessageType, '_id'> = {
 			chatPaywallId: newPaywallId.data,
-			body: encryptedMessage,
+			//	body: encryptedMessage,
+			body: 'Hello, I am interested in your post.',
 			postId: openPost?._id,
 			fromUserId: user,
 			toUserId: openPost?.userId,
@@ -299,22 +300,22 @@ export default function SimpleMap({
 						userId: toUserId
 					})
 
-					const toUserPgpPublicKey = toUser.data.pgpPublicKey
+					//	const toUserPgpPublicKey = toUser.data.pgpPublicKey
 
-					const publicKeyArmored = toUserPgpPublicKey
-					const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
+					//	const publicKeyArmored = toUserPgpPublicKey
+					//	const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-					let finalMessage = body
-					if (publicKeyArmored && myPublicKeyArmored) {
-						finalMessage = await encryptMessage({
-							publicKey1: publicKeyArmored,
-							publicKey2: myPublicKeyArmored,
-							message: body
-						})
-					}
+					//	let finalMessage = body
+					// if (publicKeyArmored && myPublicKeyArmored) {
+					// 	finalMessage = await encryptMessage({
+					// 		publicKey1: publicKeyArmored,
+					// 		publicKey2: myPublicKeyArmored,
+					// 		message: body
+					// 	})
+					// }
 
 					const message: Omit<MessageType, '_id'> = {
-						body: finalMessage,
+						body: body, // finalMessage,
 						fromUserId: user,
 						toUserId,
 						postId: openMessages[0].postId,
