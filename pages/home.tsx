@@ -134,7 +134,7 @@ export default function Home({
 				</div>
 			</div>
 
-			<div className='bg-white shadow sm:rounded-lg mt-3'>
+			{/* <div className='bg-white shadow sm:rounded-lg mt-3'>
 				<div className='px-4 py-5 sm:p-6'>
 					{!privateKeyPassphrase && (
 						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
@@ -216,18 +216,9 @@ export default function Home({
 							Save
 						</button>
 					</div>
-					{/* {userFromDatabase?.data?.data?.pgpPublicKey && (
-						<Prism  language='tsx'>
-							{userFromDatabase?.data?.data?.pgpPublicKey}
-						</Prism>
-					)}
-					{cookies?.pgpPrivateKey && (
-						<Prism hidden language='tsx'>
-							{cookies?.pgpPrivateKey}
-						</Prism>
-					)} */}
+					
 				</div>
-			</div>
+			</div> */}
 
 			<SimpleMap user={user} posts={posts} messages={messages} />
 
