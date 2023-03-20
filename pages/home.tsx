@@ -13,9 +13,10 @@ import { getPosts } from './api/get_posts'
 import { GroupedMessage, PostType } from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
-import { parseCookies, setCookie } from 'nookies'
-import nookies from 'nookies'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { getCookie, setCookie } from 'cookies-next'
+import { addPgpToUser } from './api/add_pgp_to_user'
+import { getUser } from './api/get_user'
 
 interface IProps {
 	user: string
@@ -35,7 +36,6 @@ export default function Home({
 
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 	const router = useRouter()
-	//const cookies = parseCookies()
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
@@ -44,20 +44,9 @@ export default function Home({
 			const userFromDb = await Axios.post('/api/get_user', {
 				userId: user
 			})
-			if (!userFromDb.data) {
-				// log error
-				console.error('no user in db')
-				return
-			}
-			//if no pgp private key in db, then add one
-			if (userFromDb && !userFromDb?.data?.pgpPrivateKeyEncrypted) {
-				const privateKey = await Axios.post('/api/add_pgp_to_user', {
-					userId: user
-				})
-				router.reload() // reload page to make pgp cookie available
-			}
+
 			if (!userFromDb.data.seenWelcome) {
-				//	setShowWelcomeModal(true)
+				setShowWelcomeModal(true)
 				router.push('#welcomemodal')
 				await Axios.post('/api/update_user_seen_welcome', {
 					userId: user
@@ -134,7 +123,7 @@ export default function Home({
 				</div>
 			</div>
 
-			{/* <div className='bg-white shadow sm:rounded-lg mt-3'>
+			<div className='bg-white shadow sm:rounded-lg mt-3'>
 				<div className='px-4 py-5 sm:p-6'>
 					{!privateKeyPassphrase && (
 						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
@@ -206,19 +195,19 @@ export default function Home({
 						<button
 							disabled={passphrase.length < 1}
 							onClick={async () => {
-								setCookie(null, 'privateKeyPassphrase', passphrase, {
+								setCookie('privateKeyPassphrase', passphrase, {
 									maxAge: 2147483647,
 									path: '/'
 								})
-								router.reload()
+
+								//	router.reload()
 							}}
 							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
 							Save
 						</button>
 					</div>
-					
 				</div>
-			</div> */}
+			</div>
 
 			<SimpleMap user={user} posts={posts} messages={messages} />
 
@@ -244,9 +233,10 @@ Home.getLayout = function getLayout(page) {
 
 export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
-	const cookies = nookies.get({ req })
+
 	const user = session?.user?.userId
 	if (!user) {
+		console.log('no user found')
 		return {
 			redirect: {
 				destination: '/',
@@ -255,15 +245,25 @@ export const getServerSideProps = async function ({ req, res }) {
 		}
 	}
 
+	const userFromDb = await getUser(user)
+	if (userFromDb && !userFromDb?.pgpPrivateKeyEncrypted) {
+		await addPgpToUser({
+			req,
+			res,
+			userId: user
+		})
+	}
+
 	const posts = await getPosts()
-	const messages = await getMessages(user, cookies.privateKeyPassphrase)
+	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
+	const messages = await getMessages(user, privateKeyPassphrase)
 
 	return {
 		props: {
 			user,
 			posts: JSON.parse(JSON.stringify(posts)),
 			messages: JSON.parse(JSON.stringify(messages)),
-			privateKeyPassphrase: cookies?.privateKeyPassphrase || null
+			privateKeyPassphrase: privateKeyPassphrase || null
 		}
 	}
 }

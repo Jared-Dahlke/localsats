@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
+import axios from 'axios'
+import { addPgpToUser } from '../add_pgp_to_user'
 
 export const authOptions: NextAuthOptions = {
 	adapter: MongoDBAdapter(clientPromise),
@@ -51,6 +53,7 @@ export const authOptions: NextAuthOptions = {
 					delete user.acknowledged
 					delete user.insertedId
 				}
+
 				return user
 			}
 		})
