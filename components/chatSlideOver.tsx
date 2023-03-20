@@ -7,16 +7,28 @@ import Axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { rqKeys } from '../constants'
 import { useSession } from 'next-auth/react'
+import dayjs from 'dayjs'
+var calendar = require('dayjs/plugin/calendar')
+dayjs.extend(calendar)
 
-const RecipientMessage = ({ message }: { message: string }) => {
+const RecipientMessage = ({
+	message,
+	sentDate
+}: {
+	message: string
+	sentDate: string
+}) => {
 	return (
 		<div className='chat-message'>
 			<div className='flex items-end'>
-				<div className='flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'>
+				<div className='relative flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'>
 					<div>
 						<span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600'>
 							{message}
 						</span>
+					</div>
+					<div className='text-gray-400 text-xs absolute -bottom-4 w-36 text-left'>
+						{dayjs(sentDate).calendar()}
 					</div>
 				</div>
 				<div className='w-6 h-6 rounded-full order-1 bg-slate-300'>
@@ -27,15 +39,24 @@ const RecipientMessage = ({ message }: { message: string }) => {
 	)
 }
 
-const YourMessage = ({ message }: { message: string }) => {
+const YourMessage = ({
+	message,
+	sentDate
+}: {
+	message: string
+	sentDate: string
+}) => {
 	return (
 		<div className='chat-message'>
 			<div className='flex items-end justify-end'>
-				<div className='flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end'>
+				<div className='relative flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end'>
 					<div>
 						<span className='px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white '>
 							{message}
 						</span>
+					</div>
+					<div className='text-gray-400 text-xs absolute -bottom-4 w-36 text-right'>
+						{dayjs(sentDate).calendar()}
 					</div>
 				</div>
 				<div className='w-6 h-6 rounded-full order-1 bg-blue-500'>
@@ -130,7 +151,7 @@ export function ChatSlideOver({
 										{/* messages */}
 										<div
 											id='messages'
-											className='flex flex-col space-y-4 px-3 py-6 h-full overflow-y-auto '>
+											className='flex flex-col space-y-6 px-3 py-6 h-full overflow-y-auto '>
 											{messages &&
 												messages.map((message) => {
 													const fromMe = message.fromUserId === user
@@ -138,11 +159,13 @@ export function ChatSlideOver({
 														<YourMessage
 															key={message._id}
 															message={message.body}
+															sentDate={message.sentDate}
 														/>
 													) : (
 														<RecipientMessage
 															key={message._id}
 															message={message.body}
+															sentDate={message.sentDate}
 														/>
 													)
 												})}
