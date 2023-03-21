@@ -3,10 +3,6 @@ import { sendEmail } from '@/lib/sendEmail'
 import { NextRequest, NextResponse } from 'next/server'
 import { getPosts } from '../get_posts'
 
-export const config = {
-	runtime: 'edge'
-}
-
 export default async function handler(req: NextRequest) {
 	// get all chatPaywalls:
 	const client = await clientPromise
@@ -63,7 +59,7 @@ export default async function handler(req: NextRequest) {
 
 	// console.log('deleted',deleted)
 
-	return new NextResponse(JSON.stringify(deleted), {
+	return new NextResponse(JSON.stringify({ test: 'sent' }), {
 		status: 200
 	})
 }
