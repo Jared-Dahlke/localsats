@@ -1,46 +1,7 @@
+import { sendEmail } from '@/lib/sendEmail'
 import { getServerSession } from 'next-auth'
 import clientPromise from '../../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
-const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
-
-const createSendEmailCommand = (toAddress, fromAddress) => {
-	return new SendEmailCommand({
-		Destination: {
-			/* required */
-			CcAddresses: [
-				/* more items */
-			],
-			ToAddresses: [
-				toAddress
-				/* more To-email addresses */
-			]
-		},
-		Message: {
-			/* required */
-			Body: {
-				/* required */
-				Html: {
-					Charset: 'UTF-8',
-					Data: `<div>
-										You've received a new message on localsats.org. <a href='https://localsats.org'>Click here to view it</a>
-									</div>`
-				},
-				Text: {
-					Charset: 'UTF-8',
-					Data: 'TEXT_FORMAT_BODY'
-				}
-			},
-			Subject: {
-				Charset: 'UTF-8',
-				Data: 'New message received on localsats.org'
-			}
-		},
-		Source: fromAddress,
-		ReplyToAddresses: [
-			/* more items */
-		]
-	})
-}
 
 export default async function handler(req, res) {
 	try {
@@ -66,23 +27,17 @@ export default async function handler(req, res) {
 			.collection('users')
 			.findOne({ userId: message.toUserId })
 		if (toUser?.email) {
-			const sesClient = new SESClient({
-				region: 'us-west-2',
-				credentials: {
-					accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-					secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-				}
-			})
-
-			const sendEmailCommand = createSendEmailCommand(
-				toUser.email,
-				'notifications@localsats.org'
-			)
-
 			try {
-				sesClient.send(sendEmailCommand)
+				await sendEmail({
+					toAddress: toUser.email,
+					fromAddress: 'notifications@localsats.org',
+					subject: 'New message received on localsats.org',
+					body: `<div>
+										You've received a new message on localsats.org. <a href='https://localsats.org'>Click here to view it</a>
+								 </div>`
+				})
 			} catch (err) {
-				console.log('Error', err)
+				console.log('Error sending email', err)
 			}
 		}
 
