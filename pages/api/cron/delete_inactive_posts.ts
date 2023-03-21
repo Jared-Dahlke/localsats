@@ -22,10 +22,8 @@ export default async function handler(req: NextRequest) {
 			)
 		})
 		return (
-			messagesFromPoster.length === 0
-			//&&
-			//chatPaywall.createdAt < new Date().getTime()
-			//chatPaywall.createdAt < new Date().getTime() - 1000 * 60 * 60 * 24 * 7 // 7 days
+			messagesFromPoster.length === 0 &&
+			chatPaywall.createdAt < new Date().getTime() - 1000 * 60 * 60 * 24 * 3 // 3 days
 		)
 	})
 
@@ -37,7 +35,7 @@ export default async function handler(req: NextRequest) {
 	await sendEmail({
 		toAddress: 'jared.dahlke@protonmail.com',
 		fromAddress: 'notifications@localsats.org',
-		subject: 'New message received on localsats.org',
+		subject: 'delete proposal from localsats.org',
 		body: `<div>
               proposing to delete these posts due to poster not responding: ${JSON.stringify(
 								postIdsToDelete
