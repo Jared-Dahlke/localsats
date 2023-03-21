@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/delete_inactive_posts",
-      "schedule": "0 17 * * *"
+      "schedule": "0 5 * * *"
     }
   ]
 }
