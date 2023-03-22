@@ -56,7 +56,7 @@ export default function Modal({
 							<p className='mb-2'>This is your post</p>
 							<button
 								type='button'
-								className='btn-primary btn-error btn-block'
+								className='btn-primary btn btn-error btn-block'
 								onClick={() => deletePost(post?._id)}>
 								Delete
 							</button>

@@ -27,12 +27,12 @@ export function MyPosts({ posts, deletePost }: IProps) {
 			/>
 			<div className='sm:flex sm:items-center'>
 				<div className='sm:flex-auto'>
-					<h1 className='text-md font-semibold '>Your Posts</h1>
+					<h2>Your Posts</h2>
 				</div>
 			</div>
 
-			<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
-				<table className='table min-w-full '>
+			<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg '>
+				<table className='table min-w-full mt-0 mb-0'>
 					<thead>
 						<tr>
 							<th className='!z-0'>Type</th>
