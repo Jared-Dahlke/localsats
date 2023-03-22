@@ -56,7 +56,8 @@ export default function SimpleMap({
 	const [showNewPostSuccess, setShowNewPostSuccess] = React.useState(false)
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
 	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
-
+	const [showNewPostModal, setShowNewPostModal] = React.useState(false)
+	const [showPostModal, setShowPostModal] = React.useState(false)
 	// const invoiceStatus = useCheckInvoiceStatus({
 	// 	paywallId: pendingInvoice?.paywallId,
 	// 	paymentHash: pendingInvoice?.paymentHash
@@ -88,6 +89,7 @@ export default function SimpleMap({
 
 	const handleInvoicePaid = async () => {
 		//	setShowPaymentSuccess(true)
+		setShowPostModal(false)
 		const paywallRecord: Omit<PaywallRecordType, '_id'> = {
 			userId: user,
 			postId: openPost?._id,
@@ -168,13 +170,16 @@ export default function SimpleMap({
 			return
 		}
 		setNewPost({ lat, lng })
+		setShowNewPostModal(true)
 	}
 
 	const deletePost = async (id: string) => {
-		setOpenId(null)
+		setShowPostModal(false)
+
 		await axios.post('/api/delete_post', {
 			id
 		})
+		setOpenId(null)
 		queryClient.invalidateQueries(rqKeys.postsKey())
 		queryClient.invalidateQueries(rqKeys.messagesKey())
 		queryClient.invalidateQueries(rqKeys.chatPaywallsKey())
@@ -193,83 +198,110 @@ export default function SimpleMap({
 
 	return (
 		// Important! Always set the container height explicitly
-		<div className='mt-3' style={{ height: '100vh', width: '100%' }}>
+		<div className='mt-3'>
 			<MaxPostsModal
 				open={showMaxPostsModal}
 				setOpen={() => setShowMaxPostsModal(false)}
 			/>
 			{postsWithNewMessages && postsWithNewMessages.length > 0 && (
-				<div className='rounded-md bg-blue-50 p-4 mt-3'>
-					<div className='flex'>
-						<div className='flex-shrink-0'>
-							<InformationCircleIcon
-								className='h-5 w-5 text-blue-400'
-								aria-hidden='true'
-							/>
-						</div>
-						<div className='ml-3 flex-1 md:flex md:justify-between '>
-							<p className='text-sm text-blue-700'>You have a new message.</p>
-							<p className='mt-3 text-sm md:mt-0 md:ml-6'>
-								<a
-									onClick={() => {
-										setOpenChatPaywallId(postsWithNewMessages[0].chatPaywallId)
-									}}
-									className='cursor-pointer whitespace-nowrap font-medium text-blue-700 hover:text-blue-600'>
-									Open
-									<span aria-hidden='true'> &rarr;</span>
-								</a>
-							</p>
-						</div>
+				<div className='alert alert-info shadow-lg mt-8'>
+					<div>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							className='stroke-current flex-shrink-0 w-6 h-6'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth='2'
+								d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+						</svg>
+						<span>You have a new message.</span>
+						<a
+							onClick={() => {
+								setOpenChatPaywallId(postsWithNewMessages[0].chatPaywallId)
+							}}
+							className='cursor-pointer whitespace-nowrap font-medium ml-3'>
+							Open
+							<span aria-hidden='true'> &rarr;</span>
+						</a>
 					</div>
 				</div>
 			)}
 			{myPosts && myPosts.length > 0 && messages && messages.length < 1 && (
-				<div className='rounded-md bg-green-50 p-4 mt-5'>
-					<div className='flex'>
-						<div className='flex-shrink-0'>
-							<CheckCircleIcon
-								className='h-5 w-5 text-green-400'
-								aria-hidden='true'
+				<div className='alert alert-success shadow-lg'>
+					<div>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='stroke-current flex-shrink-0 h-6 w-6'
+							fill='none'
+							viewBox='0 0 24 24'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth='2'
+								d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
 							/>
-						</div>
-						<div className='ml-3'>
-							<h3 className='text-sm font-medium text-green-800'>
-								{myPosts && myPosts.length > 1
-									? 'You have active posts'
-									: 'Your post is active'}
-							</h3>
-							<div className='mt-2 text-sm text-green-700'>
-								<p>
-									Check back later to see if someone messaged you. Or if you
-									have an email saved, you will receive an email when someone
-									messages you.
-								</p>
-							</div>
-						</div>
+						</svg>
+						<span>
+							{myPosts && myPosts.length > 1
+								? 'You have active posts'
+								: 'Your post is active'}
+						</span>
 					</div>
 				</div>
 			)}
 
+			<input
+				readOnly
+				checked={showPostModal}
+				type='checkbox'
+				id='post-modal'
+				className='modal-toggle'
+			/>
 			<Modal
 				post={openPost}
-				open={openId !== null}
-				setOpen={() => setOpenId(null)}
+				//	open={openId !== null}
+				setOpen={() => {
+					setShowPostModal(false)
+					setOpenId(null)
+				}}
 				//createPaywall={createPaywall}
 				createPaywall={handleInvoicePaid}
 				isCreatingPaywall={isCreatingPaywall}
 				deletePost={deletePost}
 				activeChats={groupedMessages.filter((m) => m.postId === openId)}
 				openThisChat={(chatPaywallId: string) => {
+					setShowPostModal(false)
 					setOpenChatPaywallId(chatPaywallId)
 				}}
 			/>
+
+			<input
+				readOnly
+				checked={showNewPostSuccess}
+				type='checkbox'
+				id='post-success-modal'
+				className='modal-toggle'
+			/>
+
 			<NewPostSuccessModal
 				open={showNewPostSuccess}
 				setOpen={() => setShowNewPostSuccess(false)}
 			/>
+
+			<input
+				readOnly
+				checked={showNewPostModal}
+				type='checkbox'
+				id='new-post-modal'
+				className='modal-toggle'
+			/>
+
 			<NewPostModal
-				open={!!newPost}
 				close={() => {
+					setShowNewPostModal(false)
 					setNewPost(null)
 				}}
 				handleSuccess={() => {
@@ -332,7 +364,7 @@ export default function SimpleMap({
 				}}
 			/>
 
-			<div className='md:flex md:gap-4'>
+			<div className='md:gap-4 prose max-w-none'>
 				{myPosts && myPosts.length > 0 && (
 					<MyPosts posts={myPosts} deletePost={deletePost} />
 				)}
@@ -346,45 +378,52 @@ export default function SimpleMap({
 				)}
 			</div>
 			{myPosts && myPosts.length > 0 && (
-				<div className='flex items-center mb-2 w-full justify-end gap-2'>
-					<input
-						checked={showOnlyMyPosts}
-						onChange={(e) => setShowOnlyMyPosts(e.target.checked)}
-						id='comments'
-						name='comments'
-						type='checkbox'
-						className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 '
-					/>
-					<div className='text-sm'>Show only your posts</div>
+				<div className='flex w-full justify-end'>
+					<div className='form-control'>
+						<label className='label cursor-pointer'>
+							<span className='label-text mr-2'>Show only your posts </span>
+							<input
+								checked={showOnlyMyPosts}
+								onChange={(e) => setShowOnlyMyPosts(e.target.checked)}
+								id='comments'
+								name='comments'
+								type='checkbox'
+								className='checkbox checkbox-primary'
+							/>
+						</label>
+					</div>
 				</div>
 			)}
 
 			{isLoaded && (
-				<GoogleMap
-					mapContainerStyle={containerStyle}
-					center={locationProps.center}
-					onClick={handleMapClick}
-					zoom={locationProps.zoom}>
-					{filteredPosts &&
-						filteredPosts?.map((post: PostType) => {
-							return (
-								<Marker
-									key={post._id}
-									position={{ lat: post.lat, lng: post.lng }}
-									onClick={() => {
-										setOpenId(post._id)
-									}}
-									icon={{
-										url:
-											post.type === 'sell'
-												? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
-												: 'https://img.icons8.com/color/512/us-dollar-circled.png',
-										scaledSize: new window.google.maps.Size(25, 25)
-									}}
-								/>
-							)
-						})}
-				</GoogleMap>
+				<div style={{ height: '100vh', width: '100%' }}>
+					<GoogleMap
+						mapContainerStyle={containerStyle}
+						center={locationProps.center}
+						onClick={handleMapClick}
+						zoom={locationProps.zoom}>
+						{filteredPosts &&
+							filteredPosts?.map((post: PostType) => {
+								return (
+									<Marker
+										key={post._id}
+										position={{ lat: post.lat, lng: post.lng }}
+										onClick={() => {
+											setOpenId(post._id)
+											setShowPostModal(true)
+										}}
+										icon={{
+											url:
+												post.type === 'sell'
+													? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
+													: 'https://img.icons8.com/color/512/us-dollar-circled.png',
+											scaledSize: new window.google.maps.Size(25, 25)
+										}}
+									/>
+								)
+							})}
+					</GoogleMap>
+				</div>
 			)}
 
 			<div

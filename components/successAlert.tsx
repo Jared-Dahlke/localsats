@@ -31,7 +31,7 @@ export function SuccessAlert({ title, subtitle, show, setShow }: IProps) {
 							/>
 						</div>
 						<div className='ml-3 w-0 flex-1 pt-0.5'>
-							<p className='text-sm font-medium text-gray-900'>{title}</p>
+							<p className='text-sm font-medium '>{title}</p>
 							<p className='mt-1 text-sm text-gray-500'>{subtitle}</p>
 						</div>
 						<div className='ml-4 flex flex-shrink-0'>

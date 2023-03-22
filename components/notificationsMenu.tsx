@@ -9,10 +9,7 @@ export const NotificationsMenu = ({ children }: { children: ReactElement }) => {
 			{({ open }) => (
 				<>
 					<Popover.Button
-						className={classNames(
-							open ? 'text-gray-900' : 'text-gray-500',
-							'   hover:text-gray-900'
-						)}>
+						className={classNames(open ? '' : 'text-gray-500', '   hover:')}>
 						{children}
 					</Popover.Button>
 

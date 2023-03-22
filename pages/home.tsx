@@ -76,139 +76,146 @@ export default function Home({
 					setShowWelcomeModal(false)
 				}}
 			/>
+			<div className='prose max-w-none'>
+				<h1>Welcome, {getNameFromId(user)}</h1>
 
-			<h3 className=' font-medium leading-6 text-gray-900'>
-				Welcome, {getNameFromId(user)}
-			</h3>
-			<p className='mt-2 text-sm text-gray-500 mb-3'>
-				To create a new post to buy or sell bitcoin, just click anywhere on the
-				map. To see other peoples posts, click on the icons on the map.
-			</p>
+				<p className='mt-2 text-sm  mb-8'>
+					To create a new post to buy or sell bitcoin, just click anywhere on
+					the map. To see other peoples posts, click on the icons on the map.
+				</p>
 
-			<div className='bg-white shadow sm:rounded-lg'>
-				<div className='px-4 py-5 sm:p-6'>
-					<h3 className='text-md font-medium leading-6 text-gray-900'>
-						Add an email?
-					</h3>
-					<div className='mt-2 max-w-xl text-sm text-gray-500'>
-						<p>
-							{`If you'd like to receive an email when someone messages you, add an
-							email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.`}
-						</p>
+				<div
+					tabIndex={0}
+					className='collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
+					<div className='collapse-title'>
+						<h3 className='text-md font-medium leading-6 '>Email Settings</h3>
 					</div>
-					<div className='mt-5 sm:flex sm:items-center'>
-						<div className='w-full sm:max-w-xs'>
-							<label htmlFor='email' className='sr-only'>
-								Email
-							</label>
-							<input
-								type='email'
-								name='email'
-								id='email'
-								onChange={(e) => {
-									setEmail(e.target.value)
-								}}
-								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-								placeholder='you@example.com (optional)'
-								defaultValue={userEmail}
-							/>
+					<div className='collapse-content'>
+						<div className='mt-2 max-w-xl text-sm '>
+							<p>
+								{`If you'd like to receive an email when someone messages you, add an
+							email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.`}
+							</p>
 						</div>
-						<button
-							disabled={!EmailValidator.validate(email) && email !== ''}
-							onClick={saveEmail}
-							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-							Save
-						</button>
+						<div className='mt-5 sm:flex sm:items-center'>
+							<div className='w-full sm:max-w-xs'>
+								<label htmlFor='email' className='sr-only'>
+									Email
+								</label>
+								<input
+									type='email'
+									name='email'
+									id='email'
+									onChange={(e) => {
+										setEmail(e.target.value)
+									}}
+									className='input input-bordered w-full'
+									placeholder='you@example.com (optional)'
+									defaultValue={userEmail}
+								/>
+							</div>
+							<button
+								disabled={!EmailValidator.validate(email) && email !== ''}
+								onClick={saveEmail}
+								className='btn-primary btn  mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
+								Save
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div className='bg-white shadow sm:rounded-lg mt-3'>
-				<div className='px-4 py-5 sm:p-6'>
-					{!privateKeyPassphrase && (
-						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
-							<div className='flex'>
-								<div className='flex-shrink-0'>
-									<ExclamationTriangleIcon
-										className='h-5 w-5 text-yellow-400'
-										aria-hidden='true'
-									/>
-								</div>
-								<div className='ml-3'>
-									<h3 className='text-sm font-medium text-yellow-800'>
-										Attention needed in order to decrypt future messages
-									</h3>
-									<div className='mt-2 text-sm text-yellow-700'>
-										<p>
-											We have a record of your PGP public key, but your private
-											key is not found in your cookies. You have 2 options:
-											<br />
-											1. (Recommended) Get your private key from the first
-											device you logged into with this account and save it in
-											the input field below. This will allow you to decrypt old
-											messages and future messages.
-											<br />
-											2. Generate a new keypair, you will be able to read all
-											future messages, but this will prevent you from decrypting
-											old messages
-										</p>
-										<button
-											onClick={async () => {
-												await Axios.post('/api/add_pgp_to_user', {
-													userId: user
-												})
-												router.reload() // reload page to make pgp cookie available
-											}}
-											className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto sm:text-sm'>
-											Generate new PGP key pair
-										</button>
+				<div
+					tabIndex={0}
+					className='mt-8 collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
+					<div className='collapse-title'>
+						<h3 className='text-md font-medium leading-6 '>
+							Your Messages are end-to-end encrypted using PGP
+						</h3>
+					</div>
+					<div className='collapse-content'>
+						{!privateKeyPassphrase && (
+							<div className='rounded-md bg-yellow-50 p-4 mb-3'>
+								<div className='flex'>
+									<div className='flex-shrink-0'>
+										<ExclamationTriangleIcon
+											className='h-5 w-5 text-yellow-400'
+											aria-hidden='true'
+										/>
+									</div>
+									<div className='ml-3'>
+										<h3 className='text-sm font-medium text-yellow-800'>
+											Attention needed in order to decrypt future messages
+										</h3>
+										<div className='mt-2 text-sm text-yellow-700'>
+											<p>
+												We have a record of your PGP public key, but your
+												private key is not found in your cookies. You have 2
+												options:
+												<br />
+												1. (Recommended) Get your private key from the first
+												device you logged into with this account and save it in
+												the input field below. This will allow you to decrypt
+												old messages and future messages.
+												<br />
+												2. Generate a new keypair, you will be able to read all
+												future messages, but this will prevent you from
+												decrypting old messages
+											</p>
+											<button
+												onClick={async () => {
+													await Axios.post('/api/add_pgp_to_user', {
+														userId: user
+													})
+													router.reload() // reload page to make pgp cookie available
+												}}
+												className='btn-primary btn ml-2'>
+												Generate new PGP key pair
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					)}
-					<h3 className='text-md font-medium leading-6 text-gray-900'>
-						Your Messages are end-to-end encrypted using PGP
-					</h3>
-					<div className='mt-2 max-w-xl text-sm text-gray-500'>
-						<p>
-							{`Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie.  Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.`}
-						</p>
-					</div>
-					<div className='mt-5 sm:flex sm:items-center'>
-						<div className='w-full sm:max-w-xs'>
-							<label htmlFor='email' className='sr-only'>
-								PGP Phassphrase
-							</label>
-							<input
-								type='text'
-								name='privateKeyPassphrase'
-								id='privateKeyPassphrase'
-								onChange={(e) => {
-									setPassphrase(e.target.value)
-								}}
-								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-								placeholder='your PGP passphrase...'
-								defaultValue={privateKeyPassphrase}
-							/>
-						</div>
-						<button
-							disabled={passphrase.length < 1}
-							onClick={async () => {
-								setCookie('privateKeyPassphrase', passphrase, {
-									maxAge: 2147483647,
-									path: '/'
-								})
+						)}
 
-								//	router.reload()
-							}}
-							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-							Save
-						</button>
+						<div className='mt-2 max-w-xl text-sm '>
+							<p>
+								{`Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie.  Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.`}
+							</p>
+						</div>
+						<div className='mt-5 sm:flex sm:items-center'>
+							<div className='w-full sm:max-w-xs'>
+								<label htmlFor='email' className='sr-only'>
+									PGP Phassphrase
+								</label>
+								<input
+									type='text'
+									name='privateKeyPassphrase'
+									id='privateKeyPassphrase'
+									onChange={(e) => {
+										setPassphrase(e.target.value)
+									}}
+									className='input input-bordered w-full'
+									placeholder='your PGP passphrase...'
+									defaultValue={privateKeyPassphrase}
+								/>
+							</div>
+							<button
+								//disabled={passphrase.length < 1}
+								onClick={async () => {
+									setCookie('privateKeyPassphrase', passphrase, {
+										maxAge: 2147483647,
+										path: '/'
+									})
+
+									router.reload()
+								}}
+								className='btn-primary btn mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
+								Save
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
-
 			<SimpleMap user={user} posts={posts} messages={messages} />
 
 			<div

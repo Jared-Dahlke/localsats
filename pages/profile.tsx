@@ -6,7 +6,7 @@ import { authOptions } from './api/auth/[...nextauth]'
 
 export default function Profile({ user }) {
 	return (
-		<div className='bg-white flex justify-center items-center flex-col gap-16 break-all text-center'>
+		<div className='h-screen flex items-center flex-col gap-16 break-all text-center'>
 			<div
 				className='inline-block h-60 w-60 flex-shrink-0 overflow-hidden rounded-full'
 				aria-hidden='true'>
@@ -22,9 +22,9 @@ export default function Profile({ user }) {
 			</div>
 			<button
 				type='button'
-				className='inline-flex w-64 justify-center rounded-md border border-transparent bg-slate-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm'
+				className='btn-primary btn btn-wide'
 				onClick={handleLogout}>
-				Logout
+				Sign Out
 			</button>
 		</div>
 	)
