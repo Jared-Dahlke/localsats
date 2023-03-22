@@ -35,7 +35,7 @@ export default function Modal({
 				<button
 					onClick={() => setOpen(false)}
 					//absolute right-4 top-4 z-20
-					className='btn-ghost btn btn-sm btn-circle'>
+					className='btn btn-sm btn-circle absolute right-4 top-4 text-primary bg-primary-content'>
 					<XMarkIcon />
 				</button>
 
