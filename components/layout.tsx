@@ -37,8 +37,8 @@ export function Layout({ children }: { children: ReactNode }) {
 	]
 
 	return (
-		<div className='min-h-full'>
-			<Disclosure as='nav' className='bg-gray-800'>
+		<div data-theme='light'>
+			<Disclosure as='nav' className='bg-base-200'>
 				{({ open }) => (
 					<>
 						<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -48,7 +48,7 @@ export function Layout({ children }: { children: ReactNode }) {
 										<Link
 											href='/'
 											className={
-												'text-gray-100 cursor-pointer pr-3 py-2 rounded-md text-lg font-medium'
+												'text-base-content cursor-pointer pr-3 py-2 rounded-md text-lg font-medium'
 											}>
 											localsats.org
 										</Link>
@@ -61,8 +61,8 @@ export function Layout({ children }: { children: ReactNode }) {
 													onClick={item.handleClick}
 													className={classNames(
 														item.current
-															? 'bg-gray-900 text-white'
-															: 'text-gray-300 hover:bg-gray-700 hover:text-white',
+															? 'bg-primary text-primary-content'
+															: 'text-primary-focus ',
 														'px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
 													)}
 													aria-current={item.current ? 'page' : undefined}>
@@ -72,20 +72,18 @@ export function Layout({ children }: { children: ReactNode }) {
 										</div>
 									</div>
 								</div>
+
 								<div className='hidden md:block'>
 									<div className='ml-4 flex items-center md:ml-6'>
 										{/* Profile dropdown */}
 										<Menu as='div' className='relative ml-3'>
 											<div>
-												<Menu.Button className='flex max-w-xs items-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
+												<Menu.Button className='flex max-w-xs items-center rounded-full '>
 													<span className='sr-only'>Open user menu</span>
 													<img
-														className='h-8 w-8 rounded-full'
+														className='h-8 w-8 rounded-full bg-base-100'
 														src={`https://robohash.org/${user}.png?size=500x500`}
 														alt=''
-														style={{
-															background: 'white'
-														}}
 													/>
 												</Menu.Button>
 											</div>
@@ -117,9 +115,10 @@ export function Layout({ children }: { children: ReactNode }) {
 										</Menu>
 									</div>
 								</div>
+
 								<div className='-mr-2 flex md:hidden'>
 									{/* Mobile menu button */}
-									<Disclosure.Button className='inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
+									<Disclosure.Button className='btn btn-square btn-ghost'>
 										<span className='sr-only'>Open main menu</span>
 										{open ? (
 											<XMarkIcon className='block h-6 w-6' aria-hidden='true' />
@@ -141,8 +140,8 @@ export function Layout({ children }: { children: ReactNode }) {
 										///		href={item.href}
 										className={classNames(
 											item.current
-												? 'bg-gray-900 text-white'
-												: 'text-gray-300 hover:bg-gray-700 hover:text-white',
+												? 'bg-primary text-primary-content'
+												: 'text-primary-focus ',
 											'block px-3 py-2 rounded-md text-base font-medium'
 										)}
 										aria-current={item.current ? 'page' : undefined}>
@@ -163,7 +162,7 @@ export function Layout({ children }: { children: ReactNode }) {
 										/>
 									</div>
 									<div className='ml-3'>
-										<div className='text-base font-medium text-white'>
+										<div className='text-base font-medium '>
 											{getNameFromId(user)}
 										</div>
 										{/* <div className='text-sm font-medium text-gray-400'>
@@ -186,7 +185,7 @@ export function Layout({ children }: { children: ReactNode }) {
 											//	as='a'
 											onClick={item.handleClick}
 											// href={item.href}
-											className='block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'>
+											className='block rounded-md px-3 py-2 text-base font-medium text-primary hover:bg-gray-700 hover:text-white'>
 											{item.name}
 										</Disclosure.Button>
 									))}
@@ -197,9 +196,9 @@ export function Layout({ children }: { children: ReactNode }) {
 				)}
 			</Disclosure>
 
-			<header className='bg-white shadow-sm'>
+			<header className=' shadow-sm'>
 				<div className='mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8'>
-					<h1 className='text-lg font-semibold leading-6 text-gray-900'>
+					<h1 className='text-lg font-semibold leading-6 '>
 						{currentNavItem?.name}
 					</h1>
 				</div>

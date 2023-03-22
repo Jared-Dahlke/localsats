@@ -90,14 +90,12 @@ export default function WelcomePage() {
 						in person. Free and open source.
 					</p>
 					<div className='mt-10 flex items-center gap-x-6'>
-						<a
-							onClick={handleLogin}
-							className='cursor-pointer rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
+						<a onClick={handleLogin} className='btn btn-primary'>
 							Login with Lightning
 						</a>
 						<a
 							href='https://twitter.com/localsatsorg'
-							className='text-base font-semibold leading-7 text-gray-900'>
+							className='btn btn-ghost '>
 							Learn more <span aria-hidden='true'>→</span>
 						</a>
 					</div>
@@ -115,11 +113,11 @@ export default function WelcomePage() {
 				</div>
 			</div>
 
-			<footer className='bg-white' aria-labelledby='footer-heading'>
+			<footer aria-labelledby='footer-heading'>
 				<h2 id='footer-heading' className='sr-only'>
 					Footer
 				</h2>
-				<div className='mx-auto max-w-7xl px-6 pb-8  lg:px-8 '>
+				<div className='mx-auto max-w-8xl px-6 pb-8  lg:px-8 '>
 					<div className=' border-t border-gray-900/10 pt-8  md:flex md:items-center md:justify-between '>
 						<div className='flex space-x-6 md:order-2'>
 							<a

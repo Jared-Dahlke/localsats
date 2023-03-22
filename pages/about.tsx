@@ -130,8 +130,8 @@ export default function About({
 	]
 
 	return (
-		<div className='bg-white'>
-			<div className='bg-white pt-24 pb-12'>
+		<div className=''>
+			<div className=' pt-24 pb-12'>
 				<div className='mx-auto max-w-7xl px-6 lg:px-8'>
 					<dl className='grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-3'>
 						{stats.map((stat) => (
@@ -141,7 +141,7 @@ export default function About({
 								<dt className='text-base leading-7 text-gray-600'>
 									{stat.name}
 								</dt>
-								<dd className='order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl'>
+								<dd className='order-first text-3xl font-semibold tracking-tight  sm:text-5xl'>
 									{stat.value}
 								</dd>
 							</div>
@@ -150,7 +150,7 @@ export default function About({
 				</div>
 			</div>
 
-			<div className='bg-white pt-12 pb-12'>
+			<div className=' pt-12 pb-12'>
 				<div className='mx-auto max-w-7xl px-6 lg:px-8'>
 					<dl className='grid grid-cols-1 gap-y-16 gap-x-8 text-center'>
 						{stats2.map((stat) => (
@@ -160,7 +160,7 @@ export default function About({
 								<dt className='text-base leading-7 text-gray-600'>
 									{stat.name}
 								</dt>
-								<dd className='order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl'>
+								<dd className='order-first text-3xl font-semibold tracking-tight  sm:text-5xl'>
 									{stat.value}
 								</dd>
 							</div>
@@ -172,7 +172,7 @@ export default function About({
 			<div className='mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:py-40 lg:px-8'>
 				<div className='lg:grid lg:grid-cols-12 lg:gap-8'>
 					<div className='lg:col-span-5'>
-						<h2 className='text-2xl font-bold leading-10 tracking-tight text-gray-900'>
+						<h2 className='text-2xl font-bold leading-10 tracking-tight '>
 							Frequently asked questions
 						</h2>
 						<p className='mt-4 text-base leading-7 text-gray-600'>
@@ -188,7 +188,7 @@ export default function About({
 						<dl className='space-y-10'>
 							{faqs.map((faq) => (
 								<div key={faq.question}>
-									<dt className='text-base font-semibold leading-7 text-gray-900'>
+									<dt className='text-base font-semibold leading-7 '>
 										{faq.question}
 									</dt>
 									<dd className='mt-2 text-base leading-7 text-gray-600'>

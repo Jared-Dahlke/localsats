@@ -44,7 +44,7 @@ export default function QrCodeModal({
 									<div className='text-center flex flex-col items-center justify-center'>
 										<Dialog.Title
 											as='h3'
-											className='text-lg font-medium leading-6 text-gray-900'>
+											className='text-lg font-medium leading-6 '>
 											Pay Lightning Invoice
 										</Dialog.Title>
 										<div className='text-sm text-gray-500 mt-3'>

@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import { useState } from 'react'
 
 export default function Document() {
 	const meta = {
@@ -7,6 +8,7 @@ export default function Document() {
 		image: 'https://i.postimg.cc/tg8zkHtK/shareimage.png',
 		type: 'website'
 	}
+
 	return (
 		<Html lang='en'>
 			<Head>

@@ -56,7 +56,8 @@ export default function SimpleMap({
 	const [showNewPostSuccess, setShowNewPostSuccess] = React.useState(false)
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
 	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
-
+	const [showNewPostModal, setShowNewPostModal] = React.useState(false)
+	const [showPostModal, setShowPostModal] = React.useState(false)
 	// const invoiceStatus = useCheckInvoiceStatus({
 	// 	paywallId: pendingInvoice?.paywallId,
 	// 	paymentHash: pendingInvoice?.paymentHash
@@ -88,6 +89,7 @@ export default function SimpleMap({
 
 	const handleInvoicePaid = async () => {
 		//	setShowPaymentSuccess(true)
+		setShowPostModal(false)
 		const paywallRecord: Omit<PaywallRecordType, '_id'> = {
 			userId: user,
 			postId: openPost?._id,
@@ -168,13 +170,16 @@ export default function SimpleMap({
 			return
 		}
 		setNewPost({ lat, lng })
+		setShowNewPostModal(true)
 	}
 
 	const deletePost = async (id: string) => {
-		setOpenId(null)
+		setShowPostModal(false)
+
 		await axios.post('/api/delete_post', {
 			id
 		})
+		setOpenId(null)
 		queryClient.invalidateQueries(rqKeys.postsKey())
 		queryClient.invalidateQueries(rqKeys.messagesKey())
 		queryClient.invalidateQueries(rqKeys.chatPaywallsKey())
@@ -193,7 +198,7 @@ export default function SimpleMap({
 
 	return (
 		// Important! Always set the container height explicitly
-		<div className='mt-3' style={{ height: '100vh', width: '100%' }}>
+		<div className='mt-3'>
 			<MaxPostsModal
 				open={showMaxPostsModal}
 				setOpen={() => setShowMaxPostsModal(false)}
@@ -250,26 +255,55 @@ export default function SimpleMap({
 				</div>
 			)}
 
+			<input
+				readOnly
+				checked={showPostModal}
+				type='checkbox'
+				id='post-modal'
+				className='modal-toggle'
+			/>
 			<Modal
 				post={openPost}
-				open={openId !== null}
-				setOpen={() => setOpenId(null)}
+				//	open={openId !== null}
+				setOpen={() => {
+					setShowPostModal(false)
+					setOpenId(null)
+				}}
 				//createPaywall={createPaywall}
 				createPaywall={handleInvoicePaid}
 				isCreatingPaywall={isCreatingPaywall}
 				deletePost={deletePost}
 				activeChats={groupedMessages.filter((m) => m.postId === openId)}
 				openThisChat={(chatPaywallId: string) => {
+					setShowPostModal(false)
 					setOpenChatPaywallId(chatPaywallId)
 				}}
 			/>
+
+			<input
+				readOnly
+				checked={showNewPostSuccess}
+				type='checkbox'
+				id='post-success-modal'
+				className='modal-toggle'
+			/>
+
 			<NewPostSuccessModal
 				open={showNewPostSuccess}
 				setOpen={() => setShowNewPostSuccess(false)}
 			/>
+
+			<input
+				readOnly
+				checked={showNewPostModal}
+				type='checkbox'
+				id='new-post-modal'
+				className='modal-toggle'
+			/>
+
 			<NewPostModal
-				open={!!newPost}
 				close={() => {
+					setShowNewPostModal(false)
 					setNewPost(null)
 				}}
 				handleSuccess={() => {
@@ -332,7 +366,7 @@ export default function SimpleMap({
 				}}
 			/>
 
-			<div className='md:flex md:gap-4'>
+			<div className='md:gap-4'>
 				{myPosts && myPosts.length > 0 && (
 					<MyPosts posts={myPosts} deletePost={deletePost} />
 				)}
@@ -346,45 +380,52 @@ export default function SimpleMap({
 				)}
 			</div>
 			{myPosts && myPosts.length > 0 && (
-				<div className='flex items-center mb-2 w-full justify-end gap-2'>
-					<input
-						checked={showOnlyMyPosts}
-						onChange={(e) => setShowOnlyMyPosts(e.target.checked)}
-						id='comments'
-						name='comments'
-						type='checkbox'
-						className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 '
-					/>
-					<div className='text-sm'>Show only your posts</div>
+				<div className='flex w-full justify-end'>
+					<div className='form-control'>
+						<label className='label cursor-pointer'>
+							<span className='label-text mr-2'>Show only your posts </span>
+							<input
+								checked={showOnlyMyPosts}
+								onChange={(e) => setShowOnlyMyPosts(e.target.checked)}
+								id='comments'
+								name='comments'
+								type='checkbox'
+								className='checkbox checkbox-primary'
+							/>
+						</label>
+					</div>
 				</div>
 			)}
 
 			{isLoaded && (
-				<GoogleMap
-					mapContainerStyle={containerStyle}
-					center={locationProps.center}
-					onClick={handleMapClick}
-					zoom={locationProps.zoom}>
-					{filteredPosts &&
-						filteredPosts?.map((post: PostType) => {
-							return (
-								<Marker
-									key={post._id}
-									position={{ lat: post.lat, lng: post.lng }}
-									onClick={() => {
-										setOpenId(post._id)
-									}}
-									icon={{
-										url:
-											post.type === 'sell'
-												? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
-												: 'https://img.icons8.com/color/512/us-dollar-circled.png',
-										scaledSize: new window.google.maps.Size(25, 25)
-									}}
-								/>
-							)
-						})}
-				</GoogleMap>
+				<div style={{ height: '100vh', width: '100%' }}>
+					<GoogleMap
+						mapContainerStyle={containerStyle}
+						center={locationProps.center}
+						onClick={handleMapClick}
+						zoom={locationProps.zoom}>
+						{filteredPosts &&
+							filteredPosts?.map((post: PostType) => {
+								return (
+									<Marker
+										key={post._id}
+										position={{ lat: post.lat, lng: post.lng }}
+										onClick={() => {
+											setOpenId(post._id)
+											setShowPostModal(true)
+										}}
+										icon={{
+											url:
+												post.type === 'sell'
+													? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
+													: 'https://img.icons8.com/color/512/us-dollar-circled.png',
+											scaledSize: new window.google.maps.Size(25, 25)
+										}}
+									/>
+								)
+							})}
+					</GoogleMap>
+				</div>
 			)}
 
 			<div

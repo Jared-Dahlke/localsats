@@ -77,20 +77,38 @@ export default function Home({
 				}}
 			/>
 
-			<h3 className=' font-medium leading-6 text-gray-900'>
-				Welcome, {getNameFromId(user)}
-			</h3>
-			<p className='mt-2 text-sm text-gray-500 mb-3'>
+			<h3 className=' font-medium leading-6'>Welcome, {getNameFromId(user)}</h3>
+			<p className='mt-2 text-sm  mb-3'>
 				To create a new post to buy or sell bitcoin, just click anywhere on the
 				map. To see other peoples posts, click on the icons on the map.
 			</p>
 
-			<div className='bg-white shadow sm:rounded-lg'>
+			<div
+				tabIndex={0}
+				className='collapse collapse-arrow border border-base-300 bg-base-100 rounded-box'>
+				<div className='collapse-title text-xl font-medium'>
+					Focus me to see content
+				</div>
+				<div className='collapse-content'>
+					<p>tabIndex={0} attribute is necessary to make the div focusable</p>
+				</div>
+			</div>
+
+			<div
+				tabIndex={0}
+				className='mt-8 collapse collapse-arrow border border-base-300 bg-base-100 rounded-box'>
+				<div className='collapse-title text-xl font-medium'>
+					Focus me to see content
+				</div>
+				<div className='collapse-content'>
+					<p>tabIndex={0} attribute is necessary to make the div focusable</p>
+				</div>
+			</div>
+
+			<div className=' shadow sm:rounded-lg'>
 				<div className='px-4 py-5 sm:p-6'>
-					<h3 className='text-md font-medium leading-6 text-gray-900'>
-						Add an email?
-					</h3>
-					<div className='mt-2 max-w-xl text-sm text-gray-500'>
+					<h3 className='text-md font-medium leading-6 '>Add an email?</h3>
+					<div className='mt-2 max-w-xl text-sm '>
 						<p>
 							{`If you'd like to receive an email when someone messages you, add an
 							email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.`}
@@ -108,7 +126,7 @@ export default function Home({
 								onChange={(e) => {
 									setEmail(e.target.value)
 								}}
-								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+								className='input input-bordered w-full'
 								placeholder='you@example.com (optional)'
 								defaultValue={userEmail}
 							/>
@@ -116,14 +134,14 @@ export default function Home({
 						<button
 							disabled={!EmailValidator.validate(email) && email !== ''}
 							onClick={saveEmail}
-							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
+							className='btn-primary btn  mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
 							Save
 						</button>
 					</div>
 				</div>
 			</div>
 
-			<div className='bg-white shadow sm:rounded-lg mt-3'>
+			<div className=' shadow sm:rounded-lg mt-3'>
 				<div className='px-4 py-5 sm:p-6'>
 					{!privateKeyPassphrase && (
 						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
@@ -159,7 +177,7 @@ export default function Home({
 												})
 												router.reload() // reload page to make pgp cookie available
 											}}
-											className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto sm:text-sm'>
+											className='btn-primary btn ml-2'>
 											Generate new PGP key pair
 										</button>
 									</div>
@@ -167,10 +185,10 @@ export default function Home({
 							</div>
 						</div>
 					)}
-					<h3 className='text-md font-medium leading-6 text-gray-900'>
+					<h3 className='text-md font-medium leading-6 '>
 						Your Messages are end-to-end encrypted using PGP
 					</h3>
-					<div className='mt-2 max-w-xl text-sm text-gray-500'>
+					<div className='mt-2 max-w-xl text-sm '>
 						<p>
 							{`Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie.  Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.`}
 						</p>
@@ -187,22 +205,22 @@ export default function Home({
 								onChange={(e) => {
 									setPassphrase(e.target.value)
 								}}
-								className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+								className='input input-bordered w-full'
 								placeholder='your PGP passphrase...'
 								defaultValue={privateKeyPassphrase}
 							/>
 						</div>
 						<button
-							disabled={passphrase.length < 1}
+							//disabled={passphrase.length < 1}
 							onClick={async () => {
 								setCookie('privateKeyPassphrase', passphrase, {
 									maxAge: 2147483647,
 									path: '/'
 								})
 
-								//	router.reload()
+								router.reload()
 							}}
-							className='disabled:opacity-50 disabled:cursor-not-allowed mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
+							className='btn-primary btn mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
 							Save
 						</button>
 					</div>

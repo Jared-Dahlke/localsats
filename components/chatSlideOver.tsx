@@ -109,7 +109,7 @@ export function ChatSlideOver({
 
 	return (
 		<Transition.Root show={open} as={Fragment}>
-			<Dialog as='div' className='relative z-10' onClose={setOpen}>
+			<Dialog as='div' className='relative z-20' onClose={setOpen}>
 				<div className='fixed inset-0' />
 
 				<div className='fixed inset-0 overflow-hidden'>
@@ -128,7 +128,7 @@ export function ChatSlideOver({
 										{/* header */}
 										<div className='px-4 sm:px-6 py-6 flex-none grow-1'>
 											<div className='flex items-start justify-between'>
-												<Dialog.Title className='text-lg font-medium text-gray-900'>
+												<Dialog.Title className='text-lg font-medium '>
 													Chat about postId:{' '}
 													{messages ? getPostId(messages[0]?.postId) : ''} with
 													user{' '}
