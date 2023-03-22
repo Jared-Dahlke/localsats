@@ -230,28 +230,25 @@ export default function SimpleMap({
 				</div>
 			)}
 			{myPosts && myPosts.length > 0 && messages && messages.length < 1 && (
-				<div className='rounded-md bg-green-50 p-4 mt-5'>
-					<div className='flex'>
-						<div className='flex-shrink-0'>
-							<CheckCircleIcon
-								className='h-5 w-5 text-green-400'
-								aria-hidden='true'
+				<div className='alert alert-success shadow-lg'>
+					<div>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='stroke-current flex-shrink-0 h-6 w-6'
+							fill='none'
+							viewBox='0 0 24 24'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth='2'
+								d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
 							/>
-						</div>
-						<div className='ml-3'>
-							<h3 className='text-sm font-medium text-green-800'>
-								{myPosts && myPosts.length > 1
-									? 'You have active posts'
-									: 'Your post is active'}
-							</h3>
-							<div className='mt-2 text-sm text-green-700'>
-								<p>
-									Check back later to see if someone messaged you. Or if you
-									have an email saved, you will receive an email when someone
-									messages you.
-								</p>
-							</div>
-						</div>
+						</svg>
+						<span>
+							{myPosts && myPosts.length > 1
+								? 'You have active posts'
+								: 'Your post is active'}
+						</span>
 					</div>
 				</div>
 			)}

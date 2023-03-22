@@ -24,8 +24,9 @@ export function NewPostSuccessModal({
 							<h3 className='text-lg font-medium leading-6 '>Post created</h3>
 							<div className='mt-2'>
 								<p className='text-sm text-gray-500'>
-									Check back later to see if anyone has messaged you about your
-									post.
+									Check back later to see if someone messaged you. Or if you
+									have an email saved, you will receive an email when someone
+									messages you.
 								</p>
 							</div>
 						</div>
