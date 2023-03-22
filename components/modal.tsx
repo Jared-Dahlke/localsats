@@ -32,12 +32,11 @@ export default function Modal({
 	return (
 		<div className='modal'>
 			<div className='modal-box relative'>
-				<label
+				<button
 					onClick={() => setOpen(false)}
-					htmlFor='my-modal'
-					className='btn-ghost btn btn-sm btn-circle absolute right-4 top-4'>
+					className='btn-ghost btn btn-sm btn-circle absolute right-4 top-4 z-20'>
 					<XMarkIcon />
-				</label>
+				</button>
 
 				<section className='py-6'>
 					<div className='text-center'>
