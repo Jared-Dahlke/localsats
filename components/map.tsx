@@ -367,7 +367,7 @@ export default function SimpleMap({
 				}}
 			/>
 
-			<div className='md:gap-4 prose'>
+			<div className='md:gap-4 prose max-w-none'>
 				{myPosts && myPosts.length > 0 && (
 					<MyPosts posts={myPosts} deletePost={deletePost} />
 				)}

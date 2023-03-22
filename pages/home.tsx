@@ -76,7 +76,7 @@ export default function Home({
 					setShowWelcomeModal(false)
 				}}
 			/>
-			<div className='prose'>
+			<div className='prose max-w-none'>
 				<h1>Welcome, {getNameFromId(user)}</h1>
 
 				<p className='mt-2 text-sm  mb-8'>

@@ -82,7 +82,7 @@ export function Layout({ children }: { children: ReactNode }) {
 					<div className='dropdown dropdown-end'>
 						<label
 							tabIndex={0}
-							className='btn btn-ghost btn-circle avatar bg-base-100'>
+							className='btn btn-ghost btn-circle mr-1 avatar bg-base-100'>
 							<div className='w-10 rounded-full'>
 								<img src={`https://robohash.org/${user}.png?size=500x500`} />
 							</div>
@@ -106,7 +106,7 @@ export function Layout({ children }: { children: ReactNode }) {
 				</div>
 			</header>
 			<main>
-				<div className='mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8'>
+				<div className='mx-auto py-4 px-4 sm:px-6 lg:px-8'>
 					{/* Replace with your content */}
 					{children}
 					{/* /End replace */}
