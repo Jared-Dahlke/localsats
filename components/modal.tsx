@@ -34,7 +34,8 @@ export default function Modal({
 			<div className='modal-box relative'>
 				<button
 					onClick={() => setOpen(false)}
-					className='btn-ghost btn btn-sm btn-circle absolute right-4 top-4 z-20'>
+					//absolute right-4 top-4 z-20
+					className='btn-ghost btn btn-sm btn-circle'>
 					<XMarkIcon />
 				</button>
 

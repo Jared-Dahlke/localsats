@@ -98,15 +98,15 @@ export function Layout({ children }: { children: ReactNode }) {
 				</div>
 			</div>
 
-			<header className=' shadow-sm'>
+			{/* <header className=' shadow-sm'>
 				<div className='mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8'>
 					<h1 className='text-lg font-semibold leading-6 '>
 						{currentNavItem?.name}
 					</h1>
 				</div>
-			</header>
+			</header> */}
 			<main>
-				<div className='mx-auto py-4 px-4 sm:px-6 lg:px-8'>
+				<div className='mx-auto py-8 px-4 sm:px-6 lg:px-8'>
 					{/* Replace with your content */}
 					{children}
 					{/* /End replace */}
