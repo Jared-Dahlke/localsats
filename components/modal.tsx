@@ -34,7 +34,6 @@ export default function Modal({
 			<div className='modal-box relative'>
 				<button
 					onClick={() => setOpen(false)}
-					//absolute right-4 top-4 z-20
 					className='btn btn-sm btn-circle btn-outline absolute right-2 top-2'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
