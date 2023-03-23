@@ -32,7 +32,7 @@ export default function Home({
 	privateKeyPassphrase
 }: IProps) {
 	const [email, setEmail] = React.useState('')
-	const [passphrase, setPassphrase] = React.useState('')
+	const [passphrase, setPassphrase] = React.useState(privateKeyPassphrase)
 
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 	const router = useRouter()
@@ -148,11 +148,11 @@ export default function Home({
 										</h3>
 										<div className='mt-2 text-sm text-yellow-700'>
 											<p>
-												We have a record of your PGP public key, but your
-												private key is not found in your cookies. You have 2
-												options:
+												We have a record of your PGP public and private keys,
+												but your auto-generated passphrase is not found in your
+												cookies. You have 2 options:
 												<br />
-												1. (Recommended) Get your private key from the first
+												1. (Recommended) Get your passphrase from the first
 												device you logged into with this account and save it in
 												the input field below. This will allow you to decrypt
 												old messages and future messages.
@@ -194,9 +194,10 @@ export default function Home({
 									onChange={(e) => {
 										setPassphrase(e.target.value)
 									}}
+									value={passphrase}
 									className='input input-bordered w-full'
 									placeholder='your PGP passphrase...'
-									defaultValue={privateKeyPassphrase}
+									//defaultValue={privateKeyPassphrase}
 								/>
 							</div>
 							<button
