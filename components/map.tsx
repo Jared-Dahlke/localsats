@@ -1,5 +1,10 @@
 import React from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
+import {
+	GoogleMap,
+	useJsApiLoader,
+	Marker,
+	MarkerClusterer
+} from '@react-google-maps/api'
 
 import Modal from './modal'
 import axios from 'axios'
@@ -402,26 +407,31 @@ export default function SimpleMap({
 						center={locationProps.center}
 						onClick={handleMapClick}
 						zoom={locationProps.zoom}>
-						{filteredPosts &&
-							filteredPosts?.map((post: PostType) => {
-								return (
-									<Marker
-										key={post._id}
-										position={{ lat: post.lat, lng: post.lng }}
-										onClick={() => {
-											setOpenId(post._id)
-											setShowPostModal(true)
-										}}
-										icon={{
-											url:
-												post.type === 'sell'
-													? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
-													: 'https://img.icons8.com/color/512/us-dollar-circled.png',
-											scaledSize: new window.google.maps.Size(25, 25)
-										}}
-									/>
-								)
-							})}
+						<MarkerClusterer>
+							{(clusterer) =>
+								filteredPosts &&
+								filteredPosts?.map((post: PostType) => {
+									return (
+										<Marker
+											clusterer={clusterer}
+											key={post._id}
+											position={{ lat: post.lat, lng: post.lng }}
+											onClick={() => {
+												setOpenId(post._id)
+												setShowPostModal(true)
+											}}
+											icon={{
+												url:
+													post.type === 'sell'
+														? 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
+														: 'https://img.icons8.com/color/512/us-dollar-circled.png',
+												scaledSize: new window.google.maps.Size(25, 25)
+											}}
+										/>
+									)
+								})
+							}
+						</MarkerClusterer>
 					</GoogleMap>
 				</div>
 			)}
