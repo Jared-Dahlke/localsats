@@ -19,22 +19,20 @@ const RecipientMessage = ({
 	sentDate: string
 }) => {
 	return (
-		<div className='chat-message'>
-			<div className='flex items-end'>
-				<div className='relative flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'>
-					<div>
-						<span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600'>
-							{message}
-						</span>
-					</div>
-					<div className='text-gray-400 text-xs absolute -bottom-4 w-36 text-left'>
-						{dayjs(sentDate).calendar()}
-					</div>
-				</div>
-				<div className='w-6 h-6 rounded-full order-1 bg-slate-300'>
-					<UserCircleIcon className='w-6 h-6 text-white' />
+		<div className='chat chat-start'>
+			<div className='chat-image avatar'>
+				<div className='w-10 rounded-full'>
+					<UserCircleIcon className='w-8 h-8' />
 				</div>
 			</div>
+			<div className='chat-header'>
+				Other user
+				<time className='text-xs opacity-50 ml-2'>
+					{dayjs(sentDate).calendar()}
+				</time>
+			</div>
+			<div className='chat-bubble'>{message}</div>
+			<div className='chat-footer opacity-50'>Delivered</div>
 		</div>
 	)
 }
@@ -47,22 +45,20 @@ const YourMessage = ({
 	sentDate: string
 }) => {
 	return (
-		<div className='chat-message'>
-			<div className='flex items-end justify-end'>
-				<div className='relative flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end'>
-					<div>
-						<span className='px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white '>
-							{message}
-						</span>
-					</div>
-					<div className='text-gray-400 text-xs absolute -bottom-4 w-36 text-right'>
-						{dayjs(sentDate).calendar()}
-					</div>
-				</div>
-				<div className='w-6 h-6 rounded-full order-1 bg-blue-500'>
-					<UserCircleIcon className='w-6 h-6 text-white' />
+		<div className='chat chat-end'>
+			<div className='chat-image avatar'>
+				<div className='w-10 rounded-full'>
+					<UserCircleIcon className='w-8 h-8' />
 				</div>
 			</div>
+			<div className='chat-header'>
+				You
+				<time className='text-xs opacity-50 ml-2'>
+					{dayjs(sentDate).calendar()}
+				</time>
+			</div>
+			<div className='chat-bubble chat-bubble-primary'>{message}</div>
+			<div className='chat-footer opacity-50'>Delivered</div>
 		</div>
 	)
 }
@@ -124,7 +120,7 @@ export function ChatSlideOver({
 								leaveFrom='translate-x-0'
 								leaveTo='translate-x-full'>
 								<Dialog.Panel className='pointer-events-auto w-full'>
-									<div className='flex h-full flex-col justify-between  bg-white py-3 shadow-xl'>
+									<div className='flex h-full flex-col justify-between  bg-base-100 py-3 shadow-xl'>
 										{/* header */}
 										<div className='px-4 sm:px-6 py-6 flex-none grow-1'>
 											<div className='flex items-start justify-between'>
@@ -139,7 +135,7 @@ export function ChatSlideOver({
 												<div className='ml-3 flex h-7 items-center'>
 													<button
 														type='button'
-														className='rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+														className='rounded-md bg-base-300 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
 														onClick={() => setOpen(false)}>
 														<span className='sr-only'>Close panel</span>
 														<XMarkIcon className='h-6 w-6' aria-hidden='true' />
@@ -151,7 +147,7 @@ export function ChatSlideOver({
 										{/* messages */}
 										<div
 											id='messages'
-											className='flex flex-col space-y-6 px-3 py-6 h-full overflow-y-auto '>
+											className='flex flex-col space-y-12 px-3 py-6 h-full overflow-y-auto '>
 											{messages &&
 												messages.map((message) => {
 													const fromMe = message.fromUserId === user
@@ -186,11 +182,16 @@ export function ChatSlideOver({
 
 const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
 	const [message, setMessage] = useState('')
+	const sendMessage = () => {
+		const messageCopy = JSON.parse(JSON.stringify(message))
+		createMessageMutation(messageCopy)
+		setMessage('')
+	}
 	return (
 		<div className='grow-1 items-start space-x-4 p-3'>
 			<div className='min-w-0 flex-1'>
 				<div className='relative'>
-					<div className='overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500'>
+					<div className='overflow-hidden rounded-lg   '>
 						<label htmlFor='comment' className='sr-only'>
 							Send a message
 						</label>
@@ -198,35 +199,26 @@ const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
 							rows={3}
 							name='comment'
 							id='comment'
-							className='block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm'
+							className='textarea border-base-300 block w-full resize-none py-3  bg-base-100'
 							placeholder='Send a message...'
 							onChange={(e) => setMessage(e.target.value)}
 							autoFocus
 							value={message}
+							onKeyUp={(e) => {
+								if (e.key === 'Enter') {
+									sendMessage()
+								}
+							}}
 						/>
-
-						{/* Spacer element to match the height of the toolbar */}
-						<div className='py-2' aria-hidden='true'>
-							{/* Matches height of button in toolbar (1px border + 36px content height) */}
-							<div className='py-px'>
-								<div className='h-9' />
-							</div>
-						</div>
 					</div>
 
-					<div className='absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2'>
+					<div className='flex justify-between py-2 pl-3 pr-2'>
 						<div className='flex items-center space-x-5'>
 							<div className='flex items-center'></div>
 						</div>
 						<div className='flex-shrink-0'>
-							<button
-								onClick={() => {
-									const messageCopy = JSON.parse(JSON.stringify(message))
-									createMessageMutation(messageCopy)
-									setMessage('')
-								}}
-								className='btn btn-primary '>
-								Post
+							<button onClick={sendMessage} className='btn btn-primary '>
+								Send
 							</button>
 						</div>
 					</div>

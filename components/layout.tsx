@@ -1,11 +1,10 @@
-import React, { Fragment, ReactNode } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import React, { ReactNode } from 'react'
+import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { classNames, getNameFromId, handleLogout } from '../utils/utils'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { browser } from 'process'
 
 export function Layout({ children }: { children: ReactNode }) {
 	const router = useRouter()
@@ -86,7 +85,7 @@ export function Layout({ children }: { children: ReactNode }) {
 									<div className='ml-4 flex items-center md:ml-6'>
 										{/* Profile dropdown */}
 
-										<label className='swap swap-rotate text-base-200 mr-3'>
+										<label className='swap swap-rotate text-base-200 mr-5'>
 											<input
 												onChange={() => {
 													setTheme((prev) =>
@@ -113,46 +112,25 @@ export function Layout({ children }: { children: ReactNode }) {
 											</svg>
 										</label>
 
-										<Menu as='div' className='relative ml-3'>
-											<div>
-												<Menu.Button className='flex max-w-xs items-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
-													<span className='sr-only'>Open user menu</span>
-													<img
-														className='h-8 w-8 rounded-full'
-														src={`https://robohash.org/${user}.png?size=500x500`}
-														alt=''
-														style={{
-															background: 'white'
-														}}
-													/>
-												</Menu.Button>
-											</div>
-											<Transition
-												as={Fragment}
-												enter='transition ease-out duration-100'
-												enterFrom='transform opacity-0 scale-95'
-												enterTo='transform opacity-100 scale-100'
-												leave='transition ease-in duration-75'
-												leaveFrom='transform opacity-100 scale-100'
-												leaveTo='transform opacity-0 scale-95'>
-												<Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-													{userNavigation.map((item) => (
-														<Menu.Item key={item.name}>
-															{({ active }) => (
-																<a
-																	onClick={item.handleClick}
-																	className={classNames(
-																		active ? 'bg-gray-100' : '',
-																		'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
-																	)}>
-																	{item.name}
-																</a>
-															)}
-														</Menu.Item>
-													))}
-												</Menu.Items>
-											</Transition>
-										</Menu>
+										<div className=' dropdown dropdown-end'>
+											<label tabIndex={0} className=''>
+												<img
+													className='h-8 w-8 rounded-full cursor-pointer'
+													src={`https://robohash.org/${user}.png?size=500x500`}
+													alt=''
+													style={{
+														background: 'white'
+													}}
+												/>
+											</label>
+											<ul
+												tabIndex={0}
+												className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
+												<li>
+													<a onClick={handleLogout}>Sign Out</a>
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 								<div className='-mr-2 flex md:hidden'>
@@ -174,9 +152,7 @@ export function Layout({ children }: { children: ReactNode }) {
 								{navigation.map((item) => (
 									<Disclosure.Button
 										key={item.name}
-										//		as='a'
 										onClick={item.handleClick}
-										///		href={item.href}
 										className={classNames(
 											item.current
 												? 'bg-gray-900 text-white'

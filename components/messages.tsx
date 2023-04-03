@@ -26,7 +26,7 @@ export function Messages({
 					</div>
 				</div>
 
-				<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
+				<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg'>
 					<table className='table w-full mt-0 mb-0'>
 						<thead>
 							<tr>

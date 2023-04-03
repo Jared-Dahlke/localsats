@@ -31,7 +31,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 				</div>
 			</div>
 
-			<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg '>
+			<div className='overflow-x-auto shadow rounded-lg ring-1 ring-black ring-opacity-5'>
 				<table className='table min-w-full mt-0 mb-0'>
 					<thead>
 						<tr>

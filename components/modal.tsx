@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function Modal({
-	open,
 	setOpen,
 	post,
 	createPaywall,
@@ -16,7 +15,6 @@ export default function Modal({
 	openThisChat,
 	isCreatingPaywall
 }: {
-	open: boolean
 	setOpen: any
 	post: any
 	createPaywall: any
