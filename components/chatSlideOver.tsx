@@ -199,7 +199,7 @@ const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
 							rows={3}
 							name='comment'
 							id='comment'
-							className='textarea border-base-300 block w-full resize-none py-3  bg-base-100'
+							className='textarea border-base-300 block w-full resize-none py-3  bg-base-100 text-lg'
 							placeholder='Send a message...'
 							onChange={(e) => setMessage(e.target.value)}
 							autoFocus
