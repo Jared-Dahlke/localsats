@@ -6,7 +6,7 @@ import {
 } from '../utils/utils'
 import { GroupedMessage } from '../types/types'
 import { useSession } from 'next-auth/react'
-
+import { useEffect, useState } from 'react'
 export default function Modal({
 	setOpen,
 	post,
@@ -27,6 +27,12 @@ export default function Modal({
 	const session = useSession()
 	const user = session?.data?.user?.userId
 	const isMyPost = user === post?.userId
+
+	// we have to set date in a useEffect to avoid hydration errors
+	const [postDate, setPostDate] = useState('')
+	useEffect(() => {
+		setPostDate(getCalendarDate(post?.postedAt))
+	}, [post])
 
 	return (
 		<div className='modal'>
@@ -53,8 +59,8 @@ export default function Modal({
 					<div className='text-center'>
 						<div className='text-md flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
-							{post?.amount} bitcoin. Posted {getCalendarDate(post?.postedAt)}.
-							Post ID: {getPostId(post?._id)}
+							{post?.amount} bitcoin. Posted {postDate}. Post ID:{' '}
+							{getPostId(post?._id)}
 						</div>
 					</div>
 				</section>
