@@ -51,7 +51,7 @@ const YourMessage = ({
 			<div className='chat-header'>
 				You
 				<time className='text-xs opacity-50 ml-2'>
-					{dayjs(sentDate).calendar()}
+					{getCalendarDate(sentDate)}
 				</time>
 			</div>
 			<div className='chat-bubble chat-bubble-primary'>{message}</div>
