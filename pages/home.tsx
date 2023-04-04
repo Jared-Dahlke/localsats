@@ -10,7 +10,12 @@ import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
-import { MessageType, PaywallRecordType, PostType } from '@/types/types'
+import {
+	MessageType,
+	PaywallRecordType,
+	PostType,
+	UserType
+} from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
 import {
@@ -39,6 +44,7 @@ import { MyPosts } from '@/components/myPosts'
 
 interface IProps {
 	user: string
+	userFromDatabase: UserType
 	posts: PostType[]
 	messages: MessageType[]
 	privateKeyPassphrase: string | undefined
@@ -56,7 +62,8 @@ export default function Home({
 	user,
 	posts: initialPosts,
 	messages: initialMessages,
-	privateKeyPassphrase
+	privateKeyPassphrase,
+	userFromDatabase: initialUser
 }: IProps) {
 	const posts = usePosts({ initialPosts })
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
@@ -114,7 +121,7 @@ export default function Home({
 	}, [user])
 
 	const userFromDatabase = useDatabaseUser({ userId: user })
-	const userEmail = userFromDatabase?.data?.data?.email
+	//const userEmail = userFromDatabase?.data?.data?.email
 
 	const deletePost = async (id: string) => {
 		setShowPostModal(false)
@@ -383,7 +390,7 @@ export default function Home({
 									}}
 									className='input input-bordered w-full'
 									placeholder='you@example.com (optional)'
-									defaultValue={userEmail}
+									defaultValue={initialUser?.email}
 								/>
 							</div>
 							<button
@@ -682,10 +689,10 @@ export const getServerSideProps = async function ({ req, res }) {
 	const posts = await getPosts()
 	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
 	const messages = await getMessages(user, privateKeyPassphrase)
-
 	return {
 		props: {
 			user,
+			userFromDatabase: JSON.parse(JSON.stringify(userFromDb)),
 			posts: JSON.parse(JSON.stringify(posts)),
 			messages: JSON.parse(JSON.stringify(messages)),
 			privateKeyPassphrase: privateKeyPassphrase || null

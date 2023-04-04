@@ -1,5 +1,7 @@
 import LnurlAuthSignIn from './auth/signin/lnurl'
 import { getEncoded } from './api/auth/lnurl/generate-secret'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]'
 
 export default function Login({ lnurlAuthLoginInfo }: any) {
 	return (
@@ -76,6 +78,15 @@ export default function Login({ lnurlAuthLoginInfo }: any) {
 }
 
 export const getServerSideProps = async function ({ req, res }) {
+	const session = await getServerSession(req, res, authOptions)
+	if (session) {
+		return {
+			redirect: {
+				destination: '/home',
+				permanent: false
+			}
+		}
+	}
 	const lnurlAuthLoginInfo = await getEncoded()
 
 	return {

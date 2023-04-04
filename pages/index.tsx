@@ -4,6 +4,8 @@ import mapPic from '../public/buysellmap.jpg'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Footer } from '@/components/footer'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]'
 
 export default function WelcomePage() {
 	const router = useRouter()
@@ -92,8 +94,8 @@ export default function WelcomePage() {
 }
 
 export const getServerSideProps = async function ({ req, res }) {
-	const user = req?.session?.passport?.user
-	if (user) {
+	const session = await getServerSession(req, res, authOptions)
+	if (session) {
 		return {
 			redirect: {
 				destination: '/home',

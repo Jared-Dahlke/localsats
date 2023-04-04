@@ -1,3 +1,13 @@
+export type UserType = {
+	userId: string
+	createDate: Date
+	seenWelcome: boolean
+	pgpPrivateKeyEncrypted?: string
+	pgpPublicKey?: string
+	updatedPrivateKeysDate?: Date
+	email?: string
+}
+
 export type PostType = {
 	_id: string
 	type: string
