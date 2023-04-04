@@ -53,7 +53,7 @@ export default function Modal({
 						<div className='text-sm text-gray-500 flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
 							{post?.amount} bitcoin. Posted{' '}
-							{/* {dayjs(post?.postedAt).format('MMMM D, YYYY h:mm A')}. Post ID:{' '} */}
+							{dayjs(post?.postedAt).format('MMMM D, YYYY h:mm A')}. Post ID:{' '}
 							{getPostId(post?._id)}
 						</div>
 					</div>
