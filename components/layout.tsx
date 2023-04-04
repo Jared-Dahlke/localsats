@@ -38,15 +38,8 @@ export function Layout({ children }: { children: ReactNode }) {
 
 	const [theme, setTheme] = React.useState<'dark' | 'light'>('light')
 
-	React.useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const doc = document.querySelector('html')
-			doc && doc.setAttribute('data-theme', theme)
-		}
-	}, [theme])
-
 	return (
-		<div>
+		<div data-theme={theme}>
 			<Disclosure as='nav' className='bg-primary'>
 				{({ open }) => (
 					<>
