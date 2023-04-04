@@ -1,10 +1,11 @@
-import { Fragment } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import dayjs from 'dayjs'
-import { classNames, getNameFromId, getPostId } from '../utils/utils'
+import {
+	classNames,
+	getCalendarDate,
+	getNameFromId,
+	getPostId
+} from '../utils/utils'
 import { GroupedMessage } from '../types/types'
 import { useSession } from 'next-auth/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function Modal({
 	setOpen,
@@ -50,11 +51,10 @@ export default function Modal({
 
 				<section className='py-6'>
 					<div className='text-center'>
-						<div className='text-sm text-gray-500 flex'>
+						<div className='text-md flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
-							{post?.amount} bitcoin. Posted{' '}
-							{/* {dayjs(post?.postedAt).format('MMMM D, YYYY h:mm A')}. Post ID:{' '} */}
-							{getPostId(post?._id)}
+							{post?.amount} bitcoin. Posted {getCalendarDate(post?.postedAt)}.
+							Post ID: {getPostId(post?._id)}
 						</div>
 					</div>
 				</section>

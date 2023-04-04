@@ -1,15 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { UserCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { getNameFromId, getPostId } from '../utils/utils'
+import { getCalendarDate, getNameFromId, getPostId } from '../utils/utils'
 import { MessageType } from '../types/types'
 import Axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { rqKeys } from '../constants'
 import { useSession } from 'next-auth/react'
-import dayjs from 'dayjs'
-var calendar = require('dayjs/plugin/calendar')
-dayjs.extend(calendar)
 
 const RecipientMessage = ({
 	message,
@@ -28,7 +25,7 @@ const RecipientMessage = ({
 			<div className='chat-header'>
 				Other user
 				<time className='text-xs opacity-50 ml-2'>
-					{dayjs(sentDate).calendar()}
+					{getCalendarDate(sentDate)}
 				</time>
 			</div>
 			<div className='chat-bubble'>{message}</div>
