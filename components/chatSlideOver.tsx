@@ -13,7 +13,7 @@ const RecipientMessage = ({
 	sentDate
 }: {
 	message: string
-	sentDate: string
+	sentDate: Date
 }) => {
 	return (
 		<div className='chat chat-start'>
@@ -39,7 +39,7 @@ const YourMessage = ({
 	sentDate
 }: {
 	message: string
-	sentDate: string
+	sentDate: Date
 }) => {
 	return (
 		<div className='chat chat-end'>
@@ -100,6 +100,11 @@ export function ChatSlideOver({
 		}
 	}, [open])
 
+	const otherPartyUserId =
+		messages[0]?.toUserId === user
+			? messages[0]?.fromUserId
+			: messages[0]?.toUserId
+
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog as='div' className='relative z-20' onClose={setOpen}>
@@ -117,22 +122,32 @@ export function ChatSlideOver({
 								leaveFrom='translate-x-0'
 								leaveTo='translate-x-full'>
 								<Dialog.Panel className='pointer-events-auto w-full'>
-									<div className='flex h-full flex-col justify-between  bg-base-100 py-3 shadow-xl'>
+									<div className='flex h-full flex-col justify-between bg-base-100 pb-0 shadow-xl'>
 										{/* header */}
-										<div className='px-4 sm:px-6 py-6 flex-none grow-1'>
-											<div className='flex items-start justify-between'>
-												<Dialog.Title className='text-lg font-medium '>
-													Chat about postId:{' '}
-													{messages ? getPostId(messages[0]?.postId) : ''} with
-													user{' '}
-													{messages[0]?.toUserId === user
-														? getNameFromId(messages[0]?.fromUserId)
-														: getNameFromId(messages[0]?.toUserId)}
-												</Dialog.Title>
-												<div className='ml-3 flex h-7 items-center'>
+										<div className='px-4 sm:px-6 py-6 flex-none grow-1 bg-base-200 h-32'>
+											<div className='text-sm text-base-content justify-center flex w-full items-center flex-col gap-1 relative'>
+												<img
+													className='h-12 w-12 rounded-full bg-base-100'
+													src={`https://robohash.org/${otherPartyUserId}.png?size=500x500`}
+													alt=''
+												/>
+												{getNameFromId(otherPartyUserId)}
+
+												<div className='absolute top-0 left-0 prose'>
+													<h2 className='mb-0'>Chat</h2>
+													<h3 className='text-primary mb-0'>
+														PostID:{' '}
+														{messages ? getPostId(messages[0]?.postId) : ''}
+													</h3>
+													{/* <button className='btn btn-xs btn-outline'>
+														Report this user
+													</button> */}
+												</div>
+
+												<div className='absolute top-0 right-0'>
 													<button
 														type='button'
-														className='rounded-md bg-base-300 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+														className='btn btn-ghost btn-square'
 														onClick={() => setOpen(false)}>
 														<span className='sr-only'>Close panel</span>
 														<XMarkIcon className='h-6 w-6' aria-hidden='true' />
@@ -185,7 +200,7 @@ const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
 		setMessage('')
 	}
 	return (
-		<div className='grow-1 items-start space-x-4 p-3'>
+		<div className='grow-1 items-start space-x-4 p-3  bg-base-200'>
 			<div className='min-w-0 flex-1'>
 				<div className='relative'>
 					<div className='overflow-hidden rounded-lg   '>

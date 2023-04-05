@@ -24,4 +24,4 @@ export const getRoboHash = (userId: string) => {
 	return `https://robohash.org/${userId}.png?size=500x500`
 }
 
-export const getCalendarDate = (date: string) => dayjs(date).calendar()
+export const getCalendarDate = (date: Date) => dayjs(date).calendar()

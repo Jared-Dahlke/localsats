@@ -47,7 +47,13 @@ export const getMessages = async (
 
 		return finalMessages
 	} catch (err) {
-		console.log('err', err)
+		if (
+			!err.message.includes(
+				'Error decrypting private key: Incorrect key passphrase'
+			)
+		) {
+			console.error(err)
+		}
 		return messages
 	}
 }
