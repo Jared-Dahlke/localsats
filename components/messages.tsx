@@ -27,7 +27,7 @@ export function Messages({
 				</div>
 
 				<div className='overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg'>
-					<table className='table w-full mt-0 mb-0'>
+					<table className='table table-normal  w-full mt-0 mb-0'>
 						<thead>
 							<tr>
 								<th className='!z-0'>Post ID</th>

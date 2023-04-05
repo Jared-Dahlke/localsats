@@ -32,7 +32,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 			</div>
 
 			<div className='overflow-x-auto shadow rounded-lg ring-1 ring-black ring-opacity-5'>
-				<table className='table min-w-full mt-0 mb-0'>
+				<table className='table table-normal min-w-full mt-0 mb-0'>
 					<thead>
 						<tr>
 							<th className='!z-0'>Type</th>
