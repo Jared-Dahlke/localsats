@@ -10,9 +10,13 @@ export default function Document() {
 	}
 
 	return (
-		<Html lang='en'>
+		<Html>
 			<Head>
 				<link rel='icon' href='/bitcoin.svg' />
+				<meta
+					name='keywords'
+					content='buy bitcoin anonymously, buy bitcoin near me'
+				/>
 				<meta name='robots' content='follow, index' />
 				<meta content={meta.description} name='description' />
 				<meta property='og:type' content={meta.type} />
