@@ -3,6 +3,7 @@ import { GroupedMessage } from '../types/types'
 import { getNameFromId, getPostId } from '../utils/utils'
 import React from 'react'
 import { useSession } from 'next-auth/react'
+import { useText } from '@/hooks/useText'
 
 export function Messages({
 	messages,
@@ -15,6 +16,7 @@ export function Messages({
 	setLocationProps: (val: any) => void
 	posts: any
 }) {
+	const t = useText()
 	const session = useSession()
 	const user = session?.data?.user?.userId
 	return (
@@ -22,7 +24,7 @@ export function Messages({
 			<div className='w-full my-8'>
 				<div className='sm:flex sm:items-center'>
 					<div className='sm:flex-auto'>
-						<h2>Your Messages</h2>
+						<h2>{t.yourMessages}</h2>
 					</div>
 				</div>
 
@@ -30,9 +32,9 @@ export function Messages({
 					<table className='table table-normal  w-full mt-0 mb-0'>
 						<thead>
 							<tr>
-								<th className='!z-0'>Post ID</th>
-								<th>Other party</th>
-								<th>Latest message</th>
+								<th className='!z-0'>{t.postId}</th>
+								<th>{t.otherParty}</th>
+								<th>{t.latestMessage}</th>
 								<th></th>
 
 								<th>
@@ -83,7 +85,7 @@ export function Messages({
 															viewBox='0 0 8 8'>
 															<circle cx={4} cy={4} r={3} />
 														</svg>
-														New
+														{t.new}
 													</span>
 												)}
 											</td>
@@ -94,7 +96,8 @@ export function Messages({
 														setOpenChatPaywallId(message.chatPaywallId)
 													}
 													className='btn btn-primary btn-link  '>
-													Open<span className='sr-only'></span>
+													{t.open}
+													<span className='sr-only'></span>
 												</button>
 											</td>
 										</tr>

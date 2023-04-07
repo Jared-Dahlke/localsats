@@ -1,3 +1,4 @@
+import { useText } from '@/hooks/useText'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 import { Layout } from '../components/layout'
@@ -5,6 +6,7 @@ import { handleLogout } from '../utils/utils'
 import { authOptions } from './api/auth/[...nextauth]'
 
 export default function Profile({ user }) {
+	const t = useText()
 	return (
 		<div className='h-screen flex items-center flex-col gap-16 break-all text-center'>
 			<div
@@ -17,14 +19,14 @@ export default function Profile({ user }) {
 				/>
 			</div>
 			<div>
-				<p>Your User ID from LNURL-auth:</p>
+				<p>{t.yourUserIdFromLnurl}</p>
 				{user}
 			</div>
 			<button
 				type='button'
 				className='btn-primary btn btn-wide'
 				onClick={handleLogout}>
-				Sign Out
+				{t.signOut}
 			</button>
 		</div>
 	)

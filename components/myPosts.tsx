@@ -1,3 +1,4 @@
+import { useText } from '@/hooks/useText'
 import { PostType } from '@/types/types'
 import React from 'react'
 import { DeletePostConfirmationModal } from './deletePostConfirmationModal'
@@ -13,6 +14,8 @@ export function MyPosts({ posts, deletePost }: IProps) {
 		string | null
 	>(null)
 
+	const t = useText()
+
 	return (
 		<div className=' my-8'>
 			<DeletePostConfirmationModal
@@ -27,7 +30,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 			/>
 			<div className='sm:flex sm:items-center'>
 				<div className='sm:flex-auto'>
-					<h2>Your Posts</h2>
+					<h2>{t.yourPosts}</h2>
 				</div>
 			</div>
 
@@ -35,9 +38,9 @@ export function MyPosts({ posts, deletePost }: IProps) {
 				<table className='table table-normal min-w-full mt-0 mb-0'>
 					<thead>
 						<tr>
-							<th className='!z-0'>Type</th>
-							<th>Amount</th>
-							<th>Posted At</th>
+							<th className='!z-0'>{t.type}</th>
+							<th>{t.amount}</th>
+							<th>{t.postedAt}</th>
 
 							<th>
 								<span className='sr-only'>Delete</span>
@@ -59,7 +62,8 @@ export function MyPosts({ posts, deletePost }: IProps) {
 										<button
 											onClick={() => setDeleteConfirmationId(post._id)}
 											className='btn btn-primary btn-link '>
-											Delete<span className='sr-only'>, {post.type}</span>
+											{t.delete}
+											<span className='sr-only'>, {post.type}</span>
 										</button>
 									</td>
 								</tr>

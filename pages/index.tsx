@@ -6,12 +6,14 @@ import { useRouter } from 'next/router'
 import { Footer } from '@/components/footer'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
+import { useText } from '@/hooks/useText'
 
 export default function WelcomePage() {
 	const router = useRouter()
 	const handleLogin = () => {
 		router.push('/login')
 	}
+	const t = useText()
 
 	return (
 		<div className='relative isolate overflow-hidden bg-white'>
@@ -44,10 +46,10 @@ export default function WelcomePage() {
 							href='https://github.com/Jared-Dahlke/localsats'
 							className='inline-flex space-x-6'>
 							<span className='rounded-full bg-indigo-600/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 ring-1 ring-inset ring-indigo-600/10'>
-								What&apos;s new
+								{t.whatsNew}
 							</span>
 							<span className='inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600'>
-								<span>Just shipped v1.0</span>
+								<span>{t.justShipped}</span>
 								<ChevronRightIcon
 									className='h-5 w-5 text-gray-400'
 									aria-hidden='true'
@@ -56,22 +58,20 @@ export default function WelcomePage() {
 						</a>
 					</div>
 					<h1 className='mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
-						Buy and Sell Bitcoin in person
+						{t.buyAndSellBitcoinInPerson}
 					</h1>
 
 					<p className='mt-6 text-lg leading-8 text-gray-600'>
-						Create an anonymous post at the location you want to meet. Once
-						someone responds to your post, meet up and complete the transaction
-						in person. Free and open source.
+						{t.createAnAnonymousPostAt}
 					</p>
 					<div className='mt-10 flex items-center gap-x-6'>
 						<a onClick={handleLogin} className='btn btn-primary'>
-							Login with Lightning
+							{t.loginWithLightning}
 						</a>
 						<a
 							href='https://twitter.com/localsatsorg'
 							className='btn btn-ghost '>
-							Learn more <span aria-hidden='true'>→</span>
+							{t.learnMore} <span aria-hidden='true'>→</span>
 						</a>
 					</div>
 				</div>

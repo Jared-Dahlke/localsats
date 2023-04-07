@@ -2,8 +2,10 @@ import LnurlAuthSignIn from './auth/signin/lnurl'
 import { getEncoded } from './api/auth/lnurl/generate-secret'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
+import { useText } from '@/hooks/useText'
 
 export default function Login({ lnurlAuthLoginInfo }: any) {
+	const t = useText()
 	return (
 		<div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white'>
 			<div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -13,13 +15,13 @@ export default function Login({ lnurlAuthLoginInfo }: any) {
 					alt='Your Company'
 				/>
 				<h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
-					Sign in to your account
+					{t.signIntoYourAccount}
 				</h2>
 				<p className='mt-2 text-center text-sm text-gray-600'>
 					<a
 						href='https://github.com/fiatjaf/lnurl-rfc/blob/master/lnurl-auth.md'
 						className='font-medium text-indigo-600 hover:text-indigo-500'>
-						learn more about Lightning login
+						{t.learnMoreAboutLightningLogin}
 					</a>
 				</p>
 			</div>
@@ -40,7 +42,7 @@ export default function Login({ lnurlAuthLoginInfo }: any) {
 							</div>
 							<div className='relative flex justify-center text-sm'>
 								<span className='bg-white px-2 text-gray-500'>
-									No wallet? Try one of these
+									{t.noWalletTry}
 								</span>
 							</div>
 						</div>
