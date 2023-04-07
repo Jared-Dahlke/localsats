@@ -41,6 +41,7 @@ import NewPostModal from '@/components/newPostModal'
 import QrCodeModal from '@/components/qrCodeModal'
 import { Messages } from '@/components/messages'
 import { MyPosts } from '@/components/myPosts'
+import { useText } from '@/hooks/useText'
 
 interface IProps {
 	user: string
@@ -100,6 +101,8 @@ export default function Home({
 	const [locationProps, setLocationProps] = React.useState(defaultLocationProps)
 
 	const router = useRouter()
+	const t = useText()
+	console.log('local:', router.locale)
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
@@ -305,11 +308,12 @@ export default function Home({
 			/>
 
 			<div className='prose max-w-none'>
-				<h1>Welcome, {getNameFromId(user)}</h1>
+				<h1>
+					{t.welcome}, {getNameFromId(user)}
+				</h1>
 
 				<p className='mt-2 text-lg  mb-8 max-w-lg'>
-					To create a new post to buy or sell bitcoin, just click anywhere on
-					the map. To see other peoples posts, click on the icons on the map.
+					{t.toCreateANewPostToBuyOrSell}
 				</p>
 
 				{postsWithNewMessages && postsWithNewMessages.length > 0 && (
@@ -326,13 +330,13 @@ export default function Home({
 									strokeWidth='2'
 									d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'></path>
 							</svg>
-							<span>You have a new message.</span>
+							<span>{t.youHaveANewMessage}.</span>
 							<a
 								onClick={() => {
 									setOpenChatPaywallId(postsWithNewMessages[0].chatPaywallId)
 								}}
 								className='cursor-pointer whitespace-nowrap font-medium ml-3'>
-								Open
+								{t.open}
 								<span aria-hidden='true'> &rarr;</span>
 							</a>
 						</div>
@@ -356,8 +360,8 @@ export default function Home({
 							</svg>
 							<span>
 								{myPosts && myPosts.length > 1
-									? 'You have active posts'
-									: 'Your post is active'}
+									? t.youHaveActivePosts
+									: t.yourPostIsActive}
 							</span>
 						</div>
 					</div>
@@ -367,19 +371,18 @@ export default function Home({
 					tabIndex={0}
 					className='collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
 					<div className='collapse-title'>
-						<h3 className='text-md font-medium leading-6 '>Email Settings</h3>
+						<h3 className='text-md font-medium leading-6 '>
+							{t.emailSettings}
+						</h3>
 					</div>
 					<div className='collapse-content'>
 						<div className='mt-2 max-w-xl text-sm '>
-							<p>
-								{`If you'd like to receive an email when someone messages you, add an
-							email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.`}
-							</p>
+							<p>{t.ifYoudLikeToReceiveAnEmailWhenSomeone}</p>
 						</div>
 						<div className='mt-5 sm:flex sm:items-center'>
 							<div className='w-full sm:max-w-xs'>
 								<label htmlFor='email' className='sr-only'>
-									Email
+									{t.emailSettings}
 								</label>
 								<input
 									type='email'
@@ -389,7 +392,7 @@ export default function Home({
 										setEmail(e.target.value)
 									}}
 									className='input input-bordered w-full'
-									placeholder='you@example.com (optional)'
+									placeholder={`you@example.com (${t.optional})`}
 									defaultValue={initialUser?.email}
 								/>
 							</div>
@@ -397,7 +400,7 @@ export default function Home({
 								disabled={!EmailValidator.validate(email) && email !== ''}
 								onClick={saveEmail}
 								className='btn-primary btn  mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-								Save
+								{t.save}
 							</button>
 						</div>
 					</div>
@@ -455,7 +458,7 @@ export default function Home({
 					className='mt-8 collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
 					<div className='collapse-title'>
 						<h3 className='text-md font-medium leading-6 '>
-							Your Messages are end-to-end encrypted using PGP
+							{t.yourMessagesAre}
 						</h3>
 					</div>
 					<div className='collapse-content'>
@@ -470,22 +473,15 @@ export default function Home({
 									</div>
 									<div className='ml-3'>
 										<h3 className='text-sm font-medium text-yellow-800'>
-											Attention needed in order to decrypt future messages
+											{t.attentionNeededInOrderToDecrypt}
 										</h3>
 										<div className='mt-2 text-sm text-yellow-700'>
 											<p>
-												We have a record of your PGP public and private keys,
-												but your auto-generated passphrase is not found in your
-												cookies. You have 2 options:
+												{t.weHaveARecordOfYourPgp}
 												<br />
-												1. (Recommended) Get your passphrase from the first
-												device you logged into with this account and save it in
-												the input field below. This will allow you to decrypt
-												old messages and future messages.
+												{t.getYourPassphraseFromTheFirstDevice}
 												<br />
-												2. Generate a new keypair, you will be able to read all
-												future messages, but this will prevent you from
-												decrypting old messages
+												{t.generateANewKeyPair}
 											</p>
 											<button
 												onClick={async () => {
@@ -495,7 +491,7 @@ export default function Home({
 													router.reload() // reload page to make pgp cookie available
 												}}
 												className='btn-primary btn ml-2'>
-												Generate new PGP key pair
+												{t.generateNewPgp}
 											</button>
 										</div>
 									</div>
@@ -504,14 +500,12 @@ export default function Home({
 						)}
 
 						<div className='mt-2 max-w-xl text-sm '>
-							<p>
-								{`Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie.  Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.`}
-							</p>
+							<p>{t.belowIsThePassphrase}</p>
 						</div>
 						<div className='mt-5 sm:flex sm:items-center'>
 							<div className='w-full sm:max-w-xs'>
 								<label htmlFor='email' className='sr-only'>
-									PGP Phassphrase
+									{t.pgpPassphrase}
 								</label>
 								<input
 									type='text'
@@ -522,7 +516,7 @@ export default function Home({
 									}}
 									value={passphrase}
 									className='input input-bordered w-full'
-									placeholder='your PGP passphrase...'
+									placeholder={t.yourPgpPassphrase}
 									//defaultValue={privateKeyPassphrase}
 								/>
 							</div>
@@ -537,7 +531,7 @@ export default function Home({
 									router.reload()
 								}}
 								className='btn-primary btn mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-								Save
+								{t.save}
 							</button>
 						</div>
 					</div>
@@ -605,7 +599,7 @@ export default function Home({
 				<div className='flex w-full justify-end'>
 					<div className='form-control'>
 						<label className='label cursor-pointer'>
-							<span className='label-text mr-2'>Show only your posts </span>
+							<span className='label-text mr-2'>{t.showOnlyYourPosts}</span>
 							<input
 								checked={showOnlyMyPosts}
 								onChange={(e) => setShowOnlyMyPosts(e.target.checked)}
@@ -638,20 +632,8 @@ export default function Home({
 					<SuccessAlert
 						show={showEmailSuccess}
 						setShow={() => setShowEmailSuccess(false)}
-						title='Email updated!'
+						title={t.emailUpdated}
 						subtitle=''
-					/>
-				</div>
-			</div>
-			<div
-				aria-live='assertive'
-				className='pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6'>
-				<div className='flex w-full flex-col items-center space-y-4 sm:items-end'>
-					<SuccessAlert
-						show={showPaymentSuccess}
-						setShow={setShowPaymentSuccess}
-						title='Payment Success!'
-						subtitle='You may now chat with this user'
 					/>
 				</div>
 			</div>

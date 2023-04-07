@@ -10,6 +10,7 @@ import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import { getUsers } from './api/get_users'
 import CountUp from 'react-countup'
+import { useText } from '@/hooks/useText'
 
 export default function About({
 	posts: initialPosts,
@@ -18,28 +19,19 @@ export default function About({
 	posts: PostType[]
 	users: any
 }) {
+	const t = useText()
 	const faqs = [
 		{
-			question: 'What is this?',
-			answer: `It is an easy way to buy and sell bitcoin locally. Just create a post to either buy or sell bitcoin, 
-				then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your post.
-				We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.`
+			question: t.whatIsThis,
+			answer: t.itIsAnEasyWayToBuy
 		},
 		{
-			question: 'What data do you store?',
+			question: t.whatDataDoYouStore,
 			answer: (
 				<div>
-					<div>
-						We store the encrypted messages and posts associated with your
-						LNURL-Auth address. If you choose to add an email address for
-						notifications, we will store that as well. When you delete a post,
-						that post and all of its associated messages are permanently deleted
-						as well. If you choose to remove your email, that is permanently
-						deleted as well.
-					</div>
+					<div>{t.weStoreTheEncrypted}</div>
 					<div className='mt-4'>
-						Dump all of the site data (except emails and messages) into a JSON
-						file:
+						{t.dumpAllOfTheSite}
 						<br />
 						<button
 							className='inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150'
@@ -58,7 +50,7 @@ export default function About({
 								a.click()
 								a.remove()
 							}}>
-							Download
+							{t.download}
 						</button>
 					</div>
 				</div>
@@ -66,28 +58,21 @@ export default function About({
 		},
 
 		{
-			question: 'What is the tech stack for this?',
-			answer: (
-				<div>
-					Login uses LNURL-auth. The frontend is built with Next.js and Tailwind
-					CSS. The database is MongoDB. The email service is hosted on AWS. The
-					site is hosted on Vercel.
-				</div>
-			)
+			question: t.whatIsTheTechStack,
+			answer: <div>{t.loginUsesLnurlAuth}</div>
 		},
 		{
-			question: 'How do I contribute?',
+			question: t.howDoIContribute,
 			answer: (
 				<div>
-					Ideas / Contributors / contributions are welcome! Here is the github:{' '}
+					{t.IdeasContributorsAreWelcome}{' '}
 					<Link
 						className='text-blue-500 underline'
 						href={'https://github.com/Jared-Dahlke/localsats'}>
 						https://github.com/Jared-Dahlke/localsats
 					</Link>
 					{'. '}
-					Feel free to make a PR or open an issue. My email is
-					jared.dahlke@protonmail.com if you have any questions.
+					{t.feelFreeTomakeAPr}
 				</div>
 			)
 		}
@@ -115,16 +100,16 @@ export default function About({
 	const stats = [
 		{
 			id: 1,
-			name: 'Days LocalSats.org has been Live',
+			name: t.daysLive,
 			value: <CountUp end={daysLive} />
 		},
-		{ id: 2, name: 'Total Posts', value: <CountUp end={posts?.length} /> },
-		{ id: 3, name: ' Total Users', value: <CountUp end={users?.length} /> }
+		{ id: 2, name: t.totalPosts, value: <CountUp end={posts?.length} /> },
+		{ id: 3, name: t.totalUsers, value: <CountUp end={users?.length} /> }
 	]
 	const stats2 = [
 		{
 			id: 4,
-			name: 'Total Messages (encrypted)',
+			name: t.totalMessages,
 			value: <CountUp end={messagesCount} />
 		}
 	]
@@ -173,10 +158,10 @@ export default function About({
 				<div className='lg:grid lg:grid-cols-12 lg:gap-8'>
 					<div className='lg:col-span-5'>
 						<h2 className='text-2xl font-bold leading-10 tracking-tight '>
-							Frequently asked questions
+							{t.frequentlyAskedQ}
 						</h2>
 						<p className='mt-4 text-base leading-7 text-gray-600'>
-							Can’t find the answer you’re looking for? Reach out to{' '}
+							{t.cantFindTheAnswer}{' '}
 							<a
 								href='https://twitter.com/LocalSatsOrg'
 								className='font-semibold text-indigo-600 hover:text-indigo-500'>

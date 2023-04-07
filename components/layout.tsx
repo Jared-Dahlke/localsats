@@ -5,26 +5,27 @@ import { classNames, getNameFromId, handleLogout } from '../utils/utils'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useText } from '@/hooks/useText'
 
 export function Layout({ children }: { children: ReactNode }) {
 	const router = useRouter()
-
+	const t = useText()
 	const session = useSession()
 	const user = session?.data?.user?.userId
 
 	const navigation = [
 		{
-			name: 'Home',
+			name: t.home,
 			handleClick: () => router.push('/home'),
 			current: router.pathname.includes('home')
 		},
 		{
-			name: 'About',
+			name: t.about,
 			handleClick: () => router.push('/about'),
 			current: router.pathname.includes('about')
 		},
 		{
-			name: 'Profile',
+			name: t.profile,
 			handleClick: () => router.push('/profile'),
 			current: router.pathname.includes('profile')
 		}
@@ -33,7 +34,7 @@ export function Layout({ children }: { children: ReactNode }) {
 	const currentNavItem = navigation?.find((item) => item.current)
 
 	const userNavigation = [
-		{ name: 'Sign out', handleClick: () => handleLogout() }
+		{ name: t.signOut, handleClick: () => handleLogout() }
 	]
 
 	const [theme, setTheme] = React.useState<'dark' | 'light'>('light')
@@ -120,7 +121,7 @@ export function Layout({ children }: { children: ReactNode }) {
 												tabIndex={0}
 												className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
 												<li>
-													<a onClick={handleLogout}>Sign Out</a>
+													<a onClick={handleLogout}>{t.signOut}</a>
 												</li>
 											</ul>
 										</div>
