@@ -2,7 +2,22 @@ import { useRouter } from 'next/router'
 
 export const useText = () => {
 	const { locale } = useRouter()
-	return locale === 'en' ? english : spanish
+	let lang
+	switch (locale) {
+		case 'en':
+			lang = english
+			break
+		case 'es':
+			lang = spanish
+			break
+		case 'de':
+			lang = german
+			break
+		default:
+			lang = english
+			break
+	}
+	return lang
 }
 
 const english = {
@@ -42,6 +57,7 @@ const english = {
 	ifYoudLikeToReceiveAnEmailWhenSomeone:
 		"If you'd like to receive an email when someone messages you, add an email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.",
 	optional: 'optional',
+	//
 	save: 'save',
 	yourMessagesAre: 'Your Messages are end-to-end encrypted using PGP',
 	belowIsThePassphrase:
@@ -82,6 +98,7 @@ const english = {
 	dumpAllOfTheSite:
 		'Dump all of the site data (except emails and messages) into a JSON file:',
 	download: 'Download',
+	//
 	whatIsTheTechStack: 'What is the tech stack for this site?',
 	loginUsesLnurlAuth:
 		'Login uses LNURL-auth. The frontend is built with Next.js and Tailwind CSS. The database is MongoDB. The email service is hosted on AWS. The site is hosted on Vercel.',
@@ -117,7 +134,6 @@ const english = {
 		'There are not many posts yet because this site is brand new, it was just shipped February 2023. Please, create a post and help us grow! Be patient.'
 }
 
-// capitalize the values of the first word
 const spanish = {
 	home: 'Inicio',
 	about: 'Sobre nosotros',
@@ -231,4 +247,118 @@ const spanish = {
 	thisIsNew: 'Esto es nuevo!',
 	thereAreNotManyPosts:
 		'No hay muchos anuncios nuevos todavia por que este es un sitio nuevo, esta solamente desde febrero 2023, por favor crea un anuncio y ayudanos a crecer! se paciente.'
+}
+
+const german = {
+	home: 'Startseite',
+	about: 'Über uns',
+	profile: 'Profil',
+	welcome: 'Willkommen',
+	amount: 'Betrag',
+	postedAt: 'Veröffentlicht am',
+	type: 'Art',
+	pgpPassphrase: 'PGP-Passwort',
+	yourMessages: 'Deine Nachrichten',
+	yourPgpPassphrase: 'Dein PGP-Passwort...',
+	new: 'Neu',
+	youHaveANewMessage: 'Du hast eine neue Nachricht',
+	signIntoYourAccount: 'Melde dich in deinem Konto an',
+	noWalletTry: 'Keine Brieftasche? Probieren Sie eine dieser',
+	youHaveActivePosts: 'Du hast aktive Beiträge',
+	generateNewPgp: 'Neues PGP-Schlüsselpaar generieren',
+	generateANewKeyPair:
+		'2. Generieren Sie ein neues Schlüsselpaar. Sie können alle zukünftigen Nachrichten lesen, können jedoch alte Nachrichten nicht mehr entschlüsseln',
+	getYourPassphraseFromTheFirstDevice:
+		'1. (Empfohlen) Holen Sie sich Ihr Passwort vom ersten Gerät, mit dem Sie sich mit diesem Konto angemeldet haben, und speichern Sie es im folgenden Eingabefeld. Dadurch können Sie alte und zukünftige Nachrichten entschlüsseln.',
+	weHaveARecordOfYourPgp:
+		'Wir haben einen Datensatz Ihrer PGP-Public- und Private-Keys, aber Ihr automatisch generiertes Passwort wurde nicht in Ihren Cookies gefunden. Sie haben 2 Optionen:',
+	emailUpdated: 'E-Mail aktualisiert',
+	attentionNeededInOrderToDecrypt:
+		'Zur Entschlüsselung zukünftiger Nachrichten ist besondere Aufmerksamkeit erforderlich',
+	yourPosts: 'Deine Beiträge',
+	paymentSuccess: 'Zahlung erfolgreich!',
+	yourPostIsActive: 'Dein Beitrag ist aktiv',
+	showOnlyYourPosts: 'Nur deine Beiträge anzeigen',
+	learnMoreAboutLightningLogin: 'Erfahren Sie mehr über Lightning-Login',
+	toCreateANewPostToBuyOrSell:
+		'Um einen neuen Beitrag zum Kauf oder Verkauf von Bitcoin zu erstellen, klicken Sie einfach irgendwo auf der Karte. Um die Beiträge anderer Personen zu sehen, klicken Sie auf die Symbole auf der Karte.',
+	emailSettings: 'E-Mail-Einstellungen',
+	ifYoudLikeToReceiveAnEmailWhenSomeone:
+		'Wenn Sie eine E-Mail erhalten möchten, wenn jemand Ihnen eine Nachricht sendet, fügen Sie hier eine E-Mail hinzu. Andernfalls können Sie später überprüfen, ob Sie Nachrichten haben. Wir werden Ihre E-Mail-Adresse nicht an Dritte weitergeben.',
+	optional: 'Optional',
+	save: 'speichern',
+	yourMessagesAre: 'Ihre Nachrichten sind Ende-zu-Ende verschlüsselt mit PGP',
+	belowIsThePassphrase:
+		'Nachfolgend finden Sie das Passwort zu Ihren PGP-Schlüsseln, mit dem Ihre Nachrichten verschlüsselt sind. Dies wird als Cookie in Ihrem Browser gespeichert. Speichern Sie es an einem sicheren Ort, falls Sie Ihre Cookies löschen oder von einem anderen Gerät aus auf Ihre Nachrichten zugreifen möchten.',
+	yourMessage: 'Ihre Nachrichten',
+	postId: 'POST-ID',
+	otherParty: 'Andere Partei',
+	latestMessage: 'Letzte Nachricht',
+	open: 'Öffnen',
+	createANewPost: 'Neuen Post erstellen',
+	buy: 'Kaufen',
+	sell: 'Verkaufen',
+	meetAt: 'Treffen bei',
+	latitude: 'Breitengrad',
+	longitude: 'Längengrad',
+	create: 'Erstellen',
+	user: 'Benutzer',
+	wantsToBuy: 'möchte kaufen',
+	wantsToSell: 'möchte verkaufen',
+	posted: 'Veröffentlicht',
+	chatWithThisUser: 'Mit diesem Benutzer chatten',
+	youAlreadyHaveAnOpenChat:
+		'Sie haben bereits einen offenen Chat für diesen Post',
+	openChatWithUser: 'Chat mit Benutzer öffnen',
+	thisIsYourPost: 'Dies ist Ihr Post',
+	delete: 'Löschen',
+	daysLive: 'Tage seit LocalSats.org Live ist',
+	totalPosts: 'Gesamte Posts',
+	totalUsers: 'Gesamte Benutzer',
+	totalMessages: 'Gesamte Nachrichten (verschlüsselt)',
+	frequentlyAskedQ: 'Häufig gestellte Fragen',
+	cantFindTheAnswer: 'Sie finden die Antwort nicht? Schreiben Sie an',
+	whatIsThis: 'Was ist das?',
+	itIsAnEasyWayToBuy:
+		'Es ist eine einfache Möglichkeit, Bitcoin lokal zu kaufen und zu verkaufen. Erstellen Sie einfach einen Post zum Kaufen oder Verkaufen von Bitcoin und warten Sie auf eine Antwort. Sobald jemand antwortet, sehen Sie deren Nachricht auf der Startseite. Außerdem können Sie eine E-Mail-Adresse hinzufügen, um eine Benachrichtigung zu erhalten, wenn jemand auf Ihren Post antwortet. Wir werden Ihre E-Mail-Adresse niemals an Dritte weitergeben. Von dort aus können Sie den Chat verwenden, um eine Zeit zum Treffen und Kauf/Verkauf Ihres Bitcoin zu vereinbaren.',
+	whatDataDoYouStore: 'Welche Daten speichern Sie?',
+	weStoreTheEncrypted:
+		'Wir speichern die verschlüsselten Nachrichten und Posts, die mit Ihrer LNURL-Auth-Adresse verbunden sind. Wenn Sie eine E-Mail-Adresse für Benachrichtigungen hinzufügen, speichern wir diese ebenfalls. Wenn Sie einen Post löschen, wird dieser Post und alle damit verbundenen Nachrichten dauerhaft gelöscht. Wenn Sie Ihre E-Mail-Adresse entfernen möchten, wird diese ebenfalls dauerhaft gelöscht.',
+	dumpAllOfTheSite:
+		'Exportieren Sie alle Website-Daten (außer E-Mails und Nachrichten) in eine JSON-Datei:',
+	download: 'Herunterladen',
+	whatIsTheTechStack: 'Was ist der Tech-Stack für diese Seite?',
+	loginUsesLnurlAuth:
+		'Die Anmeldung verwendet LNURL-auth. Das Frontend ist mit Next.js und Tailwind CSS erstellt. Die Datenbank ist MongoDB. Der E-Mail-Dienst wird auf AWS gehostet. Die Website wird auf Vercel gehostet.',
+	howDoIContribute: 'Wie kann ich beitragen?',
+	IdeasContributorsAreWelcome:
+		'Ideen und Beiträge sind willkommen! Hier ist das Github:',
+	feelFreeTomakeAPr:
+		'Fühlen Sie sich frei, eine PR zu erstellen oder ein Problem zu öffnen. Meine E-Mail ist jared.dahlke@protonmail.com, wenn Sie Fragen haben.',
+	signOut: 'Ausloggen',
+	yourUserIdFromLnurl: 'Ihre Benutzer-ID von LNURL-auth:',
+	buyAndSellBitcoinInPerson: 'Bitcoin persönlich kaufen und verkaufen',
+	whatsNew: 'Neue Funktionen',
+	justShipped: 'Gerade v1.0.0 verschifft',
+	createAnAnonymousPostAt:
+		'Erstellen Sie einen anonymen Beitrag an dem Ort, an dem Sie sich treffen möchten. Sobald jemand auf Ihren Beitrag antwortet, treffen Sie sich und führen Sie die Transaktion persönlich durch. Kostenlos und Open Source.',
+	messagesSentBetween:
+		'Zwischen Benutzern gesendete Nachrichten werden mit PGP verschlüsselt',
+	loginWithLightning: 'Anmeldung mit Lightning',
+	learnMore: 'Erfahren Sie mehr',
+	createAPost: 'Einen Beitrag erstellen',
+	toCreateANewPostToBuy:
+		'Um einen neuen Beitrag zum Kauf oder Verkauf von Bitcoin zu erstellen, klicken Sie einfach auf der Karte, wo Sie sich treffen möchten.',
+	respondToAPost: 'Auf einen Beitrag antworten',
+	toSeeOtherPeoplesPosts:
+		'Um die Beiträge anderer Personen zu sehen und darauf zu antworten, klicken Sie auf die Symbole auf der Karte.',
+	receiveMessages: 'Nachrichten empfangen',
+	whenOthersRespond:
+		'Wenn andere auf Ihren Beitrag antworten, erhalten Sie eine Nachricht. Sie können auch optional wählen, eine E-Mail zu erhalten.',
+	beSafe: 'Seien Sie sicher',
+	makeSureToMeetInACrowded:
+		'Stellen Sie sicher, dass Sie sich an einem belebten öffentlichen Ort treffen. Geben Sie keine persönlichen Informationen preis.',
+	thisIsNew: 'Das ist neu!',
+	thereAreNotManyPosts:
+		'Es gibt noch nicht viele Beiträge, da diese Website brandneu ist und erst im Februar 2023 verschifft wurde. Bitte erstellen Sie einen Beitrag und helfen Sie uns zu wachsen! Seien Sie geduldig.'
 }
