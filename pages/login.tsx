@@ -250,9 +250,11 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 				) : (
 					<div className='flex flex-col justify-start  h-full'>
 						<h3 className='text-lg font-bold w-full text-left '>
-							Step 3: Scan the below QR Code with your phone, open in Breez,
-							accept the Login in Breez. You will be redirected to the home
-							page.
+							Step 3: Scan the below QR Code with your phone, open in{' '}
+							<span className='text-slate-400  font-extrabold'>Breez</span>,
+							accept the Login in{' '}
+							<span className='text-slate-400  font-extrabold'>Breez</span>. You
+							will be redirected to the home page.
 						</h3>
 						<div className='w-full flex justify-center items-center mt-24'>
 							<div className='card shadow-lg p-4'>
