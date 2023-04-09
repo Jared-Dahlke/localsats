@@ -128,7 +128,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 						}
 						transition={{ ...transition }}>
 						<Image
-							src='/../public/mobileWallets/breez.webp'
+							src='/./mobileWallets/breez.webp'
 							width={200}
 							height={434}
 							alt='Breez'
