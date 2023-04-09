@@ -34,7 +34,6 @@ const english = {
 	new: 'New',
 	youHaveANewMessage: 'You have a new message',
 	signIntoYourAccount: 'Sign into your account',
-	noWalletTry: 'No wallet? Try one of these',
 	youHaveActivePosts: 'You have active posts',
 	generateNewPgp: 'Generate new PGP key pair',
 	generateANewKeyPair:
@@ -45,7 +44,7 @@ const english = {
 		'We have a record of your PGP public and private keys, but your auto-generated passphrase is not found in your cookies. You have 2 options:',
 	emailUpdated: 'Email updated',
 	attentionNeededInOrderToDecrypt:
-		'Attention needed in order to decrypt future messages',
+		'Attention needed in order to decrypt messages',
 	yourPosts: 'Your Posts',
 	paymentSuccess: 'Payment Success!',
 	yourPostIsActive: 'Your post is active',
@@ -165,7 +164,7 @@ const spanish = {
 	emailUpdated: 'Email actualizado',
 	paymentSuccess: 'Pago exitoso!',
 	yourPosts: 'Tus anuncios',
-	noWalletTry: 'No tienes una billetera? prueba',
+
 	learnMoreAboutLightningLogin: 'Aprende mas sobre Lightning Login',
 	toCreateANewPostToBuyOrSell:
 		'Para crear un nuevo anuncio para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver los anuncios de otras personas haz click en los iconos en el mapa',
@@ -263,7 +262,6 @@ const german = {
 	new: 'Neu',
 	youHaveANewMessage: 'Du hast eine neue Nachricht',
 	signIntoYourAccount: 'Melde dich in deinem Konto an',
-	noWalletTry: 'Keine Brieftasche? Probieren Sie eine dieser',
 	youHaveActivePosts: 'Du hast aktive Beiträge',
 	generateNewPgp: 'Neues PGP-Schlüsselpaar generieren',
 	generateANewKeyPair:
@@ -274,7 +272,7 @@ const german = {
 		'Wir haben einen Datensatz Ihrer PGP-Public- und Private-Keys, aber Ihr automatisch generiertes Passwort wurde nicht in Ihren Cookies gefunden. Sie haben 2 Optionen:',
 	emailUpdated: 'E-Mail aktualisiert',
 	attentionNeededInOrderToDecrypt:
-		'Zur Entschlüsselung zukünftiger Nachrichten ist besondere Aufmerksamkeit erforderlich',
+		'Zur Entschlüsselung Nachrichten ist besondere Aufmerksamkeit erforderlich',
 	yourPosts: 'Deine Beiträge',
 	paymentSuccess: 'Zahlung erfolgreich!',
 	yourPostIsActive: 'Dein Beitrag ist aktiv',
