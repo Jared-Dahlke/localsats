@@ -128,7 +128,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 						}
 						transition={{ ...transition }}>
 						<Image
-							src='/./mobileWallets/breez.webp'
+							src='/mobileWallets/breez.webp'
 							width={200}
 							height={434}
 							alt='Breez'
@@ -146,7 +146,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 							}
 							transition={{ ...transition, delay: 0.1 }}>
 							<Image
-								src={'/../public/mobileWallets/apple_download.png'}
+								src={'/mobileWallets/apple_download.png'}
 								width={200}
 								height={50}
 								alt={'apple download'}
@@ -165,7 +165,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 							}
 							transition={{ ...transition, delay: 0.2 }}>
 							<Image
-								src={'/../public/mobileWallets/google-download.png'}
+								src={'/mobileWallets/google-download.png'}
 								width={200}
 								height={50}
 								alt={'android download'}
@@ -209,7 +209,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 
 					<Image
 						className='rounded-lg shadow-xl'
-						src='/../public/mobileWallets/letsbreez.jpg'
+						src='/mobileWallets/letsbreez.jpg'
 						width={200}
 						height={434}
 						alt='Wallet of Satoshi'
