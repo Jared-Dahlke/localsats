@@ -34,7 +34,6 @@ const english = {
 	new: 'New',
 	youHaveANewMessage: 'You have a new message',
 	signIntoYourAccount: 'Sign into your account',
-	noWalletTry: 'Not sure how to login using this QR Code?',
 	youHaveActivePosts: 'You have active posts',
 	generateNewPgp: 'Generate new PGP key pair',
 	generateANewKeyPair:
@@ -165,8 +164,7 @@ const spanish = {
 	emailUpdated: 'Email actualizado',
 	paymentSuccess: 'Pago exitoso!',
 	yourPosts: 'Tus anuncios',
-	noWalletTry:
-		'¿No estás seguro/a de cómo iniciar sesión usando este código QR?',
+
 	learnMoreAboutLightningLogin: 'Aprende mas sobre Lightning Login',
 	toCreateANewPostToBuyOrSell:
 		'Para crear un nuevo anuncio para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver los anuncios de otras personas haz click en los iconos en el mapa',
@@ -264,8 +262,6 @@ const german = {
 	new: 'Neu',
 	youHaveANewMessage: 'Du hast eine neue Nachricht',
 	signIntoYourAccount: 'Melde dich in deinem Konto an',
-	noWalletTry:
-		'Bin mir nicht sicher, wie man sich mit diesem QR-Code anmeldet?',
 	youHaveActivePosts: 'Du hast aktive Beiträge',
 	generateNewPgp: 'Neues PGP-Schlüsselpaar generieren',
 	generateANewKeyPair:
