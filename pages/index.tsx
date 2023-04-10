@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
 import { useText } from '@/hooks/useText'
+import Head from 'next/head'
 
 export default function WelcomePage() {
 	const router = useRouter()
@@ -17,6 +18,9 @@ export default function WelcomePage() {
 
 	return (
 		<div className='relative isolate overflow-hidden bg-white'>
+			<Head>
+				<title>{'localsats.org'}</title>
+			</Head>
 			<svg
 				className='absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]'
 				aria-hidden='true'>
