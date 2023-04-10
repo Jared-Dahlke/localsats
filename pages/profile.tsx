@@ -38,14 +38,6 @@ Profile.getLayout = function getLayout(page) {
 export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
 	const user = session?.user?.userId
-	if (!user) {
-		return {
-			redirect: {
-				destination: '/',
-				permanent: false
-			}
-		}
-	}
 	return {
 		props: { user }
 	}

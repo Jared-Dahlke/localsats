@@ -82,7 +82,7 @@ export default function Home({
 	const [openChatPaywallId, setOpenChatPaywallId] = React.useState<
 		string | null
 	>(null)
-	const [email, setEmail] = React.useState('')
+	const [email, setEmail] = React.useState(initialUser?.email || '')
 	const [addingEmail, setAddingEmail] = React.useState(false)
 	const [passphrase, setPassphrase] = React.useState(privateKeyPassphrase)
 	const [openId, setOpenId] = React.useState<string | null>(null)
@@ -391,7 +391,7 @@ export default function Home({
 									}}
 									className='input input-bordered w-full'
 									placeholder={`you@example.com (${t.optional})`}
-									defaultValue={initialUser?.email}
+									value={email}
 								/>
 							</div>
 							<button
@@ -647,15 +647,6 @@ export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
 
 	const user = session?.user?.userId
-	if (!user) {
-		console.log('no user found')
-		return {
-			redirect: {
-				destination: '/',
-				permanent: false
-			}
-		}
-	}
 
 	const userFromDb = await getUser(user)
 	if (userFromDb && !userFromDb?.pgpPrivateKeyEncrypted) {
