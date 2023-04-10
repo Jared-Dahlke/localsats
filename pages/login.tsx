@@ -46,7 +46,7 @@ export default function Login({ lnurlAuthLoginInfo, isMobile }: any) {
 				{/* <button className='btn btn-link text-black w-[256px]'>
 					Show me how to do this
 				</button> */}
-				<label htmlFor='my-modal-3' className='btn'>
+				<label htmlFor='my-modal-3' className='btn btn-outline'>
 					Show me how to do this
 				</label>
 				<input
@@ -199,7 +199,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 					<span className='text-slate-400  font-extrabold'>Let`s Breez!</span>{' '}
 					Then come back to this page.
 				</h3>
-				<motion.div className='relative'>
+				<div className='relative'>
 					<svg
 						className='animate-bounce absolute w-24 h-24 top-56 right-14 fill-white'
 						xmlns='http://www.w3.org/2000/svg'
@@ -214,7 +214,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 						height={434}
 						alt='Wallet of Satoshi'
 					/>
-				</motion.div>
+				</div>
 
 				<div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2  z-50'>
 					<a href='#slide1' className='btn btn-circle'>

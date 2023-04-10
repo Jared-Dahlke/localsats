@@ -1,13 +1,20 @@
 import React, { ReactNode } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { classNames, getNameFromId, handleLogout } from '../utils/utils'
+import { classNames, getNameFromId, handleLogout } from '@/utils/utils'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useText } from '@/hooks/useText'
+import Head from 'next/head'
 
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({
+	children,
+	title
+}: {
+	children: ReactNode
+	title: string
+}) {
 	const router = useRouter()
 	const t = useText()
 	const session = useSession()
@@ -16,22 +23,17 @@ export function Layout({ children }: { children: ReactNode }) {
 	const navigation = [
 		{
 			name: t.home,
-			handleClick: () => router.push('/home'),
-			current: router.pathname.includes('home')
+			handleClick: () => router.push('/home')
 		},
 		{
 			name: t.about,
-			handleClick: () => router.push('/about'),
-			current: router.pathname.includes('about')
+			handleClick: () => router.push('/about')
 		},
 		{
 			name: t.profile,
-			handleClick: () => router.push('/profile'),
-			current: router.pathname.includes('profile')
+			handleClick: () => router.push('/profile')
 		}
 	]
-
-	const currentNavItem = navigation?.find((item) => item.current)
 
 	const userNavigation = [
 		{ name: t.signOut, handleClick: () => handleLogout() }
@@ -41,6 +43,9 @@ export function Layout({ children }: { children: ReactNode }) {
 
 	return (
 		<div data-theme={theme}>
+			<Head>
+				<title>{title}</title>
+			</Head>
 			<Disclosure as='nav' className='bg-primary'>
 				{({ open }) => (
 					<>
@@ -63,12 +68,14 @@ export function Layout({ children }: { children: ReactNode }) {
 													key={item.name}
 													onClick={item.handleClick}
 													className={classNames(
-														item.current
+														item.name === title
 															? 'bg-gray-900 text-white'
 															: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 														'px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
 													)}
-													aria-current={item.current ? 'page' : undefined}>
+													aria-current={
+														item.name === title ? 'page' : undefined
+													}>
 													{item.name}
 												</div>
 											))}
@@ -148,12 +155,12 @@ export function Layout({ children }: { children: ReactNode }) {
 										key={item.name}
 										onClick={item.handleClick}
 										className={classNames(
-											item.current
+											item.name === title
 												? 'bg-gray-900 text-white'
 												: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 											'block px-3 py-2 rounded-md text-base font-medium'
 										)}
-										aria-current={item.current ? 'page' : undefined}>
+										aria-current={item.name === title ? 'page' : undefined}>
 										{item.name}
 									</Disclosure.Button>
 								))}
@@ -233,9 +240,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
 			<header className='bg-base shadow-sm'>
 				<div className='mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8'>
-					<h1 className='text-lg font-semibold leading-6 '>
-						{currentNavItem?.name}
-					</h1>
+					<h1 className='text-lg font-semibold leading-6 '>{title}</h1>
 				</div>
 			</header>
 			<main>

@@ -3,8 +3,8 @@ import {
 	getCalendarDate,
 	getNameFromId,
 	getPostId
-} from '../utils/utils'
-import { GroupedMessage } from '../types/types'
+} from '@/utils/utils'
+import { GroupedMessage } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 export default function Modal({

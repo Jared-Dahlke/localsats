@@ -1,11 +1,11 @@
 import React from 'react'
-import SimpleMap from '../components/map'
-import { Layout } from '../components/layout'
-import { WelcomeModal } from '../components/WelcomeModal'
+import SimpleMap from '@/components/map'
+import { Layout } from '@/components/layout'
+import { WelcomeModal } from '@/components/WelcomeModal'
 import Axios from 'axios'
-import { useDatabaseUser } from '../hooks/useDatabaseUser'
-import { getNameFromId } from '../utils/utils'
-import { SuccessAlert } from '../components/successAlert'
+import { useDatabaseUser } from '@/hooks/useDatabaseUser'
+import { getNameFromId } from '@/utils/utils'
+import { SuccessAlert } from '@/components/successAlert'
 import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
@@ -18,14 +18,10 @@ import {
 } from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
-import {
-	ExclamationTriangleIcon,
-	QuestionMarkCircleIcon
-} from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getCookie, setCookie } from 'cookies-next'
 import { addPgpToUser } from './api/add_pgp_to_user'
 import { getUser } from './api/get_user'
-import Tippy from '@tippyjs/react'
 import getDistance from 'geolib/es/getDistance'
 import { usePosts } from '@/hooks/usePosts'
 import { useMessages } from '@/hooks/useMessages'
@@ -58,6 +54,8 @@ const defaultLocationProps = {
 	},
 	zoom: 3
 }
+
+Home.title = 'test jared'
 
 export default function Home({
 	user,
@@ -642,7 +640,7 @@ export default function Home({
 }
 
 Home.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
+	return <Layout title='Home'>{page}</Layout>
 }
 
 export const getServerSideProps = async function ({ req, res }) {

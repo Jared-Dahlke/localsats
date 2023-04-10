@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { classNames } from '../utils/utils'
+import { classNames } from '@/utils/utils'
 import axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
-import { rqKeys } from '../constants'
+import { rqKeys } from '@/constants'
 
 export default function NewPostModal({
 	open,

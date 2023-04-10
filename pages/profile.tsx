@@ -1,8 +1,8 @@
 import { useText } from '@/hooks/useText'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-import { Layout } from '../components/layout'
-import { handleLogout } from '../utils/utils'
+import { Layout } from '@/components/layout'
+import { handleLogout } from '@/utils/utils'
 import { authOptions } from './api/auth/[...nextauth]'
 
 export default function Profile({ user }) {
@@ -32,7 +32,7 @@ export default function Profile({ user }) {
 	)
 }
 Profile.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
+	return <Layout title='Profile'>{page}</Layout>
 }
 
 export const getServerSideProps = async function ({ req, res }) {

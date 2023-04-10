@@ -6,7 +6,7 @@ import {
 	MegaphoneIcon,
 	NewspaperIcon
 } from '@heroicons/react/24/outline'
-import { getNameFromId } from '../utils/utils'
+import { getNameFromId } from '@/utils/utils'
 import { FingerPrintIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
 

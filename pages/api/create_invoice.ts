@@ -1,7 +1,7 @@
 // creates invoice for a paywall in lnbits
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { CHAT_PAYWALL_SATOSHIS } from '../../constants'
+import { CHAT_PAYWALL_SATOSHIS } from '@/../constants'
 
 type Data = {
 	invoice: string

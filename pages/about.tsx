@@ -5,7 +5,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
-import { Layout } from '../components/layout'
+import { Layout } from '@/components/layout'
 import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import { getUsers } from './api/get_users'
@@ -115,7 +115,7 @@ export default function About({
 	]
 
 	return (
-		<div className=''>
+		<div>
 			<div className=' pt-24 pb-12'>
 				<div className='mx-auto max-w-7xl px-6 lg:px-8'>
 					<dl className='grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-3'>
@@ -189,7 +189,7 @@ export default function About({
 	)
 }
 About.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
+	return <Layout title='About'>{page}</Layout>
 }
 
 export const getServerSideProps = async function ({ req, res }) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
-import { PostType } from '../types/types'
+import { PostType } from '@/types/types'
 
 const containerStyle = {
 	width: '100%',

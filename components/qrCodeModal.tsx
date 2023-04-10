@@ -4,7 +4,7 @@ import { CheckIcon } from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
 import { getNameFromId, getPostId } from '@/utils/utils'
 import QRCode from 'react-qr-code'
-import { CHAT_PAYWALL_SATOSHIS } from '../constants'
+import { CHAT_PAYWALL_SATOSHIS } from '@/constants'
 
 export default function QrCodeModal({
 	open,

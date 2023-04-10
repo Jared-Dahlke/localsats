@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import clientPromise from '../../lib/mongodb'
+import clientPromise from '@/../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
 import { setCookie } from 'cookies-next'
 const openpgp = require('openpgp')
