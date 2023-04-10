@@ -1,4 +1,4 @@
-import { Layout } from '../components/layout'
+import { Layout } from '@/components/layout'
 import { GroupedMessage } from '../types/types'
 import { getNameFromId, getPostId } from '../utils/utils'
 import React from 'react'
