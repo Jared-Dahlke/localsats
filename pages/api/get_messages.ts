@@ -1,4 +1,4 @@
-import clientPromise from '../../lib/mongodb'
+import clientPromise from '@/../lib/mongodb'
 const openpgp = require('openpgp')
 
 export const getMessages = async (

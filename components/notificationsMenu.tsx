@@ -1,7 +1,7 @@
 import { Fragment, ReactElement } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { classNames } from '../utils/utils'
+import { classNames } from '@/utils/utils'
 
 export const NotificationsMenu = ({ children }: { children: ReactElement }) => {
 	return (

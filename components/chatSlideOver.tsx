@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { UserCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { getCalendarDate, getNameFromId, getPostId } from '../utils/utils'
-import { MessageType } from '../types/types'
+import { getCalendarDate, getNameFromId, getPostId } from '@/utils/utils'
+import { MessageType } from '@/types/types'
 import Axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
-import { rqKeys } from '../constants'
+import { rqKeys } from '@/constants'
 import { useSession } from 'next-auth/react'
 
 const RecipientMessage = ({

@@ -6,7 +6,6 @@ import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import Router from 'next/router'
 import { LoadingPage } from '@/components/loading'
-import 'tippy.js/dist/tippy.css'
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient()

@@ -1,7 +1,7 @@
 import clientPromise from '@/lib/mongodb'
 import { sendEmail } from '@/lib/sendEmail'
 import { NextRequest, NextResponse } from 'next/server'
-import { getPosts } from '../get_posts'
+import { getPosts } from '@/get_posts'
 
 export default async function handler(req: NextRequest) {
 	// get all chatPaywalls:

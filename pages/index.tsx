@@ -1,6 +1,6 @@
 import React from 'react'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
-import mapPic from '../public/buysellmap.jpg'
+import mapPic from '@/public/buysellmap.jpg'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Footer } from '@/components/footer'

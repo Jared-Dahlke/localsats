@@ -1,7 +1,7 @@
 import { PostType } from '@/types/types'
 import { useQuery } from '@tanstack/react-query'
 import Axios from 'axios'
-import { rqKeys } from '../constants'
+import { rqKeys } from '@/constants'
 
 export const usePosts = ({ initialPosts }: { initialPosts: PostType[] }) => {
 	const { data } = useQuery(

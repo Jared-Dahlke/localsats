@@ -1,8 +1,8 @@
-import { MessageType } from '..//types/types'
+import { MessageType } from '@//types/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { GroupedMessage } from '../types/types'
-import { rqKeys } from '../constants'
+import { GroupedMessage } from '@/types/types'
+import { rqKeys } from '@/constants'
 import { getCookie } from 'cookies-next'
 
 export const useMessages = ({
