@@ -65,13 +65,15 @@ interface ChatSlideOverProps {
 	open: boolean
 	setOpen: any
 	createMessageMutation: any
+	isSendingMessage: boolean
 }
 
 export function ChatSlideOver({
 	messages,
 	open,
 	setOpen,
-	createMessageMutation
+	createMessageMutation,
+	isSendingMessage
 }: ChatSlideOverProps) {
 	const session = useSession()
 	const user = session?.data?.user?.userId
@@ -166,7 +168,6 @@ export function ChatSlideOver({
 											</div>
 										</div>
 
-										{/* messages */}
 										<div
 											id='messages'
 											className='flex flex-col space-y-12 px-3 py-6 h-full overflow-y-auto '>
@@ -189,9 +190,10 @@ export function ChatSlideOver({
 												})}
 											<div ref={messagesEndRef} />
 										</div>
-
-										{/* input */}
-										<TextBox createMessageMutation={createMessageMutation} />
+										<TextBox
+											createMessageMutation={createMessageMutation}
+											isSendingMessage={isSendingMessage}
+										/>
 									</div>
 								</Dialog.Panel>
 							</Transition.Child>
@@ -203,7 +205,13 @@ export function ChatSlideOver({
 	)
 }
 
-const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
+const TextBox = ({
+	createMessageMutation,
+	isSendingMessage
+}: {
+	createMessageMutation: any
+	isSendingMessage: boolean
+}) => {
 	const [message, setMessage] = useState('')
 	const sendMessage = () => {
 		const messageCopy = JSON.parse(JSON.stringify(message))
@@ -240,7 +248,10 @@ const TextBox = ({ createMessageMutation }: { createMessageMutation: any }) => {
 							<div className='flex items-center'></div>
 						</div>
 						<div className='flex-shrink-0'>
-							<button onClick={sendMessage} className='btn btn-primary '>
+							<button
+								disabled={isSendingMessage}
+								onClick={sendMessage}
+								className='btn btn-primary '>
 								Send
 							</button>
 						</div>

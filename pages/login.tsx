@@ -47,7 +47,7 @@ export default function Login({ lnurlAuthLoginInfo, isMobile }: any) {
 					Show me how to do this
 				</button> */}
 				<label htmlFor='my-modal-3' className='btn btn-outline'>
-					Show me how to do this
+					{t.showMeHow}
 				</label>
 				<input
 					type='checkbox'
@@ -104,6 +104,7 @@ const wallets = [
 ]
 
 const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
+	const t = useText()
 	const [showAll, setShowAll] = React.useState(false)
 	const [activeTab, setActiveTab] = React.useState(1)
 	const walletsToShow = showAll ? wallets : wallets.slice(0, 1)
@@ -114,9 +115,9 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 				id='slide1'
 				className='carousel-item relative  w-full flex-col items-center'>
 				<h3 className='text-lg font-bold w-full text-left mb-4'>
-					Step 1: Install{' '}
+					{t.step1Install}{' '}
 					<span className='text-slate-400  font-extrabold'>Breez Wallet</span>{' '}
-					on your phone
+					{t.onYourPhone}
 				</h3>
 
 				<div className='flex flex-col gap-5'>
@@ -193,11 +194,11 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 				style={{ height: '70vh' }}
 				className='carousel-item relative w-full flex-col items-center'>
 				<h3 className='text-lg font-bold w-full text-left mb-4'>
-					Step 2: Open{' '}
-					<span className='text-slate-400  font-extrabold'>Breez</span> on your
-					phone and click{' '}
+					{t.step2Open}{' '}
+					<span className='text-slate-400  font-extrabold'>Breez</span>{' '}
+					{t.onYourPhoneAndClick}{' '}
 					<span className='text-slate-400  font-extrabold'>Let`s Breez!</span>{' '}
-					Then come back to this page.
+					{t.thenComeBack}
 				</h3>
 				<div className='relative'>
 					<svg
@@ -230,10 +231,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 				className='carousel-item relative w-full flex-col items-center'>
 				{isMobile ? (
 					<div className='flex flex-col justify-between  h-full'>
-						<h3 className='text-lg font-bold w-full text-left '>
-							Step 3: Tap the below QR Code, follow the prompt and you will be
-							logged in.
-						</h3>
+						<h3 className='text-lg font-bold w-full text-left '>{t.step3}</h3>
 						<div className='w-full flex justify-center'>
 							<div className='scale-75 card shadow-lg p-4'>
 								<LnurlAuthSignIn
@@ -242,21 +240,18 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 								/>
 							</div>
 						</div>
-						<h3 className='text-lg font-bold w-full text-left '>
-							Step 4: Come back to the site and you will be redirected to the
-							home page.
-						</h3>
+						<h3 className='text-lg font-bold w-full text-left '>{t.step4}</h3>
 					</div>
 				) : (
 					<div className='flex flex-col justify-start  h-full'>
 						<h3 className='text-lg font-bold w-full text-left '>
-							Step 3: Scan the below QR Code with your phone, open in{' '}
-							<span className='text-slate-400  font-extrabold'>Breez</span>,
-							accept the Login in{' '}
-							<span className='text-slate-400  font-extrabold'>Breez</span>. You
-							will be redirected to the home page.
+							{t.step3Scan}{' '}
+							<span className='text-slate-400  font-extrabold'>Breez</span>,{' '}
+							{t.acceptTheLogin}{' '}
+							<span className='text-slate-400  font-extrabold'>Breez</span>.{' '}
+							{t.youWillBeRedirected}
 						</h3>
-						<div className='w-full flex justify-center items-center mt-24'>
+						<div className='w-full scale-75 flex justify-center items-center mt-24'>
 							<div className='card shadow-lg p-4'>
 								<LnurlAuthSignIn
 									callbackUrl={'/home'}

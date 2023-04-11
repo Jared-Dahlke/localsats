@@ -533,6 +533,7 @@ export default function Home({
 					open={!!openChatPaywallId}
 					setOpen={setOpenChatPaywallId}
 					messages={openMessages}
+					isSendingMessage={createMessageMutation.isLoading}
 					createMessageMutation={async (body: string) => {
 						if (!openChatPaywallId || !body) return
 
