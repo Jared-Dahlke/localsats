@@ -21,6 +21,20 @@ export const useText = () => {
 }
 
 const english = {
+	youWillBeRedirected: 'You will be redirected to the home page',
+	acceptTheLogin: 'accept the Login in',
+	step3Scan: 'Step 3: Scan the below QR Code with your phone, open in',
+	step4:
+		'Step 4: Come back to the site and you will be redirected to the home page',
+	step3:
+		'Step 3: Tap the below QR Code, follow the prompt and you will be logged in',
+	thenComeBack: 'Then come back to this page',
+	onYourPhoneAndClick: 'on your phone and click',
+	step2Open: 'Step 2: Open',
+	onYourPhone: 'on your phone',
+	step1Install: 'Step 1: Install',
+	showMeHow: 'Show me how to do this',
+	yours: 'Yours',
 	home: 'Home',
 	about: 'About',
 	profile: 'Profile',
@@ -134,6 +148,19 @@ const english = {
 }
 
 const spanish = {
+	youWillBeRedirected: 'Serás redirigido/a a la página de inicio.',
+	acceptTheLogin: 'acepta el inicio de sesión',
+	step3Scan: 'Paso 3: Escanea el código QR de abajo con tu teléfono, ábrelo en',
+	step4: 'Paso 4: Vuelve al sitio y serás redirigido a la página de inicio.',
+	step3:
+		'Paso 3: Toca el código QR que se encuentra abajo, sigue las indicaciones y estarás conectado.',
+	thenComeBack: 'Luego regresa a esta página',
+	onYourPhoneAndClick: 'en tu teléfono y haz clic en',
+	step2Open: 'Paso 2: Abrir',
+	onYourPhone: 'en tu teléfono',
+	step1Install: 'Paso 1: Instalar',
+	showMeHow: 'Muéstrame cómo hacer esto.',
+	yours: 'Tus',
 	home: 'Inicio',
 	about: 'Sobre nosotros',
 	profile: 'Perfil',
@@ -249,6 +276,21 @@ const spanish = {
 }
 
 const german = {
+	youWillBeRedirected: 'Sie werden zur Startseite weitergeleitet.',
+	acceptTheLogin: 'akzeptieren Sie die Anmeldung',
+	step3Scan:
+		'Schritt 3: Scannen Sie den QR-Code unten mit Ihrem Telefon und öffnen Sie ihn in',
+	step4:
+		'Schritt 4: Kommen Sie zurück zur Website und Sie werden zur Startseite weitergeleitet.',
+	step3:
+		'Schritt 3: Tippen Sie den QR-Code unten an, folgen Sie der Aufforderung und Sie werden angemeldet.',
+	thenComeBack: 'Dann kommen Sie zurück zu dieser Seite',
+	onYourPhoneAndClick: 'auf deinem Telefon und klicken',
+	step2Open: 'Schritt 2: Öffnen',
+	onYourPhone: 'auf deinem Handy',
+	step1Install: 'Schritt 1: Installieren',
+	showMeHow: 'Zeige mir, wie man das macht.',
+	yours: 'Deine',
 	home: 'Startseite',
 	about: 'Über uns',
 	profile: 'Profil',

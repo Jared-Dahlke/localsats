@@ -38,6 +38,7 @@ import QrCodeModal from '@/components/qrCodeModal'
 import { Messages } from '@/components/messages'
 import { MyPosts } from '@/components/myPosts'
 import { useText } from '@/hooks/useText'
+import { useLocationProps } from '@/hooks/useLocationProps'
 
 interface IProps {
 	user: string
@@ -47,16 +48,6 @@ interface IProps {
 	privateKeyPassphrase: string | undefined
 }
 
-const defaultLocationProps = {
-	center: {
-		lat: 38.994137323882356,
-		lng: -105.61145327609245
-	},
-	zoom: 3
-}
-
-Home.title = 'test jared'
-
 export default function Home({
 	user,
 	posts: initialPosts,
@@ -64,8 +55,14 @@ export default function Home({
 	privateKeyPassphrase,
 	userFromDatabase: initialUser
 }: IProps) {
+	console.log('rendering home')
+
+	const router = useRouter()
+
 	const posts = usePosts({ initialPosts })
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
+	const { locationProps, setLocationProps } = useLocationProps(myPosts[0])
+
 	const queryClient = useQueryClient()
 	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
 		{
@@ -96,11 +93,8 @@ export default function Home({
 	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
 	const [showNewPostModal, setShowNewPostModal] = React.useState(false)
 	const [showOnlyMyPosts, setShowOnlyMyPosts] = React.useState(false)
-	const [locationProps, setLocationProps] = React.useState(defaultLocationProps)
 
-	const router = useRouter()
 	const t = useText()
-	console.log('local:', router.locale)
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
@@ -539,6 +533,7 @@ export default function Home({
 					open={!!openChatPaywallId}
 					setOpen={setOpenChatPaywallId}
 					messages={openMessages}
+					isSendingMessage={createMessageMutation.isLoading}
 					createMessageMutation={async (body: string) => {
 						if (!openChatPaywallId || !body) return
 
@@ -647,7 +642,14 @@ export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
 
 	const user = session?.user?.userId
-
+	if (!user) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false
+			}
+		}
+	}
 	const userFromDb = await getUser(user)
 	if (userFromDb && !userFromDb?.pgpPrivateKeyEncrypted) {
 		await addPgpToUser({
