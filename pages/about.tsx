@@ -195,6 +195,14 @@ About.getLayout = function getLayout(page) {
 export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, authOptions)
 	const user = session?.user?.userId
+	if (!user) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false
+			}
+		}
+	}
 	const posts = await getPosts()
 	const users = await getUsers()
 	return {
