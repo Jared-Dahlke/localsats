@@ -1,6 +1,7 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { PostType } from '@/types/types'
+import { useText } from '@/hooks/useText'
 
 const containerStyle = {
 	width: '100%',
@@ -12,18 +13,21 @@ export default function SimpleMap({
 	handleMapClick,
 	setOpenId,
 	setShowPostModal,
-	locationProps
+	locationProps,
+	user
 }: {
 	posts: PostType[]
 	handleMapClick: (e: any) => void
 	setOpenId: (id: string) => void
 	setShowPostModal: (show: boolean) => void
 	locationProps: { center: { lat: number; lng: number }; zoom: number }
+	user: string
 }) {
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey: 'AIzaSyBzbCrAFKFxe5ytG-z2kCZf1MNiYzccjto'
 	})
+	const t = useText()
 
 	return (
 		// Important! Always set the container height explicitly
@@ -41,6 +45,7 @@ export default function SimpleMap({
 									<Marker
 										key={post._id}
 										position={{ lat: post.lat, lng: post.lng }}
+										label={post.userId === user ? t.yours : ''}
 										onClick={() => {
 											setOpenId(post._id)
 											setShowPostModal(true)

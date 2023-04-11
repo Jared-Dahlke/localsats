@@ -21,6 +21,7 @@ export const useText = () => {
 }
 
 const english = {
+	yours: 'Yours',
 	home: 'Home',
 	about: 'About',
 	profile: 'Profile',
@@ -134,6 +135,7 @@ const english = {
 }
 
 const spanish = {
+	yours: 'Tus',
 	home: 'Inicio',
 	about: 'Sobre nosotros',
 	profile: 'Perfil',
@@ -249,6 +251,7 @@ const spanish = {
 }
 
 const german = {
+	yours: 'Deine',
 	home: 'Startseite',
 	about: 'Über uns',
 	profile: 'Profil',
