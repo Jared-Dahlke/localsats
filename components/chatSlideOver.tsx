@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { UserCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { getCalendarDate, getNameFromId, getPostId } from '@/utils/utils'
@@ -89,12 +89,22 @@ export function ChatSlideOver({
 		})
 	}
 
-	React.useEffect(() => {
+	const messagesEndRef = useRef(null)
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+	}
+
+	useEffect(() => {
+		scrollToBottom()
+	}, [messages])
+
+	useEffect(() => {
 		if (!messages || !open || messages.length < 1) return
 		markMessagesAsSeen()
 	}, [messages, open])
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!open) {
 			queryClient.invalidateQueries(rqKeys.messagesKey())
 		}
@@ -177,6 +187,7 @@ export function ChatSlideOver({
 														/>
 													)
 												})}
+											<div ref={messagesEndRef} />
 										</div>
 
 										{/* input */}
