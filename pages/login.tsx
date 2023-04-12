@@ -38,6 +38,7 @@ export default function Login({ lnurlAuthLoginInfo, isMobile }: any) {
 						<LnurlAuthSignIn
 							callbackUrl={'/home'}
 							lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+							isMobile={isMobile}
 						/>
 					</section>
 				</div>
@@ -230,17 +231,20 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 				id='slide3'
 				className='carousel-item relative w-full flex-col items-center'>
 				{isMobile ? (
-					<div className='flex flex-col justify-between  h-full'>
+					<div className='flex flex-col justify-start gap-24  h-full'>
 						<h3 className='text-lg font-bold w-full text-left '>{t.step3}</h3>
 						<div className='w-full flex justify-center'>
-							<div className='scale-75 card shadow-lg p-4'>
+							<div className='z-50 mb-12 -mt-8'>
 								<LnurlAuthSignIn
 									callbackUrl={'/home'}
 									lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+									isMobile={isMobile}
 								/>
 							</div>
 						</div>
-						<h3 className='text-lg font-bold w-full text-left '>{t.step4}</h3>
+						<h3 className='text-lg font-bold w-full text-left mt-auto'>
+							{t.step4}
+						</h3>
 					</div>
 				) : (
 					<div className='flex flex-col justify-start  h-full'>
@@ -262,7 +266,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 					</div>
 				)}
 
-				<div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2  z-50'>
+				<div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2  z-50 w-5'>
 					<a href='#slide2' className='btn btn-circle'>
 						❮
 					</a>

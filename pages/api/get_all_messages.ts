@@ -1,11 +1,8 @@
-import clientPromise from '@/lib/mongodb'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req, res) {
 	try {
-		const client = await clientPromise
-		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-		const messages = await db.collection('messages').find({}).toArray()
-
+		const messages = await prisma.message.findMany()
 		res.json(messages)
 	} catch (e) {
 		console.error(e)

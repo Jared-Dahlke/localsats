@@ -6,15 +6,18 @@ import React from 'react'
 import { LnurlAuthStatus } from 'types/LnurlAuthStatus'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useText } from '@/hooks/useText'
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
 	lnurlAuthLoginInfo?: any
+	isMobile?: boolean
 }
 
 export default function LnurlAuthSignIn({
 	callbackUrl,
-	lnurlAuthLoginInfo: initialLoginInfo
+	lnurlAuthLoginInfo: initialLoginInfo,
+	isMobile
 }: LnurlAuthSignInProps) {
 	const router = useRouter()
 	const session = useSession()
@@ -82,14 +85,22 @@ export default function LnurlAuthSignIn({
 			router.push(callbackUrlWithFallback)
 		}
 	}, [callbackUrlWithFallback, router, status, session])
-
+	const t = useText()
 	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
 	return (
 		<>
 			{lnurlAuthLoginInfo ? (
-				<Link href={url}>
-					<LightningQRCode value={url} />
-				</Link>
+				<>
+					{isMobile === true ? (
+						<Link className='btn btn-primary' href={url}>
+							{t.loginWithLightning}
+						</Link>
+					) : (
+						<Link href={url}>
+							<LightningQRCode value={url} />
+						</Link>
+					)}
+				</>
 			) : (
 				<p>Loading...</p>
 			)}
