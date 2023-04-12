@@ -1,7 +1,7 @@
 // creates paywall in lnbits
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { CHAT_PAYWALL_SATOSHIS } from '@/../constants'
+import { CHAT_PAYWALL_SATOSHIS } from '@/constants'
 
 type Data = {
 	paywallId: string

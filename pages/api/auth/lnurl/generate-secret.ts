@@ -1,4 +1,4 @@
-import clientPromise from '@/lib/mongodb'
+import prisma from '@/lib/prisma'
 import { randomBytes } from 'crypto'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -8,10 +8,11 @@ export const getEncoded = async () => {
 	const k1 = generateSecret()
 
 	// store the random secret in the DB so it can only be used once
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	await db.collection('lnurlAuthKey').insertOne({
-		k1
+
+	await prisma.lnurlAuthKey.create({
+		data: {
+			k1: k1
+		}
 	})
 
 	const params = new URLSearchParams({

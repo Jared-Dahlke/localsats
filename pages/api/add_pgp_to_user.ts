@@ -1,9 +1,9 @@
 import { getServerSession } from 'next-auth'
-import clientPromise from '@/../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
 import { setCookie } from 'cookies-next'
 const openpgp = require('openpgp')
 import dayjs from 'dayjs'
+import prisma from '@/lib/prisma'
 var crypto = require('crypto')
 
 export const addPgpToUser = async ({ req, res, userId }) => {
@@ -24,18 +24,17 @@ export const addPgpToUser = async ({ req, res, userId }) => {
 		path: '/'
 	})
 
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const user = await db.collection('users').updateOne(
-		{ userId },
-		{
-			$set: {
-				pgpPublicKey: publicKey,
-				pgpPrivateKeyEncrypted: privateKey,
-				updatedPrivateKeysDate: dayjs().format()
-			}
+	const user = await prisma.user.update({
+		where: {
+			userId: userId
+		},
+		data: {
+			pgpPublicKey: publicKey,
+			pgpPrivateKeyEncrypted: privateKey,
+			updatedPrivateKeysDate: dayjs().format()
 		}
-	)
+	})
+
 	return user
 }
 

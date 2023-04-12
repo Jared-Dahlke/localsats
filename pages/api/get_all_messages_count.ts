@@ -1,9 +1,7 @@
-import clientPromise from '@/../lib/mongodb'
+import prisma from '@/lib/prisma'
 
 export const getMessagesCount = async () => {
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const messages = await db.collection('messages').find().toArray()
+	const messages = await prisma.message.findMany()
 	return messages?.length
 }
 

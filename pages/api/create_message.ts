@@ -1,7 +1,7 @@
 import { sendEmail } from '@/lib/sendEmail'
 import { getServerSession } from 'next-auth'
-import clientPromise from '@/../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req, res) {
 	try {
@@ -18,14 +18,16 @@ export default async function handler(req, res) {
 			return
 		}
 
-		const client = await clientPromise
-		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-		const result = await db.collection('messages').insertOne(message)
-		// send email to toUserId
+		const result = await prisma.message.create({
+			data: message
+		})
 
-		const toUser = await db
-			.collection('users')
-			.findOne({ userId: message.toUserId })
+		const toUser = await prisma.user.findUnique({
+			where: {
+				userId: message.toUserId
+			}
+		})
+
 		if (toUser?.email) {
 			try {
 				await sendEmail({
@@ -37,7 +39,7 @@ export default async function handler(req, res) {
 								 </div>`
 				})
 			} catch (err) {
-				console.log('Error sending email', err)
+				console.error('Error sending email', err)
 			}
 		}
 

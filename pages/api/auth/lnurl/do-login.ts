@@ -1,4 +1,4 @@
-import clientPromise from '@/lib/mongodb'
+import prisma from '@/lib/prisma'
 import { StatusCodes } from 'http-status-codes'
 import { generateJWTAuthToken } from 'lib/generateJWTAuthToken'
 import { getAuthKey } from 'lib/lnurl/getAuthKey'
@@ -32,9 +32,6 @@ export default async function handler(
 		return res.json({ status: 'ERROR', reason: 'Invalid signature' })
 	}
 
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-
 	const response: LNURLAuthResponse = {
 		status: 'OK'
 	}
@@ -50,9 +47,14 @@ export default async function handler(
 		// 	k1: authKey.k1
 		// })
 	} else {
-		await db
-			.collection('lnurlAuthKey')
-			.updateOne({ k1: authKey.k1 }, { $set: { key: key as string } })
+		await prisma.lnurlAuthKey.update({
+			where: {
+				k1: authKey.k1
+			},
+			data: {
+				key: key
+			}
+		})
 	}
 
 	return res.status(200).json(response)

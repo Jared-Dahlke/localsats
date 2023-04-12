@@ -59,6 +59,15 @@ export default function Home({
 
 	const router = useRouter()
 
+	const getAllPaywalls = async () => {
+		const paywalls = await Axios.post('/api/get_all_paywalls')
+		return paywalls.data
+	}
+	const getAllMessages = async () => {
+		const messages = await Axios.post('/api/get_all_messages')
+		return messages.data
+	}
+
 	const posts = usePosts({ initialPosts })
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const { locationProps, setLocationProps } = useLocationProps(myPosts[0])
@@ -98,6 +107,8 @@ export default function Home({
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
+		getAllPaywalls()
+		getAllMessages() //todo delete these 2
 		if (!user) return
 		const processUser = async () => {
 			const userFromDb = await Axios.post('/api/get_user', {
@@ -144,9 +155,9 @@ export default function Home({
 	const handleInvoicePaid = async () => {
 		//	setShowPaymentSuccess(true)
 		setShowPostModal(false)
-		const paywallRecord: Omit<PaywallRecordType, '_id'> = {
+		const paywallRecord: Omit<PaywallRecordType, 'id'> = {
 			userId: user,
-			postId: openPost?._id,
+			postId: openPost?.id,
 			recipientUserId: openPost?.userId,
 			createdAt: new Date()
 		}
@@ -156,7 +167,7 @@ export default function Home({
 		setOpenId(null)
 		setShowQr(false)
 
-		const publicKeyArmored = openPost?.author[0].pgpPublicKey
+		const publicKeyArmored = openPost?.user.pgpPublicKey
 		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
 		let finalMessage = 'Hello, I am interested in your post.'
@@ -175,7 +186,7 @@ export default function Home({
 		const newMessage: Omit<MessageType, '_id'> = {
 			chatPaywallId: newPaywallId.data,
 			body: finalMessage,
-			postId: openPost?._id,
+			postId: openPost?.id,
 			fromUserId: user,
 			toUserId: openPost?.userId,
 			seen: false,
@@ -215,7 +226,7 @@ export default function Home({
 
 	const openMessages =
 		messages?.filter((m) => m.chatPaywallId === openChatPaywallId) || []
-	const openPost = posts?.find((post: PostType) => post._id === openId)
+	const openPost = posts?.find((post: PostType) => post.id === openId)
 	const filteredPosts = showOnlyMyPosts ? myPosts : posts
 
 	return (

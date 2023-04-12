@@ -9,7 +9,7 @@ export type UserType = {
 }
 
 export type PostType = {
-	_id: string
+	id: string
 	type: string
 	amount: number
 	postedAt: string
@@ -19,7 +19,7 @@ export type PostType = {
 }
 
 export type MessageType = {
-	_id: string
+	id: string
 	postId: string
 	fromUserId: string
 	toUserId: string
@@ -37,7 +37,7 @@ export type GroupedMessage = {
 }
 
 export type PaywallRecordType = {
-	_id: string
+	id: string
 	userId: string
 	recipientUserId: string
 	postId: string

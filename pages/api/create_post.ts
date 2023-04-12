@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
-import clientPromise from '@/../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req, res) {
 	try {
@@ -17,13 +17,11 @@ export default async function handler(req, res) {
 			return
 		}
 
-		const client = await clientPromise
-		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-
-		const myPosts = await db
-			.collection('posts')
-			.find({ userId: post.userId })
-			.toArray()
+		const myPosts = await prisma.post.findMany({
+			where: {
+				userId: post.userId
+			}
+		})
 		if (myPosts.length > 2) {
 			res
 				.status(401)
@@ -31,8 +29,24 @@ export default async function handler(req, res) {
 			return
 		}
 
-		const result = await db.collection('posts').insertOne(post)
-		res.json(result)
+		try {
+			const inserted = await prisma.post.create({
+				data: {
+					lat: post.lat,
+					lng: post.lng,
+					type: post.type,
+					amount: post.amount,
+					user: { connect: { userId: post.userId } }
+				}
+			})
+			res.json({
+				message: 'Success!'
+			})
+		} catch (err: any) {
+			res.status(500).json({
+				message: err?.message
+			})
+		}
 	} catch (e) {
 		console.error(e)
 	}

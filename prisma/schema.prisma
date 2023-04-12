@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+model Post {
+  id        String     @default(cuid()) @id
+  mongoId     String?
+  lat   Float
+  lng Float
+  type String
+  amount Float
+  user User? @relation(fields: [userId], references: [userId])
+  userId  String
+  postedAt     DateTime  @default(now()) @map(name: "created_at")
+  messages Message[]
+  @@map(name: "posts")
+}
+
+
+
+model User {
+  id            String       @default(cuid()) @id
+  mongoId       String?
+  userId        String @unique
+  pgpPrivateKeyEncrypted String?
+  pgpPublicKey String?
+  email String?
+  seenWelcome Boolean @default(false)
+  createDate     DateTime  @default(now()) @map(name: "created_at")
+  updatedPrivateKeysDate DateTime?
+  posts         Post[]
+  @@map(name: "users")
+}
+
+model lnurlAuthKey {
+  id            String       @default(cuid()) @id
+  k1            String @unique
+  key           String?
+}
+
+model Message {
+  id            String @default(cuid()) @id
+  mongoId       String?
+  body          String
+  fromUserId    String
+  toUserId      String
+  chatPaywallId String
+  sentDate      DateTime  @default(now()) @map(name: "created_at")
+  seen           Boolean @default(false)
+  post Post? @relation(fields: [postId], references: [id])
+  postId  String
+  @@map(name: "messages")
+}
+
+model chatPaywalls {
+  id  String @default(cuid()) @id
+  userId String
+  postId String
+  recipientUserId String
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+}

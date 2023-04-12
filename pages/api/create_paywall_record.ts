@@ -1,13 +1,13 @@
 // creates paywall record in db
-import clientPromise from '@/../lib/mongodb'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req, res) {
 	try {
 		let paywall = req.body.paywall
-		const client = await clientPromise
-		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-		const result = await db.collection('chatPaywalls').insertOne(paywall)
-		res.json(result.insertedId)
+		const result = await prisma.chatPaywalls.create({
+			data: paywall
+		})
+		res.json(result.id)
 	} catch (e) {
 		console.error(e)
 	}
