@@ -93,6 +93,9 @@ export default function WelcomePage({ lnurlAuthLoginInfo, isMobile }: any) {
 						</a> */}
 						<label htmlFor='my-modal-3' className='btn btn-outline'>
 							{t.showMeHow}
+							<span className='ml-2' aria-hidden='true'>
+								→
+							</span>
 						</label>
 					</div>
 				</div>
@@ -110,10 +113,6 @@ export default function WelcomePage({ lnurlAuthLoginInfo, isMobile }: any) {
 			</div>
 
 			<div className='w-full flex justify-center mt-6'>
-				{/* <button className='btn btn-link text-black w-[256px]'>
-					Show me how to do this
-				</button> */}
-
 				<input
 					type='checkbox'
 					onChange={() => setShowingHelpModal((prev) => !prev)}
