@@ -107,8 +107,8 @@ export default function Home({
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
-		getAllPaywalls()
-		getAllMessages() //todo delete these 2
+		//getAllPaywalls()
+		//getAllMessages() //todo delete these 2
 		if (!user) return
 		const processUser = async () => {
 			const userFromDb = await Axios.post('/api/get_user', {
