@@ -33,14 +33,13 @@ export const Footer = () => {
 			<div className='mx-auto max-w-8xl px-6 pb-8  lg:px-8 '>
 				<div className=' border-t border-gray-900/10 pt-8  md:flex md:items-center md:justify-between '>
 					<div className='flex space-x-6 md:order-2'>
-						<a
+						{/* <a
 							key={'tips'}
 							href={'https://tippin.me/@sndbtc'}
 							className='text-gray-400 hover:text-gray-500'>
 							<span className='sr-only'>{'Tip me'}</span>
 							Tip me
-							{/* <item.icon className='h-6 w-6' aria-hidden='true' /> */}
-						</a>
+						</a> */}
 						{social.map((item) => (
 							<a
 								key={item.name}
