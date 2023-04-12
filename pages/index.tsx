@@ -77,18 +77,22 @@ export default function WelcomePage({
 					</p>
 					<div className='mt-10 flex items-center gap-x-6'>
 						<div className='prose'>
-							{isMobile ? (
-								<LnurlAuthSignIn
-									callbackUrl={'/home'}
-									lnurlAuthLoginInfo={lnurlAuthLoginInfo}
-									isMobile={true}
-								/>
-							) : (
-								<a
-									onClick={() => setShowLightningQr(true)}
-									className='btn btn-primary'>
-									{t.loginWithLightning}
-								</a>
+							{!showingHelpModal && (
+								<>
+									{isMobile ? (
+										<LnurlAuthSignIn
+											callbackUrl={'/home'}
+											lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+											isMobile={true}
+										/>
+									) : (
+										<a
+											onClick={() => setShowLightningQr(true)}
+											className='btn btn-primary'>
+											{t.loginWithLightning}
+										</a>
+									)}
+								</>
 							)}
 						</div>
 						<label htmlFor='my-modal-3' className='btn btn-outline'>
@@ -133,7 +137,10 @@ export default function WelcomePage({
 					id='qr-modal'
 					className='modal-toggle'
 				/>
-				<LightningQrModal lnurlAuthLoginInfo={lnurlAuthLoginInfo} />
+				<LightningQrModal
+					lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+					showLightningQr={showLightningQr}
+				/>
 			</div>
 
 			<Footer />
@@ -185,9 +192,11 @@ const HelpModal = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 }
 
 const LightningQrModal = ({
-	lnurlAuthLoginInfo
+	lnurlAuthLoginInfo,
+	showLightningQr
 }: {
 	lnurlAuthLoginInfo: LnurlAuthLoginInfo
+	showLightningQr: boolean
 }) => {
 	return (
 		<div className='modal'>
@@ -200,11 +209,13 @@ const LightningQrModal = ({
 
 				<div className='py-4 text-lg font-bold text-center flex gap-2 flex-col'>
 					Click or scan:
-					<LnurlAuthSignIn
-						callbackUrl={'/home'}
-						lnurlAuthLoginInfo={lnurlAuthLoginInfo}
-						isMobile={false}
-					/>
+					{showLightningQr && (
+						<LnurlAuthSignIn
+							callbackUrl={'/home'}
+							lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+							isMobile={false}
+						/>
+					)}
 				</div>
 			</div>
 		</div>
@@ -226,7 +237,12 @@ const wallets = [
 	}
 ]
 
-const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
+const Carousel = ({
+	showingHelpModal,
+	isMobile,
+	lnurlAuthLoginInfo,
+	showLightningQr
+}: any) => {
 	const t = useText()
 	const [showAll, setShowAll] = React.useState(false)
 	const [activeTab, setActiveTab] = React.useState(1)
@@ -357,11 +373,13 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 						<h3 className='text-lg font-bold w-full text-left '>{t.step3}</h3>
 						<div className='w-full flex justify-center'>
 							<div className='z-50 mb-12 -mt-8'>
-								<LnurlAuthSignIn
-									callbackUrl={'/home'}
-									lnurlAuthLoginInfo={lnurlAuthLoginInfo}
-									isMobile={isMobile}
-								/>
+								{showingHelpModal && (
+									<LnurlAuthSignIn
+										callbackUrl={'/home'}
+										lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+										isMobile={isMobile}
+									/>
+								)}
 							</div>
 						</div>
 						<h3 className='text-lg font-bold w-full text-left mt-auto'>
