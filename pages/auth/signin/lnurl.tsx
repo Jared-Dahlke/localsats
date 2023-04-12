@@ -1,5 +1,5 @@
 import { LightningQRCode } from 'components/LightningQRCode'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -7,10 +7,11 @@ import { LnurlAuthStatus } from 'types/LnurlAuthStatus'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { useText } from '@/hooks/useText'
+import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
-	lnurlAuthLoginInfo?: any
+	lnurlAuthLoginInfo?: LnurlAuthLoginInfo
 	isMobile?: boolean
 }
 
@@ -20,11 +21,9 @@ export default function LnurlAuthSignIn({
 	isMobile
 }: LnurlAuthSignInProps) {
 	const router = useRouter()
-	const session = useSession()
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
 		callbackUrl || (router.query['callbackUrl'] as string) || '/home'
-	// only retrieve the qr code once
 	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
 		['generate-secret'],
 		() =>
@@ -35,7 +34,7 @@ export default function LnurlAuthSignIn({
 		}
 	)
 
-	const { data: status, refetch: statusMutate } = useQuery<LnurlAuthStatus>(
+	const { data: status } = useQuery<LnurlAuthStatus>(
 		['status'],
 		() =>
 			axios
@@ -53,18 +52,15 @@ export default function LnurlAuthSignIn({
 	}, [fetchNewQR, isRedirecting, status?.used, status?.verified])
 
 	React.useEffect(() => {
-		if (lnurlAuthLoginInfo && status?.verified) {
+		if (lnurlAuthLoginInfo && status?.verified && !isRedirecting) {
 			setRedirecting(true)
 			;(async () => {
 				try {
 					const result = await signIn('lnurl', {
 						k1: lnurlAuthLoginInfo.k1,
 						callbackUrl: callbackUrlWithFallback,
-						locale: router.locale || 'en',
 						redirect: false
 					})
-
-					statusMutate()
 
 					if (result && result.ok && result.url) {
 						router.push(result.url)
@@ -78,30 +74,18 @@ export default function LnurlAuthSignIn({
 		}
 	}, [callbackUrlWithFallback, lnurlAuthLoginInfo, router, status])
 
-	// if logged in, redirect to dashboard
-	React.useEffect(() => {
-		if (session.status === 'authenticated' && !isRedirecting) {
-			router.push(callbackUrlWithFallback)
-		}
-	}, [callbackUrlWithFallback, router, status, session])
 	const t = useText()
 	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
 	return (
 		<>
-			{lnurlAuthLoginInfo ? (
-				<>
-					{isMobile === true ? (
-						<Link className='btn btn-primary' href={url}>
-							{t.loginWithLightning}
-						</Link>
-					) : (
-						<Link href={url}>
-							<LightningQRCode value={url} />
-						</Link>
-					)}
-				</>
+			{isMobile === true ? (
+				<Link className='btn btn-primary' href={url}>
+					{t.loginWithLightning}
+				</Link>
 			) : (
-				<p>Loading...</p>
+				<Link href={url}>
+					<LightningQRCode value={url} />
+				</Link>
 			)}
 		</>
 	)

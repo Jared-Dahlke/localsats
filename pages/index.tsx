@@ -2,7 +2,6 @@ import React from 'react'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import mapPic from '@/public/buysellmap.jpg'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { Footer } from '@/components/footer'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
@@ -10,13 +9,17 @@ import { useText } from '@/hooks/useText'
 import Head from 'next/head'
 import LnurlAuthSignIn from './auth/signin/lnurl'
 import { getSelectorsByUserAgent } from 'react-device-detect'
-
 import { motion } from 'framer-motion'
 import { transition } from '@/utils/utils'
 import { getEncoded } from './api/auth/lnurl/generate-secret'
-
-export default function WelcomePage({ lnurlAuthLoginInfo, isMobile }: any) {
-	const router = useRouter()
+import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
+export default function WelcomePage({
+	lnurlAuthLoginInfo,
+	isMobile
+}: {
+	lnurlAuthLoginInfo: LnurlAuthLoginInfo
+	isMobile: boolean
+}) {
 	const [showingHelpModal, setShowingHelpModal] = React.useState(false)
 	const [showLightningQr, setShowLightningQr] = React.useState(false)
 	const t = useText()
@@ -88,9 +91,6 @@ export default function WelcomePage({ lnurlAuthLoginInfo, isMobile }: any) {
 								</a>
 							)}
 						</div>
-						{/* <a onClick={handleLogin} className='btn btn-primary'>
-							{t.loginWithLightning}
-						</a> */}
 						<label htmlFor='my-modal-3' className='btn btn-outline'>
 							{t.showMeHow}
 							<span className='ml-2' aria-hidden='true'>
@@ -133,7 +133,7 @@ export default function WelcomePage({ lnurlAuthLoginInfo, isMobile }: any) {
 					id='qr-modal'
 					className='modal-toggle'
 				/>
-				<LightningQrModal />
+				<LightningQrModal lnurlAuthLoginInfo={lnurlAuthLoginInfo} />
 			</div>
 
 			<Footer />
@@ -185,10 +185,10 @@ const HelpModal = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 }
 
 const LightningQrModal = ({
-	showingHelpModal,
-	isMobile,
 	lnurlAuthLoginInfo
-}: any) => {
+}: {
+	lnurlAuthLoginInfo: LnurlAuthLoginInfo
+}) => {
 	return (
 		<div className='modal'>
 			<div className='modal-box relative max-w-fit'>
@@ -198,7 +198,8 @@ const LightningQrModal = ({
 					✕
 				</label>
 
-				<div className='py-4'>
+				<div className='py-4 text-lg font-bold text-center flex gap-2 flex-col'>
+					Click or scan:
 					<LnurlAuthSignIn
 						callbackUrl={'/home'}
 						lnurlAuthLoginInfo={lnurlAuthLoginInfo}
@@ -378,10 +379,12 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 						</h3>
 						<div className='w-full scale-75 flex justify-center items-center mt-24'>
 							<div className='card shadow-lg p-4'>
-								<LnurlAuthSignIn
-									callbackUrl={'/home'}
-									lnurlAuthLoginInfo={lnurlAuthLoginInfo}
-								/>
+								{showingHelpModal && (
+									<LnurlAuthSignIn
+										callbackUrl={'/home'}
+										lnurlAuthLoginInfo={lnurlAuthLoginInfo}
+									/>
+								)}
 							</div>
 						</div>
 					</div>
