@@ -59,15 +59,6 @@ export default function Home({
 
 	const router = useRouter()
 
-	const getAllPaywalls = async () => {
-		const paywalls = await Axios.post('/api/get_all_paywalls')
-		return paywalls.data
-	}
-	const getAllMessages = async () => {
-		const messages = await Axios.post('/api/get_all_messages')
-		return messages.data
-	}
-
 	const posts = usePosts({ initialPosts })
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const { locationProps, setLocationProps } = useLocationProps(myPosts[0])
@@ -107,8 +98,6 @@ export default function Home({
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
 	React.useEffect(() => {
-		//getAllPaywalls()
-		//getAllMessages() //todo delete these 2
 		if (!user) return
 		const processUser = async () => {
 			const userFromDb = await Axios.post('/api/get_user', {
