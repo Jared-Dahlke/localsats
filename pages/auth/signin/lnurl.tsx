@@ -87,7 +87,6 @@ export default function LnurlAuthSignIn({
 	}, [callbackUrlWithFallback, router, status, session])
 	const t = useText()
 	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
-	console.log('mobile', isMobile)
 	return (
 		<>
 			{lnurlAuthLoginInfo ? (
@@ -103,9 +102,6 @@ export default function LnurlAuthSignIn({
 					)}
 				</>
 			) : (
-				// <Link href={url}>
-				// 	<LightningQRCode value={url} />
-				// </Link>
 				<p>Loading...</p>
 			)}
 		</>

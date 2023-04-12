@@ -15,7 +15,6 @@ export default function WelcomePage() {
 		router.push('/login')
 	}
 	const t = useText()
-
 	return (
 		<div className='relative isolate overflow-hidden bg-white'>
 			<Head>

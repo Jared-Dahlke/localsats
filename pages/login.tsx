@@ -109,7 +109,6 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 	const [showAll, setShowAll] = React.useState(false)
 	const [activeTab, setActiveTab] = React.useState(1)
 	const walletsToShow = showAll ? wallets : wallets.slice(0, 1)
-	console.log(isMobile)
 	return (
 		<div className='carousel w-full'>
 			<div
