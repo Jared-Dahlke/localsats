@@ -42,8 +42,7 @@ export default function LnurlAuthSignIn({
 				.get(`/api/auth/lnurl/status?k1=${lnurlAuthLoginInfo?.k1}`)
 				.then((data) => data.data),
 		{
-			refetchInterval: 1000,
-			refetchIntervalInBackground: true
+			refetchInterval: 1000
 		}
 	)
 
