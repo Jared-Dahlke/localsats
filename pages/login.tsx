@@ -233,7 +233,7 @@ const Carousel = ({ showingHelpModal, isMobile, lnurlAuthLoginInfo }: any) => {
 					<div className='flex flex-col justify-between  h-full'>
 						<h3 className='text-lg font-bold w-full text-left '>{t.step3}</h3>
 						<div className='w-full flex justify-center'>
-							<div className='scale-75 card shadow-lg p-4'>
+							<div className='scale-75 card shadow-lg p-4 z-50'>
 								<LnurlAuthSignIn
 									callbackUrl={'/home'}
 									lnurlAuthLoginInfo={lnurlAuthLoginInfo}
