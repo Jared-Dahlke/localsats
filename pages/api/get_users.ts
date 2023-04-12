@@ -1,9 +1,7 @@
-import clientPromise from '@/../lib/mongodb'
+import prisma from '@/lib/prisma'
 
 export const getUsers = async () => {
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const users = await db.collection('users').find().toArray()
+	const users = await prisma.user.findMany()
 	return users
 }
 

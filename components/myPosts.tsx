@@ -50,7 +50,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 					<tbody className=''>
 						{posts &&
 							posts.map((post, personIdx) => (
-								<tr key={post._id}>
+								<tr key={post.id}>
 									<td>{post.type}</td>
 									<td>
 										{post.amount}{' '}
@@ -60,7 +60,7 @@ export function MyPosts({ posts, deletePost }: IProps) {
 
 									<td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
 										<button
-											onClick={() => setDeleteConfirmationId(post._id)}
+											onClick={() => setDeleteConfirmationId(post.id)}
 											className='btn btn-primary btn-link '>
 											{t.delete}
 											<span className='sr-only'>, {post.type}</span>

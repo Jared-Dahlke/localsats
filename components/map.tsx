@@ -43,11 +43,11 @@ export default function SimpleMap({
 							posts?.map((post: PostType) => {
 								return (
 									<Marker
-										key={post._id}
+										key={post.id}
 										position={{ lat: post.lat, lng: post.lng }}
 										label={post.userId === user ? t.yours : ''}
 										onClick={() => {
-											setOpenId(post._id)
+											setOpenId(post.id)
 											setShowPostModal(true)
 										}}
 										icon={{

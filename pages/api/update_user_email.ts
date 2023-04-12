@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
-import clientPromise from '@/../lib/mongodb'
 import { authOptions } from './auth/[...nextauth]'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req, res) {
 	try {
@@ -14,16 +14,15 @@ export default async function handler(req, res) {
 			res.status(401).json({ error: 'Not authorized' })
 			return
 		}
-		const client = await clientPromise
-		const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-		const user = await db.collection('users').updateOne(
-			{ userId: req.body.userId },
-			{
-				$set: {
-					email: req.body.email
-				}
+
+		const user = await prisma.user.update({
+			where: {
+				userId: req.body.userId
+			},
+			data: {
+				email: req.body.email
 			}
-		)
+		})
 
 		res.json(user)
 	} catch (e) {

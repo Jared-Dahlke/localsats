@@ -60,7 +60,7 @@ export default function Modal({
 						<div className='text-md flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
 							{post?.amount} bitcoin. Posted {postDate}. Post ID:{' '}
-							{getPostId(post?._id)}
+							{getPostId(post?.id)}
 						</div>
 					</div>
 				</section>
@@ -72,7 +72,7 @@ export default function Modal({
 							<button
 								type='button'
 								className='btn-primary btn btn-error btn-block'
-								onClick={() => deletePost(post?._id)}>
+								onClick={() => deletePost(post?.id)}>
 								Delete
 							</button>
 

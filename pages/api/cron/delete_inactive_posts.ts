@@ -1,17 +1,14 @@
-import clientPromise from '@/lib/mongodb'
 import { sendEmail } from '@/lib/sendEmail'
 import { NextRequest, NextResponse } from 'next/server'
-import { getPosts } from '@/get_posts'
+import prisma from '@/lib/prisma'
 
 export default async function handler(req: NextRequest) {
 	// get all chatPaywalls:
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const chatPaywalls = await db.collection('chatPaywalls').find({}).toArray()
+
+	const chatPaywalls = await prisma.chatPaywalls.findMany()
 
 	// get all messages
-
-	const messages = await db.collection('messages').find({}).toArray()
+	const messages = await prisma.message.findMany()
 
 	// for each chatPaywall, check if poster has sent a message. If not, if the chat was started over 7 days ago, then delete the chatPaywall.
 	const chatPaywallsToDelete = chatPaywalls.filter((chatPaywall) => {
@@ -43,19 +40,7 @@ export default async function handler(req: NextRequest) {
            </div>`
 	})
 
-	// delete posts  in postIdsToDelete
-
-	// const deleted = await db.collection('posts').deleteMany({ _id: { $in: postIdsToDelete } })
-
-	// delete chatPaywalls in chatPaywallsToDelete
-	// await db.collection('chatPaywalls').deleteMany({ _id: { $in: chatPaywallsToDelete.map((chatPaywall) => {
-	//   return chatPaywall._id
-	//}) } })
-
-	// delete messages in postIdsToDelete
-	// await db.collection('messages').deleteMany({ postId: { $in: postIdsToDelete } })
-
-	// console.log('deleted',deleted)
+	// todo: delete the posts and associated data
 
 	return new NextResponse(JSON.stringify({ test: 'sent' }), {
 		status: 200

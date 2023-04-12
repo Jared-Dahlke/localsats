@@ -45,7 +45,7 @@ export function Messages({
 						<tbody id='messages'>
 							{messages &&
 								messages.map((message, personIdx) => {
-									const post = posts?.find((p) => p._id === message.postId)
+									const post = posts?.find((p) => p.id === message.postId)
 									return (
 										<tr key={message.chatPaywallId}>
 											<td className=''>

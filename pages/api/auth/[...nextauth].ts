@@ -1,12 +1,14 @@
-import clientPromise from '@/lib/mongodb'
 import { getAuthKey } from 'lib/lnurl/getAuthKey'
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 export const authOptions: NextAuthOptions = {
-	adapter: MongoDBAdapter(clientPromise),
+	adapter: PrismaAdapter(prisma),
 	providers: [
 		CredentialsProvider({
 			id: 'lnurl',
@@ -29,27 +31,28 @@ export const authOptions: NextAuthOptions = {
 				if (!authKey || !authKey.key) {
 					return null
 				}
-				// auth key has been used already, so delete it
-				const client = await clientPromise
-				const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-				await db.collection('lnurlAuthKey').deleteMany({
-					k1: authKey.k1
+
+				await prisma.lnurlAuthKey.deleteMany({
+					where: {
+						k1: authKey.k1
+					}
 				})
 
-				let user = await db.collection('users').findOne({
-					userId: authKey.key
+				let user = await prisma.user.findUnique({
+					where: {
+						userId: authKey.key
+					}
 				})
 
 				if (!user) {
-					user = await db.collection('users').insertOne({
-						userId: authKey.key,
-						locale: credentials.locale,
-						createDate: new Date(),
-						seenWelcome: false
+					user = await prisma.user.create({
+						data: {
+							userId: authKey.key,
+							createDate: new Date()
+						}
 					})
+
 					user.userId = authKey.key
-					delete user.acknowledged
-					delete user.insertedId
 				}
 
 				return user

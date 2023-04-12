@@ -176,13 +176,13 @@ export function ChatSlideOver({
 													const fromMe = message.fromUserId === user
 													return fromMe ? (
 														<YourMessage
-															key={message._id}
+															key={message.id}
 															message={message.body}
 															sentDate={message.sentDate}
 														/>
 													) : (
 														<RecipientMessage
-															key={message._id}
+															key={message.id}
 															message={message.body}
 															sentDate={message.sentDate}
 														/>

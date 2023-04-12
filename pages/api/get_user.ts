@@ -1,9 +1,12 @@
-import clientPromise from '@/../lib/mongodb'
+import prisma from '@/lib/prisma'
 
 export const getUser = async (userId) => {
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const user = await db.collection('users').findOne({ userId: userId })
+	const user = await prisma.user.findUnique({
+		where: {
+			userId: userId
+		}
+	})
+
 	return user
 }
 

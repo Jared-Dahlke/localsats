@@ -1,21 +1,31 @@
-import clientPromise from '@/../lib/mongodb'
+import prisma from '@/lib/prisma'
 const openpgp = require('openpgp')
 
 export const getMessages = async (
 	userId: string,
 	privateKeyPassphrase: string
 ) => {
-	const client = await clientPromise
-	const db = client.db(process.env.NEXT_PUBLIC_DATABASE_NAME)
-	const messages = await db
-		.collection('messages')
-		.find({
-			$or: [{ toUserId: userId }, { fromUserId: userId }]
-		})
-		.sort({ sentDate: 1 })
-		.toArray()
+	const messages = await prisma.message.findMany({
+		where: {
+			OR: [
+				{
+					toUserId: userId
+				},
+				{
+					fromUserId: userId
+				}
+			]
+		},
+		orderBy: {
+			sentDate: 'asc'
+		}
+	})
 
-	const user = await db.collection('users').findOne({ userId: userId })
+	const user = await prisma.user.findUnique({
+		where: {
+			userId: userId
+		}
+	})
 	const pgpPrivateKey = user?.pgpPrivateKeyEncrypted
 
 	try {
