@@ -10,9 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String @default(cuid()) @id
+  userId        String @unique
+  pgpPrivateKeyEncrypted String?
+  pgpPublicKey  String?
+  email         String?
+  seenWelcome   Boolean @default(false)
+  createDate    DateTime  @default(now()) @map(name: "created_at")
+  updatedPrivateKeysDate DateTime?
+  posts         Post[]
+  @@map(name: "users")
+}
 
 model Post {
-  id        String     @default(cuid()) @id
+  id        String @default(cuid()) @id
   lat   Float
   lng Float
   type String
@@ -24,25 +36,13 @@ model Post {
   @@map(name: "posts")
 }
 
-
-
-model User {
-  id            String       @default(cuid()) @id
-  userId        String @unique
-  pgpPrivateKeyEncrypted String?
-  pgpPublicKey String?
-  email String?
-  seenWelcome Boolean @default(false)
-  createDate     DateTime  @default(now()) @map(name: "created_at")
-  updatedPrivateKeysDate DateTime?
-  posts         Post[]
-  @@map(name: "users")
-}
-
-model lnurlAuthKey {
-  id            String       @default(cuid()) @id
-  k1            String @unique
-  key           String?
+model chatPaywalls {
+  id  String @default(cuid()) @id
+  userId String
+  postId String
+  recipientUserId String
+  messages Message[]
+  createdAt DateTime  @default(now()) @map(name: "created_at")
 }
 
 model Message {
@@ -50,18 +50,17 @@ model Message {
   body          String
   fromUserId    String
   toUserId      String
-  chatPaywallId String
   sentDate      DateTime  @default(now()) @map(name: "created_at")
-  seen           Boolean @default(false)
-  post Post? @relation(fields: [postId], references: [id])
-  postId  String
+  seen          Boolean @default(false)
+  post          Post? @relation(fields: [postId], references: [id])
+  postId        String
+  chatPaywall   chatPaywalls @relation(fields: [chatPaywallId], references: [id])
+  chatPaywallId String
   @@map(name: "messages")
 }
 
-model chatPaywalls {
-  id  String @default(cuid()) @id
-  userId String
-  postId String
-  recipientUserId String
-  createdAt DateTime  @default(now()) @map(name: "created_at")
+model lnurlAuthKey {
+  id            String       @default(cuid()) @id
+  k1            String @unique
+  key           String?
 }
