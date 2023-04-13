@@ -21,6 +21,7 @@ export const useText = () => {
 }
 
 const english = {
+	hereAreSomeQuickTips: 'Here are some quick tips to get you started:',
 	youWillBeRedirected: 'You will be redirected to the home page',
 	acceptTheLogin: 'accept the Login in',
 	step3Scan: 'Step 3: Scan the below QR Code with your phone, open in',
@@ -148,6 +149,7 @@ const english = {
 }
 
 const spanish = {
+	hereAreSomeQuickTips: 'Aquí hay algunos consejos rápidos',
 	youWillBeRedirected: 'Serás redirigido/a a la página de inicio.',
 	acceptTheLogin: 'acepta el inicio de sesión',
 	step3Scan: 'Paso 3: Escanea el código QR de abajo con tu teléfono, ábrelo en',
@@ -276,6 +278,7 @@ const spanish = {
 }
 
 const german = {
+	hereAreSomeQuickTips: 'Hier sind ein paar Tipps',
 	youWillBeRedirected: 'Sie werden zur Startseite weitergeleitet.',
 	acceptTheLogin: 'akzeptieren Sie die Anmeldung',
 	step3Scan:

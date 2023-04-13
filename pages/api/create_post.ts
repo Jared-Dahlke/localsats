@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 		}
 
 		try {
-			const inserted = await prisma.post.create({
+			await prisma.post.create({
 				data: {
 					lat: post.lat,
 					lng: post.lng,

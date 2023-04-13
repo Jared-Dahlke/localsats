@@ -125,9 +125,7 @@ export default function Home({
 			id
 		})
 		setOpenId(null)
-		queryClient.invalidateQueries(rqKeys.postsKey())
-		queryClient.invalidateQueries(rqKeys.messagesKey())
-		queryClient.invalidateQueries(rqKeys.chatPaywallsKey())
+		queryClient.invalidateQueries()
 	}
 
 	const handleMapClick = (e: any) => {
