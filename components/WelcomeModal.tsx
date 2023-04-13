@@ -9,6 +9,7 @@ import {
 import { getNameFromId } from '@/utils/utils'
 import { FingerPrintIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
+import { useText } from '@/hooks/useText'
 
 const features = [
 	{
@@ -54,7 +55,7 @@ export function WelcomeModal({
 }) {
 	const session = useSession()
 	const user = session?.data?.user?.userId
-
+	const t = useText()
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog
@@ -83,23 +84,23 @@ export function WelcomeModal({
 							leave='ease-in duration-200'
 							leaveFrom='opacity-100 translate-y-0 sm:scale-100'
 							leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'>
-							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6'>
+							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-base-300 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6'>
 								<div id='welcomemodal'>
-									<div className='bg-white py-12'>
+									<div className='py-12'>
 										<div className='mx-auto max-w-7xl px-6 lg:px-8'>
 											<div className='mx-auto max-w-2xl lg:text-center'>
 												<p className='mt-2 text-3xl font-bold tracking-tight  sm:text-4xl'>
-													Welcome, {getNameFromId(user)}
+													{t.welcome}, {getNameFromId(user)}
 												</p>
-												<p className='mt-6 text-lg leading-8 text-gray-600'>
-													Here are some quick tips to get you started:
+												<p className='mt-6 text-lg leading-8 '>
+													{t.hereAreSomeQuickTips}
 												</p>
 											</div>
 											<div className='mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl'>
 												<dl className='grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none lg:grid-cols-2 lg:gap-y-16'>
 													{features.map((feature) => (
 														<div key={feature.name} className='relative pl-16'>
-															<dt className='text-base font-semibold leading-7 '>
+															<dt className='text-base-content font-semibold leading-7 '>
 																<div className='absolute top-0 left-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600'>
 																	<feature.icon
 																		className='h-6 w-6 text-white'
@@ -108,7 +109,7 @@ export function WelcomeModal({
 																</div>
 																{feature.name}
 															</dt>
-															<dd className='mt-2 text-base leading-7 text-gray-600'>
+															<dd className='mt-2 text-base leading-7'>
 																{feature.description}
 															</dd>
 														</div>

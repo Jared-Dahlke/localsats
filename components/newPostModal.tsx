@@ -41,7 +41,8 @@ export default function NewPostModal({
 				alert('You can only have 3 active posts at any given time.')
 				return
 			})
-		await queryClient.invalidateQueries(rqKeys.postsKey())
+
+		queryClient.invalidateQueries({ queryKey: rqKeys.postsKey() })
 		handleSuccess()
 	}
 
