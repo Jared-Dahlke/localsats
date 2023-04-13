@@ -6,11 +6,15 @@ import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import Router from 'next/router'
 import { LoadingPage } from '@/components/loading'
+import { Inter } from 'next/font/google'
+import useLocalStorage from 'use-local-storage'
+import { ThemeProvider } from 'next-themes'
+const inter = Inter({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient()
 	const getLayout = Component.getLayout || ((page) => page)
-
+	const [theme, setTheme] = React.useState<'dark' | 'light'>('dark')
 	const [loading, setLoading] = React.useState(false)
 	React.useEffect(() => {
 		const start = () => {
@@ -32,11 +36,17 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<SessionProvider session={pageProps.session}>
 			<QueryClientProvider client={queryClient}>
-				{getLayout(
-					<>
-						{loading ? <LoadingPage size={64} /> : <Component {...pageProps} />}
-					</>
-				)}
+				<ThemeProvider defaultTheme='system'>
+					{getLayout(
+						<>
+							{loading ? (
+								<LoadingPage size={64} />
+							) : (
+								<Component {...pageProps} />
+							)}
+						</>
+					)}
+				</ThemeProvider>
 				<Analytics />
 			</QueryClientProvider>
 		</SessionProvider>

@@ -8,6 +8,8 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { useText } from '@/hooks/useText'
 import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
+import { LoadingSpinner } from '@/components/loading'
+import { classNames } from '@/utils/utils'
 
 type LnurlAuthSignInProps = {
 	callbackUrl?: string
@@ -76,10 +78,22 @@ export default function LnurlAuthSignIn({
 
 	const t = useText()
 	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
+
 	return (
-		<>
+		<div className='relative'>
+			{isRedirecting && !isMobile && (
+				<div className=''>
+					<LoadingSpinner size={64} />
+				</div>
+			)}
+
 			{isMobile === true ? (
-				<Link className='btn btn-primary' href={url}>
+				<Link
+					className={classNames(
+						'btn btn-primary',
+						isRedirecting ? 'loading' : ''
+					)}
+					href={url}>
 					{t.loginWithLightning}
 				</Link>
 			) : (
@@ -87,6 +101,6 @@ export default function LnurlAuthSignIn({
 					<LightningQRCode value={url} />
 				</Link>
 			)}
-		</>
+		</div>
 	)
 }

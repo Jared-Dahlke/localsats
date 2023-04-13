@@ -123,9 +123,7 @@ export default function About({
 							<div
 								key={stat.id}
 								className='mx-auto flex max-w-xs flex-col gap-y-4'>
-								<dt className='text-base leading-7 text-gray-600'>
-									{stat.name}
-								</dt>
+								<dt className='leading-7'>{stat.name}</dt>
 								<dd className='order-first text-3xl font-semibold tracking-tight  sm:text-5xl'>
 									{stat.value}
 								</dd>
@@ -142,9 +140,7 @@ export default function About({
 							<div
 								key={stat.id}
 								className='mx-auto flex max-w-xs flex-col gap-y-4'>
-								<dt className='text-base leading-7 text-gray-600'>
-									{stat.name}
-								</dt>
+								<dt className='leading-7'>{stat.name}</dt>
 								<dd className='order-first text-3xl font-semibold tracking-tight  sm:text-5xl'>
 									{stat.value}
 								</dd>
@@ -160,7 +156,7 @@ export default function About({
 						<h2 className='text-2xl font-bold leading-10 tracking-tight '>
 							{t.frequentlyAskedQ}
 						</h2>
-						<p className='mt-4 text-base leading-7 text-gray-600'>
+						<p className='mt-4  leading-7 '>
 							{t.cantFindTheAnswer}{' '}
 							<a
 								href='https://twitter.com/LocalSatsOrg'
@@ -176,9 +172,7 @@ export default function About({
 									<dt className='text-base font-semibold leading-7 '>
 										{faq.question}
 									</dt>
-									<dd className='mt-2 text-base leading-7 text-gray-600'>
-										{faq.answer}
-									</dd>
+									<dd className='mt-2 text-base leading-7 '>{faq.answer}</dd>
 								</div>
 							))}
 						</dl>
