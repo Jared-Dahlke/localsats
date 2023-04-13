@@ -16,14 +16,10 @@ import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
 import { useTheme } from 'next-themes'
 export default function WelcomePage({
 	lnurlAuthLoginInfo,
-	isMobile,
-	toggleDarkmode,
-	darkMode
+	isMobile
 }: {
 	lnurlAuthLoginInfo: LnurlAuthLoginInfo
 	isMobile: boolean
-	toggleDarkmode: () => void
-	darkMode: boolean
 }) {
 	const [showingHelpModal, setShowingHelpModal] = React.useState(false)
 	const [showLightningQr, setShowLightningQr] = React.useState(false)
