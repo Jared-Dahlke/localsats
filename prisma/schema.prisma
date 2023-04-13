@@ -11,11 +11,8 @@ datasource db {
 }
 
 
-
-
 model Post {
   id        String     @default(cuid()) @id
-  mongoId     String?
   lat   Float
   lng Float
   type String
@@ -31,7 +28,6 @@ model Post {
 
 model User {
   id            String       @default(cuid()) @id
-  mongoId       String?
   userId        String @unique
   pgpPrivateKeyEncrypted String?
   pgpPublicKey String?
@@ -51,7 +47,6 @@ model lnurlAuthKey {
 
 model Message {
   id            String @default(cuid()) @id
-  mongoId       String?
   body          String
   fromUserId    String
   toUserId      String
