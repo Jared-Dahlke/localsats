@@ -325,7 +325,7 @@ export default function Home({
 								onClick={() => {
 									setOpenChatPaywallId(postsWithNewMessages[0].chatPaywallId)
 								}}
-								className='cursor-pointer whitespace-nowrap font-medium ml-3'>
+								className='text-info-content cursor-pointer whitespace-nowrap font-medium ml-3'>
 								{t.open}
 								<span aria-hidden='true'> &rarr;</span>
 							</a>
