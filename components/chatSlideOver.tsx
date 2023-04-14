@@ -138,7 +138,7 @@ export function ChatSlideOver({
 										<div className='bg-base-300 h-1/4 flex  justify-between  w-full items-center relative p-5'>
 											<div className='w-1/3 h-full '>
 												{/* <h2 className='mb-0'>Chat</h2> */}
-												<h3 className='text-primary mb-0'>
+												<h3 className='mb-0'>
 													PostID:{' '}
 													{messages ? getPostId(messages[0]?.postId) : ''}
 												</h3>
@@ -150,13 +150,13 @@ export function ChatSlideOver({
 													alt=''
 												/>
 												{getNameFromId(otherPartyUserId)}
-												<div>
+												{/* <div>
 													<progress
 														className='progress progress-primary w-56 bg-base-100 mt-3'
 														value='40'
 														max='100'></progress>
 													<p className='text-sm'>Post auto closes in 4 days</p>
-												</div>
+												</div> */}
 											</div>
 
 											<div className='w-1/3 flex justify-end items-start h-full'>
