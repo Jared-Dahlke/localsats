@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<SessionProvider session={pageProps.session}>
 			<QueryClientProvider client={queryClient}>
-				<ThemeProvider defaultTheme='system'>
+				<ThemeProvider defaultTheme='dark'>
 					{getLayout(
 						<>
 							{loading ? (
