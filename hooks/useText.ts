@@ -21,6 +21,9 @@ export const useText = () => {
 }
 
 const english = {
+	clickOrScan: 'Click or scan:',
+	deletePost: 'Delete Post',
+	areYouSureYouWantToDelete: 'Are you sure you want to delete this post?',
 	hereAreSomeQuickTips: 'Here are some quick tips to get you started:',
 	youWillBeRedirected: 'You will be redirected to the home page',
 	acceptTheLogin: 'accept the Login in',
@@ -149,6 +152,9 @@ const english = {
 }
 
 const spanish = {
+	clickOrScan: 'Haz clic o escanea:',
+	deletePost: 'Eliminar post',
+	areYouSureYouWantToDelete: '¿Estás seguro de que quieres eliminar este post?',
 	hereAreSomeQuickTips: 'Aquí hay algunos consejos rápidos',
 	youWillBeRedirected: 'Serás redirigido/a a la página de inicio.',
 	acceptTheLogin: 'acepta el inicio de sesión',
@@ -278,6 +284,9 @@ const spanish = {
 }
 
 const german = {
+	clickOrScan: 'Klicken oder scannen:',
+	deletePost: 'Anzeige löschen',
+	areYouSureYouWantToDelete: 'Bist du sicher, dass du löschen willst?',
 	hereAreSomeQuickTips: 'Hier sind ein paar Tipps',
 	youWillBeRedirected: 'Sie werden zur Startseite weitergeleitet.',
 	acceptTheLogin: 'akzeptieren Sie die Anmeldung',

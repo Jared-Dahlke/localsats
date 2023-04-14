@@ -81,14 +81,9 @@ export default function LnurlAuthSignIn({
 
 	return (
 		<div className='relative'>
-			{isRedirecting && !isMobile && (
-				<div className=''>
-					<LoadingSpinner size={64} />
-				</div>
-			)}
-
 			{isMobile === true ? (
 				<Link
+					aria-disabled={true}
 					className={classNames(
 						'btn btn-primary',
 						isRedirecting ? 'loading' : ''
@@ -97,9 +92,16 @@ export default function LnurlAuthSignIn({
 					{t.loginWithLightning}
 				</Link>
 			) : (
-				<Link href={url}>
-					<LightningQRCode value={url} />
-				</Link>
+				<div className='relative'>
+					<Link href={isRedirecting ? '' : url}>
+						<LightningQRCode value={url} />
+					</Link>
+					{isRedirecting && !isMobile && (
+						<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+							<LoadingSpinner size={64} />
+						</div>
+					)}
+				</div>
 			)}
 		</div>
 	)
