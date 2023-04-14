@@ -18,19 +18,26 @@ export default async function handler(req, res) {
 		}
 	})
 
-	if (posts.length === 0) {
+	if (posts.length !== 1) {
 		res.status(401).json({ error: 'Not authorized' })
 		return
 	}
 
 	try {
-		await prisma.message.deleteMany({ where: { postId } })
-		await prisma.chatPaywalls.deleteMany({ where: { postId } })
-		const result = await prisma.post.deleteMany({
+		// mark post and its messages as deleted
+		await prisma.message.updateMany({
+			where: { postId },
+			data: { deletedDate: new Date() }
+		})
+		await prisma.chatPaywalls.updateMany({
+			where: { postId },
+			data: { deletedDate: new Date() }
+		})
+		const result = await prisma.post.update({
 			where: {
-				id: postId,
-				userId: session?.user?.userId
-			}
+				id: postId
+			},
+			data: { deletedDate: new Date() }
 		})
 
 		res.json(result)

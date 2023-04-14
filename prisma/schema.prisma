@@ -29,19 +29,23 @@ model Post {
   lng Float
   type String
   amount Float
-  user User? @relation(fields: [userId], references: [userId])
+  user User @relation(fields: [userId], references: [userId])
   userId  String
   postedAt     DateTime  @default(now()) @map(name: "created_at")
   messages Message[]
+  deletedDate DateTime?
+  chatPaywalls chatPaywalls[]
   @@map(name: "posts")
 }
 
 model chatPaywalls {
   id  String @default(cuid()) @id
   userId String
-  postId String
   recipientUserId String
   messages Message[]
+  deletedDate DateTime?
+  post Post @relation(fields: [postId], references: [id])
+  postId String
   createdAt DateTime  @default(now()) @map(name: "created_at")
 }
 
@@ -52,15 +56,16 @@ model Message {
   toUserId      String
   sentDate      DateTime  @default(now()) @map(name: "created_at")
   seen          Boolean @default(false)
-  post          Post? @relation(fields: [postId], references: [id])
+  post          Post @relation(fields: [postId], references: [id])
   postId        String
   chatPaywall   chatPaywalls @relation(fields: [chatPaywallId], references: [id])
   chatPaywallId String
+  deletedDate DateTime?
   @@map(name: "messages")
 }
 
 model lnurlAuthKey {
-  id            String       @default(cuid()) @id
+  id            String @default(cuid()) @id
   k1            String @unique
   key           String?
 }
