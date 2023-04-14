@@ -19,7 +19,8 @@ export default async function handler(req, res) {
 
 		const myPosts = await prisma.post.findMany({
 			where: {
-				userId: post.userId
+				userId: post.userId,
+				deletedDate: null
 			}
 		})
 		if (myPosts.length > 2) {

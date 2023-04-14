@@ -4,7 +4,7 @@ import { Layout } from '@/components/layout'
 import { WelcomeModal } from '@/components/WelcomeModal'
 import Axios from 'axios'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
-import { getNameFromId } from '@/utils/utils'
+import { classNames, getNameFromId } from '@/utils/utils'
 import { SuccessAlert } from '@/components/successAlert'
 import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
@@ -39,6 +39,45 @@ import { Messages } from '@/components/messages'
 import { MyPosts } from '@/components/myPosts'
 import { useText } from '@/hooks/useText'
 import { useLocationProps } from '@/hooks/useLocationProps'
+
+const teams = [
+	{ id: 1, name: 'Planetaria', href: '#', initial: 'P', current: false },
+	{ id: 2, name: 'Protocol', href: '#', initial: 'P', current: false },
+	{ id: 3, name: 'Tailwind Labs', href: '#', initial: 'T', current: false }
+]
+const secondaryNavigation = [
+	{ name: 'Overview', href: '#', current: true },
+	{ name: 'Activity', href: '#', current: false },
+	{ name: 'Settings', href: '#', current: false },
+	{ name: 'Collaborators', href: '#', current: false },
+	{ name: 'Notifications', href: '#', current: false }
+]
+const stats = [
+	{ name: 'Posted Date', value: '12/31/ 2022' },
+	{ name: 'Average deploy time', value: '3.65', unit: 'mins' },
+	{ name: 'Number of Chats', value: '3' },
+	{ name: 'Success rate', value: '98.5%' }
+]
+const statuses = {
+	Completed: 'text-green-400 bg-green-400/10',
+	Error: 'text-rose-400 bg-rose-400/10'
+}
+const activityItems = [
+	{
+		user: {
+			name: 'Michael Foster',
+			imageUrl:
+				'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+		},
+		commit: '2d89f0c8',
+		branch: 'main',
+		status: 'Completed',
+		duration: '25s',
+		date: '45 minutes ago',
+		dateTime: '2023-01-23T11:00'
+	}
+	// More items...
+]
 
 interface IProps {
 	user: string
@@ -573,6 +612,10 @@ export default function Home({
 				/>
 			</div>
 
+			{/* <div className='my-5'>
+				<PostCard />
+			</div> */}
+
 			<div className='md:gap-4 prose max-w-none'>
 				{myPosts && myPosts.length > 0 && (
 					<MyPosts posts={myPosts} deletePost={deletePost} />
@@ -669,4 +712,61 @@ export const getServerSideProps = async function ({ req, res }) {
 			privateKeyPassphrase: privateKeyPassphrase || null
 		}
 	}
+}
+
+const PostCard = () => {
+	return (
+		<div className='rounded-lg shadow-xl bg-base-300 '>
+			<div className=' flex flex-col items-start justify-between gap-x-8 gap-y-4  px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8'>
+				<div>
+					<div className='flex items-center gap-x-3'>
+						<div className='flex-none rounded-full bg-green-400/10 p-1 text-green-400'>
+							<div className='h-2 w-2 rounded-full bg-current' />
+						</div>
+						<h1 className='flex gap-x-3 text-base leading-7'>
+							<span className='font-semibold text-accent-content'>
+								My Active Post
+							</span>
+							{/* <span className='text-gray-600'>/</span>
+							<span className='font-semibold text-accent-content'>
+								Buy Order
+							</span> */}
+						</h1>
+					</div>
+					<p className='mt-2 text-xs leading-6 text-base-content'>
+						Deploys from GitHub via main branch
+					</p>
+				</div>
+				<div className='badge badge-accent'>Buy</div>
+			</div>
+
+			{/* Stats */}
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
+				{stats.map((stat, statIdx) => (
+					<div
+						key={stat.name}
+						className={classNames(
+							statIdx % 2 === 1
+								? 'sm:border-l'
+								: statIdx === 2
+								? 'lg:border-l'
+								: '',
+							'border-t border-white/5 py-6 px-4 sm:px-6 lg:px-8'
+						)}>
+						<p className='text-sm font-medium leading-6 text-gray-400'>
+							{stat.name}
+						</p>
+						<p className='mt-2 flex items-baseline gap-x-2'>
+							<span className='text-4xl font-semibold tracking-tight text-accent-content'>
+								{stat.value}
+							</span>
+							{stat.unit ? (
+								<span className='text-sm text-gray-400'>{stat.unit}</span>
+							) : null}
+						</p>
+					</div>
+				))}
+			</div>
+		</div>
+	)
 }

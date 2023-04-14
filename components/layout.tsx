@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useText } from '@/hooks/useText'
 import Head from 'next/head'
+import { ThemeSwitcher } from './ThemeSwitcher'
 
 export function Layout({
 	children,
@@ -44,7 +45,7 @@ export function Layout({
 			<Head>
 				<title>{title}</title>
 			</Head>
-			<Disclosure as='nav' className='bg-primary'>
+			<Disclosure as='nav' className='bg-base-300'>
 				{({ open }) => (
 					<>
 						<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -54,7 +55,7 @@ export function Layout({
 										<Link
 											href='/'
 											className={
-												'text-gray-100 cursor-pointer pr-3 py-2 rounded-md text-lg font-medium'
+												'cursor-pointer pr-3 py-2 rounded-md text-lg font-medium'
 											}>
 											localsats.org
 										</Link>
@@ -67,9 +68,9 @@ export function Layout({
 													onClick={item.handleClick}
 													className={classNames(
 														item.name === title
-															? 'bg-gray-900 text-white'
-															: 'text-gray-300 hover:bg-gray-700 hover:text-white',
-														'px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
+															? 'btn btn-primary'
+															: 'btn btn-ghost',
+														'normal-case'
 													)}
 													aria-current={
 														item.name === title ? 'page' : undefined
@@ -80,19 +81,17 @@ export function Layout({
 										</div>
 									</div>
 								</div>
+
 								<div className='hidden md:block'>
 									<div className='ml-4 flex items-center md:ml-6'>
 										{/* Profile dropdown */}
-
-										<div className=' dropdown dropdown-end'>
+										<ThemeSwitcher />
+										<div className=' dropdown dropdown-end ml-3'>
 											<label tabIndex={0} className=''>
 												<img
-													className='h-8 w-8 rounded-full cursor-pointer'
+													className='h-8 w-8 rounded-full cursor-pointer bg-base-100'
 													src={`https://robohash.org/${user}.png?size=500x500`}
 													alt=''
-													style={{
-														background: 'white'
-													}}
 												/>
 											</label>
 											<ul
@@ -120,16 +119,14 @@ export function Layout({
 						</div>
 
 						<Disclosure.Panel className='md:hidden'>
-							<div className='space-y-1 px-2 pt-2 pb-3 sm:px-3'>
+							<div className='space-y-1 px-2 pt-2 pb-3 sm:px-3 flex flex-col'>
 								{navigation.map((item) => (
 									<Disclosure.Button
 										key={item.name}
 										onClick={item.handleClick}
 										className={classNames(
-											item.name === title
-												? 'bg-gray-900 text-white'
-												: 'text-gray-300 hover:bg-gray-700 hover:text-white',
-											'block px-3 py-2 rounded-md text-base font-medium'
+											item.name === title ? 'btn btn-primary' : 'btn btn-ghost',
+											'normal-case'
 										)}
 										aria-current={item.name === title ? 'page' : undefined}>
 										{item.name}
@@ -137,43 +134,28 @@ export function Layout({
 								))}
 							</div>
 
-							<div className='border-t border-gray-700 pt-4 pb-3'>
-								<div className='flex items-center px-5'>
+							<div className='border-t border-gray-700 pt-4 pb-3  px-2  sm:px-3 flex flex-col mt-3'>
+								<div className='flex items-center mt-3'>
 									<div className='flex-shrink-0'>
 										<img
-											className='h-8 w-8 rounded-full'
+											className='h-8 w-8 rounded-full bg-base-100'
 											src={`https://robohash.org/${user}.png?size=500x500`}
 											alt=''
-											style={{
-												background: 'white'
-											}}
 										/>
 									</div>
 									<div className='ml-3'>
-										<div className='text-base font-medium text-white'>
+										<div className='text-base font-medium'>
 											{getNameFromId(user)}
 										</div>
-										{/* <div className='text-sm font-medium text-gray-400'>
-											{user.email}
-										</div> */}
 									</div>
-									{/* <NotificationsMenu>
-										<button
-											type='button'
-											className='ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
-											<span className='sr-only'>View notifications</span>
-											<BellIcon className='h-6 w-6' aria-hidden='true' />
-										</button>
-									</NotificationsMenu> */}
 								</div>
-								<div className='mt-3 space-y-1 px-2'>
+								<div className='flex justify-between mt-5'>
+									<ThemeSwitcher />
 									{userNavigation.map((item) => (
 										<Disclosure.Button
 											key={item.name}
-											//	as='a'
 											onClick={item.handleClick}
-											// href={item.href}
-											className='block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'>
+											className='btn btn-outline'>
 											{item.name}
 										</Disclosure.Button>
 									))}

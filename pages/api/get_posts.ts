@@ -4,6 +4,9 @@ export const getPosts = async () => {
 	const posts = await prisma.post.findMany({
 		include: {
 			user: true
+		},
+		where: {
+			deletedDate: null
 		}
 	})
 	return posts

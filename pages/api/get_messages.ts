@@ -14,7 +14,8 @@ export const getMessages = async (
 				{
 					fromUserId: userId
 				}
-			]
+			],
+			deletedDate: null
 		},
 		orderBy: {
 			sentDate: 'asc'
