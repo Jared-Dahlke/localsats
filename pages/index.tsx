@@ -13,7 +13,6 @@ import { motion } from 'framer-motion'
 import { transition } from '@/utils/utils'
 import { getEncoded } from './api/auth/lnurl/generate-secret'
 import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
-import { useTheme } from 'next-themes'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 export default function WelcomePage({
 	lnurlAuthLoginInfo,
@@ -24,7 +23,6 @@ export default function WelcomePage({
 }) {
 	const [showingHelpModal, setShowingHelpModal] = React.useState(false)
 	const [showLightningQr, setShowLightningQr] = React.useState(false)
-	const { theme, setTheme } = useTheme()
 
 	const t = useText()
 	return (
@@ -204,6 +202,7 @@ const LightningQrModal = ({
 	lnurlAuthLoginInfo: LnurlAuthLoginInfo
 	showLightningQr: boolean
 }) => {
+	const t = useText()
 	return (
 		<div className='modal'>
 			<div className='modal-box relative max-w-fit'>
@@ -214,7 +213,7 @@ const LightningQrModal = ({
 				</label>
 
 				<div className='py-4 text-lg font-bold text-center flex gap-2 flex-col'>
-					Click or scan:
+					{t.clickOrScan}
 					{showLightningQr && (
 						<LnurlAuthSignIn
 							callbackUrl={'/home'}
