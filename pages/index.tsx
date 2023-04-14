@@ -283,8 +283,6 @@ const Carousel = ({
 
 					<motion.div className='flex flex-col gap-2 p-4'>
 						<motion.a
-							target='_blank'
-							rel='noopener noreferrer'
 							href='https://apps.apple.com/us/app/breez-lightning-client-pos/id1463604142'
 							initial={{ x: 200, opacity: 0 }}
 							animate={
