@@ -87,9 +87,9 @@ export function Layout({
 										{/* Profile dropdown */}
 										<ThemeSwitcher />
 										<div className=' dropdown dropdown-end ml-3'>
-											<label tabIndex={0} className=''>
+											<label tabIndex={0} className='btn btn-ghost'>
 												<img
-													className='h-8 w-8 rounded-full cursor-pointer bg-base-100'
+													className='h-9 w-9 rounded-full cursor-pointer bg-base-100'
 													src={`https://robohash.org/${user}.png?size=500x500`}
 													alt=''
 												/>
@@ -137,7 +137,7 @@ export function Layout({
 
 							<div className='border-t border-gray-700 pt-4 pb-3  px-2  sm:px-3 flex flex-col mt-3'>
 								<div className='flex items-center mt-3'>
-									<div className='flex-shrink-0'>
+									<div className='flex-shrink-0 btn btn-ghost'>
 										<img
 											className='h-8 w-8 rounded-full bg-base-100'
 											src={`https://robohash.org/${user}.png?size=500x500`}
