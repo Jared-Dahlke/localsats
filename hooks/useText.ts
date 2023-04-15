@@ -21,6 +21,8 @@ export const useText = () => {
 }
 
 const english = {
+	youCanOnlyHaveOnePost: 'You can only have one post.',
+	maximumPostsReached: 'Maximum Posts Reached',
 	clickOrScan: 'Click or scan:',
 	deletePost: 'Delete Post',
 	areYouSureYouWantToDelete: 'Are you sure you want to delete this post?',
@@ -152,6 +154,8 @@ const english = {
 }
 
 const spanish = {
+	youCanOnlyHaveOnePost: 'Solo puedes tener un post',
+	maximumPostsReached: 'Has alcanzado el máximo de posts',
 	clickOrScan: 'Haz clic o escanea:',
 	deletePost: 'Eliminar post',
 	areYouSureYouWantToDelete: '¿Estás seguro de que quieres eliminar este post?',
@@ -284,6 +288,8 @@ const spanish = {
 }
 
 const german = {
+	youCanOnlyHaveOnePost: 'Sie können nur einen Beitrag haben',
+	maximumPostsReached: 'Maximale Anzahl von Anzeigen erreicht',
 	clickOrScan: 'Klicken oder scannen:',
 	deletePost: 'Anzeige löschen',
 	areYouSureYouWantToDelete: 'Bist du sicher, dass du löschen willst?',

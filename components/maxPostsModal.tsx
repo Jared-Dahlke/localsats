@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { useText } from '@/hooks/useText'
 
 export function MaxPostsModal({
 	open,
@@ -10,7 +11,7 @@ export function MaxPostsModal({
 	setOpen: any
 }) {
 	const cancelButtonRef = useRef(null)
-
+	const t = useText()
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog
@@ -51,13 +52,11 @@ export function MaxPostsModal({
 										<Dialog.Title
 											as='h3'
 											className='text-base font-semibold leading-6 '>
-											Maximum Posts Reached
+											{t.maximumPostsReached}
 										</Dialog.Title>
 										<div className='mt-2'>
 											<p className='text-sm text-gray-500'>
-												To prevent spam, you can only have a maximum of 3 posts
-												at a time. If you want to make another post, please
-												delete one of your older posts first.
+												{t.youCanOnlyHaveOnePost}
 											</p>
 										</div>
 									</div>

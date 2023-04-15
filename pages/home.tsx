@@ -170,7 +170,7 @@ export default function Home({
 	const handleMapClick = (e: any) => {
 		const lat = e.latLng.lat()
 		const lng = e.latLng.lng()
-		if (myPosts?.length > 2) {
+		if (myPosts?.length > 0) {
 			setShowMaxPostsModal(true)
 			return
 		}
