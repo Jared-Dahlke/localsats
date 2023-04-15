@@ -205,7 +205,7 @@ const LightningQrModal = ({
 	const t = useText()
 	return (
 		<div className='modal'>
-			<div className='modal-box relative max-w-fit'>
+			<div className='modal-box relative max-w-fit bg-white'>
 				<label
 					htmlFor='qr-modal'
 					className='btn btn-sm btn-circle absolute right-2 top-2'>
@@ -400,7 +400,7 @@ const Carousel = ({
 							{t.youWillBeRedirected}
 						</h3>
 						<div className='w-full scale-75 flex justify-center items-center mt-24'>
-							<div className='card shadow-lg p-4'>
+							<div className='card shadow-lg p-4 bg-white'>
 								{showingHelpModal && (
 									<LnurlAuthSignIn
 										callbackUrl={'/home'}
