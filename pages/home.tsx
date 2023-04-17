@@ -4,7 +4,7 @@ import { Layout } from '@/components/layout'
 import { WelcomeModal } from '@/components/WelcomeModal'
 import Axios from 'axios'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
-import { classNames, getNameFromId } from '@/utils/utils'
+import { classNames, getNameFromId, transition } from '@/utils/utils'
 import { SuccessAlert } from '@/components/successAlert'
 import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
@@ -39,44 +39,13 @@ import { Messages } from '@/components/messages'
 import { MyPosts } from '@/components/myPosts'
 import { useText } from '@/hooks/useText'
 import { useLocationProps } from '@/hooks/useLocationProps'
+import { motion } from 'framer-motion'
 
-const teams = [
-	{ id: 1, name: 'Planetaria', href: '#', initial: 'P', current: false },
-	{ id: 2, name: 'Protocol', href: '#', initial: 'P', current: false },
-	{ id: 3, name: 'Tailwind Labs', href: '#', initial: 'T', current: false }
-]
-const secondaryNavigation = [
-	{ name: 'Overview', href: '#', current: true },
-	{ name: 'Activity', href: '#', current: false },
-	{ name: 'Settings', href: '#', current: false },
-	{ name: 'Collaborators', href: '#', current: false },
-	{ name: 'Notifications', href: '#', current: false }
-]
 const stats = [
 	{ name: 'Posted Date', value: '12/31/ 2022' },
 	{ name: 'Average deploy time', value: '3.65', unit: 'mins' },
 	{ name: 'Number of Chats', value: '3' },
 	{ name: 'Success rate', value: '98.5%' }
-]
-const statuses = {
-	Completed: 'text-green-400 bg-green-400/10',
-	Error: 'text-rose-400 bg-rose-400/10'
-}
-const activityItems = [
-	{
-		user: {
-			name: 'Michael Foster',
-			imageUrl:
-				'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-		},
-		commit: '2d89f0c8',
-		branch: 'main',
-		status: 'Completed',
-		duration: '25s',
-		date: '45 minutes ago',
-		dateTime: '2023-01-23T11:00'
-	}
-	// More items...
 ]
 
 interface IProps {
@@ -346,7 +315,12 @@ export default function Home({
 				</p>
 
 				{postsWithNewMessages && postsWithNewMessages.length > 0 && (
-					<div className='alert alert-info shadow-lg mt-8 mb-7'>
+					<motion.div
+						initial={{ x: 100, opacity: 0 }}
+						viewport={{ once: true }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ ...transition }}
+						className='alert alert-info shadow-lg mt-8 mb-7'>
 						<div>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
@@ -369,11 +343,16 @@ export default function Home({
 								<span aria-hidden='true'> &rarr;</span>
 							</a>
 						</div>
-					</div>
+					</motion.div>
 				)}
 
-				{myPosts && myPosts.length > 0 && messages && messages.length < 1 && (
-					<div className='alert alert-success shadow-lg mb-7'>
+				{myPosts && myPosts.length > 0 && (
+					<motion.div
+						initial={{ x: 100, opacity: 0 }}
+						viewport={{ once: true }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ ...transition, delay: 0.5 }}
+						className='alert alert-success shadow-lg mb-7'>
 						<div>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
@@ -393,7 +372,7 @@ export default function Home({
 									: t.yourPostIsActive}
 							</span>
 						</div>
-					</div>
+					</motion.div>
 				)}
 
 				<div
@@ -700,15 +679,15 @@ export const getServerSideProps = async function ({ req, res }) {
 		})
 	}
 
-	const posts = await getPosts()
+	//const posts = await getPosts()
 	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
-	const messages = await getMessages(user, privateKeyPassphrase)
+	//	const messages = await getMessages(user, privateKeyPassphrase)
 	return {
 		props: {
 			user,
 			userFromDatabase: JSON.parse(JSON.stringify(userFromDb)),
-			posts: JSON.parse(JSON.stringify(posts)),
-			messages: JSON.parse(JSON.stringify(messages)),
+			posts: [], // JSON.parse(JSON.stringify(posts)),
+			messages: [], // JSON.parse(JSON.stringify(messages)),
 			privateKeyPassphrase: privateKeyPassphrase || null
 		}
 	}

@@ -20,6 +20,7 @@ model User {
   createDate    DateTime  @default(now()) @map(name: "created_at")
   updatedPrivateKeysDate DateTime?
   posts         Post[]
+  chatPaywalls  chatPaywalls[]
   @@map(name: "users")
 }
 
@@ -40,6 +41,7 @@ model Post {
 
 model chatPaywalls {
   id  String @default(cuid()) @id
+  user User @relation(fields: [userId], references: [userId])
   userId String
   recipientUserId String
   messages Message[]

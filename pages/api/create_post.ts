@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 				deletedDate: null
 			}
 		})
-		if (myPosts.length > 2) {
+		if (myPosts.length > 0) {
 			res
 				.status(401)
 				.json({ error: 'You have reached the maximum number of posts' })

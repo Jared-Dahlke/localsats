@@ -4,6 +4,9 @@ export const getUser = async (userId) => {
 	const user = await prisma.user.findUnique({
 		where: {
 			userId: userId
+		},
+		include: {
+			chatPaywalls: true
 		}
 	})
 
