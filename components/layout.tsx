@@ -26,6 +26,10 @@ export function Layout({
 			name: t.home,
 			handleClick: () => router.push('/home')
 		},
+		// {
+		// 	name: 'Messages',
+		// 	handleClick: () => router.push('/messages')
+		// },
 		{
 			name: t.about,
 			handleClick: () => router.push('/about')
