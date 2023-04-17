@@ -316,9 +316,9 @@ export default function Home({
 
 				{postsWithNewMessages && postsWithNewMessages.length > 0 && (
 					<motion.div
-						initial={{ x: 100, opacity: 0 }}
+						initial={{ y: 100, opacity: 0 }}
 						viewport={{ once: true }}
-						whileInView={{ opacity: 1, x: 0 }}
+						whileInView={{ opacity: 1, y: 0 }}
 						transition={{ ...transition }}
 						className='alert alert-info shadow-lg mt-8 mb-7'>
 						<div>
@@ -348,9 +348,9 @@ export default function Home({
 
 				{myPosts && myPosts.length > 0 && (
 					<motion.div
-						initial={{ x: 100, opacity: 0 }}
+						initial={{ y: 100, opacity: 0 }}
 						viewport={{ once: true }}
-						whileInView={{ opacity: 1, x: 0 }}
+						whileInView={{ opacity: 1, y: 0 }}
 						transition={{ ...transition, delay: 0.5 }}
 						className='alert alert-success shadow-lg mb-7'>
 						<div>
