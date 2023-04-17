@@ -4,6 +4,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
+import { useNextAuthLnurl } from '@/lib/next-auth-lnurl'
 
 const prisma = new PrismaClient()
 
@@ -80,6 +81,32 @@ export const authOptions: NextAuthOptions = {
 	session: { strategy: 'jwt' }
 }
 
-const nextAuthFunc = (req: NextApiRequest, res: NextApiResponse) =>
-	NextAuth(req, res, authOptions)
-export default nextAuthFunc
+export default (req: NextApiRequest, res: NextApiResponse) => {
+	const { nextAuthLnurlOptions } = useNextAuthLnurl({
+		adapter: PrismaAdapter(prisma),
+		getAuthKey: getAuthKey,
+		deleteK1: async (k1: string) => {
+			await prisma.lnurlAuthKey.deleteMany({
+				where: {
+					k1: k1
+				}
+			})
+		},
+		findUserByKey: async (key: string) => {
+			const user = await prisma.user.findUnique({
+				where: {
+					userId: key
+				}
+			})
+			return user
+		},
+		createUser: async (key: string) =>
+			await prisma.user.create({
+				data: {
+					userId: key,
+					createDate: new Date()
+				}
+			})
+	})
+	return NextAuth(req, res, nextAuthLnurlOptions)
+}

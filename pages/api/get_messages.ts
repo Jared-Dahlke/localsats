@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { Console } from 'console'
 const openpgp = require('openpgp')
 
 export const getMessages = async (
@@ -27,13 +28,17 @@ export const getMessages = async (
 			userId: userId
 		}
 	})
+	console.log('user', user)
 	const pgpPrivateKey = user?.pgpPrivateKeyEncrypted
 
 	try {
+		console.log('before', pgpPrivateKey, privateKeyPassphrase)
 		const privateKey = await openpgp.decryptKey({
 			privateKey: await openpgp.readPrivateKey({ armoredKey: pgpPrivateKey }),
 			passphrase: privateKeyPassphrase
 		})
+		console.log('made it here', messages)
+
 		const finalMessages = []
 		for await (const m of messages) {
 			if (m.body.includes('---BEGIN PGP MESSAGE---')) {
@@ -63,6 +68,7 @@ export const getMessages = async (
 				'Error decrypting private key: Incorrect key passphrase'
 			)
 		) {
+			console.log('here 1')
 			console.error(err)
 		}
 		return messages
@@ -78,6 +84,7 @@ export default async function handler(req, res) {
 
 		res.json(messages)
 	} catch (e) {
+		console.log('here 2')
 		console.error(e)
 	}
 }

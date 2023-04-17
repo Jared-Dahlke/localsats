@@ -55,6 +55,7 @@ export default async function handler(req, res) {
 
 		res.json(user)
 	} catch (e) {
+		console.log('error in add_pgp_to_user.ts')
 		console.error(e)
 	}
 }
