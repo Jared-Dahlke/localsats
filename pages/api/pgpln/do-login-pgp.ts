@@ -1,9 +1,8 @@
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { getOptions } from '@/lib/next-auth-lnurl'
-import prisma from '@/lib/prisma'
+import { addPgpToUser } from '@/pages/api/add_pgp_to_user'
+import axios from 'axios'
 import { setCookie } from 'cookies-next'
-import { StatusCodes } from 'http-status-codes'
-import { getAuthKey } from 'lib/lnurl/getAuthKey'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
@@ -20,7 +19,7 @@ export default async function handler(
 	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 
 	const { k1, sig, key } = req.query
-
+	console.log('req.query', req.query)
 	if (
 		!lnurl.verifyAuthorizationSignature(
 			sig as string,
@@ -33,22 +32,22 @@ export default async function handler(
 
 	console.log('sig', sig)
 	console.log('key', key)
+	console.log('session', session?.user.userId)
 
-	setCookie('privateKeyPassphrase', sig, {
-		req,
-		res,
-		maxAge: 2147483647,
-		path: '/'
-	})
+	// await addPgpToUser({
+	// 	req,
+	// 	res,
+	// 	userId: session?.user?.userId,
+	// 	privateKeyPassphrase: sig
+	// })
 
-	await prisma.user.update({
-		where: {
-			id: session?.user?.userId
-		},
-		data: {
-			seenLightningPgpPrompt: true
-		}
-	})
+	console.log('about to set cookie')
+	//	localStorage.setItem('test', '123')
+	// setCookie('testdd', '123', {
+	// 	req,
+	// 	res,
+	// 	maxAge: 23444
+	// })
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'

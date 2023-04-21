@@ -4,6 +4,7 @@ import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LnurlAuthLoginInfo } from 'types/LnurlAuthLoginInfo'
 
+// make a random string (we call it k1), add it to db, return  lnurl encoded callbackurl + random string
 export const getEncoded = async () => {
 	const k1 = generateSecret()
 

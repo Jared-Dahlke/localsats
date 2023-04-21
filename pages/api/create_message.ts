@@ -17,12 +17,7 @@ export default async function handler(req, res) {
 			return
 		}
 		const message = req.body.message
-		console.log(session?.user?.userId)
-		console.log(message.fromUserId)
-		console.log(
-			'message.fromUserId !== session?.user?.userId',
-			message.fromUserId !== session?.user?.userId
-		)
+
 		if (message.fromUserId !== session?.user?.userId) {
 			res.status(401).json({ error: 'Not authorized' })
 			return

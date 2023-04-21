@@ -26,16 +26,20 @@ export default function LnurlAuthSignIn({
 	const [isRedirecting, setRedirecting] = React.useState(false)
 	const callbackUrlWithFallback =
 		callbackUrl || (router.query['callbackUrl'] as string) || '/home'
-	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
-		['generate-secret'],
-		() =>
-			axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data),
-		{
-			refetchOnWindowFocus: false,
-			initialData: initialLoginInfo
-		}
-	)
 
+	//lnurlAuthLoginInfo is the lnurlEncoded callback url string so that we can show it in the QR Code, and our k1 ,
+	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } =
+		useQuery<LnurlAuthLoginInfo>(
+			['generate-secret'],
+			() =>
+				axios.get(`/api/auth/lnurl/generate-secret`).then((data) => data.data),
+			{
+				refetchOnWindowFocus: false,
+				initialData: initialLoginInfo
+			}
+		)
+
+	// this is just fetching the record for the k1 lnurlAuthKey: select * from lnurl_auth where k1 = 'k1', if this record has a key on it, then we know that the user has logged in
 	const { data: status } = useQuery<LnurlAuthStatus>(
 		['status'],
 		() =>

@@ -30,19 +30,24 @@ export const getOptions = ({
 				credentials: {
 					k1: { type: 'text' }
 				},
+				// this gets called on login
 				async authorize(credentials) {
 					if (!credentials) {
 						return null
 					}
 
+					// get record from lnurlAuthKey table based off of k1
 					const authKey = await getAuthKey(credentials.k1)
 					if (!authKey || !authKey.key) {
+						console.error('no auth key on login')
 						return null
 					}
-
+					// now delete that record since we now have it stored in the authKey variable
 					await deleteK1(authKey.k1)
+					// find user by key (key is the userId in the user table)
 					let user = await findUserByKey(authKey.key)
 
+					// if no user, create user
 					if (!user) {
 						user = await createUser(authKey.key)
 						user.userId = authKey.key

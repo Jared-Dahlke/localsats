@@ -233,7 +233,10 @@ export const getServerSideProps: GetServerSideProps<any> = async function ({
 			}
 		}
 
-		const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
+		const privateKeyPassphrase = getCookie('privateKeyPassphrase', {
+			req,
+			res
+		})
 		const allMyMessages = await getMessages(user, privateKeyPassphrase)
 		const messages =
 			allMyMessages?.filter((m) => m.chatPaywallId === chatPaywallId) || []

@@ -64,10 +64,6 @@ export function Layout({
 		}
 	]
 
-	const userNavigation = [
-		{ name: t.signOut, handleClick: () => handleLogout() }
-	]
-
 	return (
 		<>
 			<Head>
@@ -188,8 +184,10 @@ export function Layout({
 						</ul>
 						<div className='flex justify-between w-full mt-auto'>
 							<ThemeSwitcher />
-							<button className='btn btn-ghost bg-base-300 text-accent-content'>
-								Log Out
+							<button
+								onClick={handleLogout}
+								className='btn btn-ghost bg-base-300 text-accent-content'>
+								{t.signOut}
 							</button>
 						</div>
 					</div>

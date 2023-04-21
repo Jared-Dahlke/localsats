@@ -22,7 +22,7 @@ import getDistance from 'geolib/es/getDistance'
 import { usePosts } from '@/hooks/usePosts'
 import { useMessages } from '@/hooks/useMessages'
 import Modal from '@/components/modal'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { NewPostSuccessModal } from '@/components/newPostSuccessModal'
 import { encryptMessage } from '@/lib/pgp'
@@ -34,6 +34,9 @@ import { useLocationProps } from '@/hooks/useLocationProps'
 import { motion } from 'framer-motion'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
+import { LightningPassphraseModal } from '@/components/LightningPassphraseModal'
+import { getEncoded } from './api/generate-secret-pgp'
+import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
 
 const stats = [
 	{ name: 'Posted Date', value: '12/31/ 2022' },
@@ -47,7 +50,6 @@ interface IProps {
 	userFromDatabase: UserType
 	posts: PostType[]
 	messages: MessageType[]
-	privateKeyPassphrase: string | undefined
 }
 
 export default function Home({
@@ -56,6 +58,18 @@ export default function Home({
 	messages: initialMessages
 }: IProps) {
 	const router = useRouter()
+
+	// const { data: passphraseCookie, isFetched: passphraseCookieIsFetched } =
+	// 	useQuery<string>(
+	// 		['status-cookie'],
+	// 		() => axios.get(`/api/get_passphrase_cookie`).then((data) => data.data),
+	// 		{
+	// 			refetchInterval: 5000,
+	// 			refetchIntervalInBackground: true
+	// 		}
+	// 	)
+
+	// console.log('passphraseCookie', passphraseCookie)
 
 	const posts = usePosts({ initialPosts })
 
@@ -196,13 +210,23 @@ export default function Home({
 
 	return (
 		<div>
-			<WelcomeModal
-				open={showWelcomeModal}
+			{/* <input
+				readOnly
+				checked={!!!passphraseCookie}
+				type='checkbox'
+				id='passphrase-modal'
+				className='modal-toggle'
+			/>
+
+			<LightningPassphraseModal /> */}
+
+			{/* <WelcomeModal
+				open={!!!passphraseCookie}
 				setOpen={() => setShowWelcomeModal(false)}
 				handleAddEmail={() => {
 					setShowWelcomeModal(false)
 				}}
-			/>
+			/> */}
 
 			<input
 				readOnly
@@ -359,7 +383,6 @@ Home.getLayout = function getLayout(page) {
 
 export const getServerSideProps = async function ({ req, res }) {
 	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
-
 	const user = session?.user?.userId
 	if (!user) {
 		return {
@@ -377,7 +400,6 @@ export const getServerSideProps = async function ({ req, res }) {
 			userId: user
 		})
 	}
-
 	const posts = await getPosts()
 	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
 	const messages = await getMessages(user, privateKeyPassphrase)

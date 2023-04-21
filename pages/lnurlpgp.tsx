@@ -12,41 +12,21 @@ import { LoadingSpinner } from '@/components/loading'
 import { classNames } from '@/utils/utils'
 
 type LnurlAuthSignInProps = {
-	callbackUrl?: string
-	lnurlAuthLoginInfo?: LnurlAuthLoginInfo
 	isMobile?: boolean
 }
 
-export default function LnurlAuthSignIn({
-	callbackUrl,
-	lnurlAuthLoginInfo: initialLoginInfo,
-	isMobile
-}: LnurlAuthSignInProps) {
-	const router = useRouter()
+export function LnurlAuthPgp({ isMobile }: LnurlAuthSignInProps) {
 	const [isRedirecting, setRedirecting] = React.useState(false)
 
 	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
 		['generate-secret-pgp'],
-		() =>
-			axios
-				.get(`/api/auth/lnurl/pgp/generate-secret-pgp`)
-				.then((data) => data.data),
+		() => axios.get(`/api/generate-secret-pgp`).then((data) => data.data),
 		{
-			refetchOnWindowFocus: false,
-			initialData: initialLoginInfo
+			refetchOnWindowFocus: false
 		}
 	)
 
-	const { data: status } = useQuery<LnurlAuthStatus>(
-		['status'],
-		() =>
-			axios
-				.get(`/api/auth/lnurl/status?k1=${lnurlAuthLoginInfo?.k1}`)
-				.then((data) => data.data),
-		{
-			refetchInterval: 1000
-		}
-	)
+	console.log('lnurlAuthLoginInfo', lnurlAuthLoginInfo)
 
 	const t = useText()
 	const url = `lightning:${lnurlAuthLoginInfo?.lnurl_auth}`
