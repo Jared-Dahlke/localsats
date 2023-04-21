@@ -1,9 +1,10 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from './auth/[...nextauth]'
 import { setCookie } from 'cookies-next'
 const openpgp = require('openpgp')
 import dayjs from 'dayjs'
 import prisma from '@/lib/prisma'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 var crypto = require('crypto')
 
 export const addPgpToUser = async ({ req, res, userId }) => {
@@ -40,7 +41,11 @@ export const addPgpToUser = async ({ req, res, userId }) => {
 
 export default async function handler(req, res) {
 	try {
-		const session = await getServerSession(req, res, authOptions)
+		const session = await getServerSession(
+			req,
+			res,
+			getOptions(lnurlAuthConfig)
+		)
 
 		if (!session) {
 			res.status(401).json({ error: 'Not authenticated' })

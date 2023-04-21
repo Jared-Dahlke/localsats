@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth'
 import React from 'react'
 import { Layout } from '@/components/layout'
 import { handleLogout } from '@/utils/utils'
-import { authOptions } from './api/auth/[...nextauth]'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 
 export default function Profile({ user }) {
 	const t = useText()
@@ -36,7 +37,7 @@ Profile.getLayout = function getLayout(page) {
 }
 
 export const getServerSideProps = async function ({ req, res }) {
-	const session = await getServerSession(req, res, authOptions)
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 	const user = session?.user?.userId
 	if (!user) {
 		return {

@@ -5,10 +5,7 @@ import { WelcomeModal } from '@/components/WelcomeModal'
 import Axios from 'axios'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 import { classNames, getNameFromId, transition } from '@/utils/utils'
-import { SuccessAlert } from '@/components/successAlert'
-import * as EmailValidator from 'email-validator'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import {
 	MessageType,
@@ -18,28 +15,25 @@ import {
 } from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { getCookie, setCookie } from 'cookies-next'
+import { getCookie } from 'cookies-next'
 import { addPgpToUser } from './api/add_pgp_to_user'
 import { getUser } from './api/get_user'
 import getDistance from 'geolib/es/getDistance'
 import { usePosts } from '@/hooks/usePosts'
 import { useMessages } from '@/hooks/useMessages'
-import { ChatSlideOver } from '@/components/chatSlideOver'
 import Modal from '@/components/modal'
 import { useQueryClient } from '@tanstack/react-query'
-import { rqKeys } from '@/constants'
 import axios from 'axios'
 import { NewPostSuccessModal } from '@/components/newPostSuccessModal'
 import { encryptMessage } from '@/lib/pgp'
 import { MaxPostsModal } from '@/components/maxPostsModal'
 import NewPostModal from '@/components/newPostModal'
 import QrCodeModal from '@/components/qrCodeModal'
-import { Messages } from '@/components/messages'
-import { MyPosts } from '@/components/myPosts'
 import { useText } from '@/hooks/useText'
 import { useLocationProps } from '@/hooks/useLocationProps'
 import { motion } from 'framer-motion'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 
 const stats = [
 	{ name: 'Posted Date', value: '12/31/ 2022' },
@@ -59,15 +53,12 @@ interface IProps {
 export default function Home({
 	user,
 	posts: initialPosts,
-	messages: initialMessages,
-	privateKeyPassphrase,
-	userFromDatabase: initialUser
+	messages: initialMessages
 }: IProps) {
-	console.log('rendering home')
-
 	const router = useRouter()
 
 	const posts = usePosts({ initialPosts })
+
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
 	const { locationProps, setLocationProps } = useLocationProps(myPosts[0])
 
@@ -80,19 +71,11 @@ export default function Home({
 	)
 
 	const messages = messagesQuery?.data
-
-	const postsWithNewMessages = groupedMessages?.filter(
-		(message) => message?.hasUnreadMessages
+	const hasUnreadMessages = messages?.some(
+		(message) => !message.seen && message.toUserId === user
 	)
-	const [openChatPaywallId, setOpenChatPaywallId] = React.useState<
-		string | null
-	>(null)
-	const [email, setEmail] = React.useState(initialUser?.email || '')
-	const [addingEmail, setAddingEmail] = React.useState(false)
-	const [passphrase, setPassphrase] = React.useState(privateKeyPassphrase)
+
 	const [openId, setOpenId] = React.useState<string | null>(null)
-	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
-	const [showPaymentSuccess, setShowPaymentSuccess] = React.useState(false)
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
 	const [showPostModal, setShowPostModal] = React.useState(false)
 	const [newPost, setNewPost] = React.useState<PostType | null>(null)
@@ -124,7 +107,6 @@ export default function Home({
 	}, [user])
 
 	const userFromDatabase = useDatabaseUser({ userId: user })
-	//const userEmail = userFromDatabase?.data?.data?.email
 
 	const deletePost = async (id: string) => {
 		setShowPostModal(false)
@@ -147,8 +129,7 @@ export default function Home({
 		setShowNewPostModal(true)
 	}
 
-	const handleInvoicePaid = async () => {
-		//	setShowPaymentSuccess(true)
+	const createPaywall = async () => {
 		setShowPostModal(false)
 		const paywallRecord: Omit<PaywallRecordType, 'id'> = {
 			userId: user,
@@ -165,12 +146,12 @@ export default function Home({
 		const publicKeyArmored = openPost?.user.pgpPublicKey
 		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
 
-		let finalMessage = 'Hello, I am interested in your post.'
+		let finalMessage = 'Hello, I am interested in your order.'
 		try {
 			const encryptedMessage = await encryptMessage({
 				publicKey1: publicKeyArmored,
 				publicKey2: myPublicKeyArmored,
-				message: 'Hello, I am interested in your post.'
+				message: 'Hello, I am interested in your order.'
 			})
 			finalMessage = encryptedMessage
 		} catch (e) {
@@ -189,16 +170,7 @@ export default function Home({
 		}
 		createMessageMutation.mutate(newMessage)
 
-		setOpenChatPaywallId(newPaywallId.data)
-		setShowPaymentSuccess(false)
-	}
-
-	const saveEmail = async () => {
-		await Axios.post('/api/update_user_email', {
-			userId: user,
-			email
-		})
-		setShowEmailSuccess(true)
+		router.push(`/chats/${newPaywallId.data}`)
 	}
 
 	// const nearbyPosts = React.useMemo(() => {
@@ -219,8 +191,6 @@ export default function Home({
 		}
 	}, [openId, newPost])
 
-	const openMessages =
-		messages?.filter((m) => m.chatPaywallId === openChatPaywallId) || []
 	const openPost = posts?.find((post: PostType) => post.id === openId)
 	const filteredPosts = showOnlyMyPosts ? myPosts : posts
 
@@ -248,13 +218,12 @@ export default function Home({
 					setShowPostModal(false)
 					setOpenId(null)
 				}}
-				createPaywall={handleInvoicePaid}
+				createPaywall={createPaywall}
 				isCreatingPaywall={isCreatingPaywall}
 				deletePost={deletePost}
 				activeChats={groupedMessages.filter((m) => m.postId === openId)}
 				openThisChat={(chatPaywallId: string) => {
-					setShowPostModal(false)
-					setOpenChatPaywallId(chatPaywallId)
+					router.push(`/chats/${chatPaywallId}`)
 				}}
 			/>
 
@@ -314,7 +283,7 @@ export default function Home({
 					{t.toCreateANewPostToBuyOrSell}
 				</p>
 
-				{postsWithNewMessages && postsWithNewMessages.length > 0 && (
+				{hasUnreadMessages && (
 					<motion.div
 						initial={{ y: 100, opacity: 0 }}
 						viewport={{ once: true }}
@@ -336,7 +305,7 @@ export default function Home({
 							<span>{t.youHaveANewMessage}.</span>
 							<a
 								onClick={() => {
-									setOpenChatPaywallId(postsWithNewMessages[0].chatPaywallId)
+									router.push('/chats')
 								}}
 								className='text-info-content cursor-pointer whitespace-nowrap font-medium ml-3'>
 								{t.open}
@@ -345,269 +314,12 @@ export default function Home({
 						</div>
 					</motion.div>
 				)}
-
-				{myPosts && myPosts.length > 0 && (
-					<motion.div
-						initial={{ y: 100, opacity: 0 }}
-						viewport={{ once: true }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ ...transition, delay: 0.5 }}
-						className='alert alert-success shadow-lg mb-7'>
-						<div>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className='stroke-current flex-shrink-0 h-6 w-6'
-								fill='none'
-								viewBox='0 0 24 24'>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-								/>
-							</svg>
-							<span>
-								{myPosts && myPosts.length > 1
-									? t.youHaveActivePosts
-									: t.yourPostIsActive}
-							</span>
-						</div>
-					</motion.div>
-				)}
-
-				<div
-					tabIndex={0}
-					className='collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
-					<div className='collapse-title'>
-						<h3 className='text-md font-medium leading-6 '>
-							{t.emailSettings}
-						</h3>
-					</div>
-					<div className='collapse-content'>
-						<div className='mt-2 max-w-xl text-sm '>
-							<p>{t.ifYoudLikeToReceiveAnEmailWhenSomeone}</p>
-						</div>
-						<div className='mt-5 sm:flex sm:items-center'>
-							<div className='w-full sm:max-w-xs'>
-								<label htmlFor='email' className='sr-only'>
-									{t.emailSettings}
-								</label>
-								<input
-									type='email'
-									name='email'
-									id='email'
-									onChange={(e) => {
-										setEmail(e.target.value)
-									}}
-									className='input input-bordered w-full'
-									placeholder={`you@example.com (${t.optional})`}
-									value={email}
-								/>
-							</div>
-							<button
-								disabled={!EmailValidator.validate(email) && email !== ''}
-								onClick={saveEmail}
-								className='btn-primary btn  mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-								{t.save}
-							</button>
-						</div>
-					</div>
-				</div>
-
-				{/* <div className='flex items-center'>
-					<label className='label cursor-pointer mr-3'>
-						<span className='label-text mr-3'>Email Alerts</span>
-
-						<input
-							type='checkbox'
-							className='toggle toggle-success'
-							checked={addingEmail || !!userEmail}
-							onChange={() => {
-								setAddingEmail(!addingEmail)
-							}}
-						/>
-					</label>
-					<Tippy
-						trigger='click'
-						content={`If you'd like to receive an email when someone messages you, add an
-							email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.`}>
-						<QuestionMarkCircleIcon className='h-5 w-5 cursor-pointer' />
-					</Tippy>
-				</div>
-				{(addingEmail || userEmail) && (
-					<div className='mt-1 sm:flex sm:items-center'>
-						<div className='w-full sm:max-w-xs'>
-							<label htmlFor='email' className='sr-only'>
-								Email
-							</label>
-							<input
-								type='email'
-								name='email'
-								id='email'
-								onChange={(e) => {
-									setEmail(e.target.value)
-								}}
-								className='input input-bordered w-full'
-								placeholder='you@example.com (optional)'
-								defaultValue={userEmail}
-							/>
-						</div>
-						<button
-							disabled={!EmailValidator.validate(email) && email !== ''}
-							onClick={saveEmail}
-							className='btn-primary btn  mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-							Save
-						</button>
-					</div>
-				)} */}
-
-				<div
-					tabIndex={0}
-					className='mt-8 collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
-					<div className='collapse-title'>
-						<h3 className='text-md font-medium leading-6 '>
-							{t.yourMessagesAre}
-						</h3>
-					</div>
-					<div className='collapse-content'>
-						{!privateKeyPassphrase && (
-							<div className='rounded-md bg-yellow-50 p-4 mb-3'>
-								<div className='flex'>
-									<div className='flex-shrink-0'>
-										<ExclamationTriangleIcon
-											className='h-5 w-5 text-yellow-400'
-											aria-hidden='true'
-										/>
-									</div>
-									<div className='ml-3'>
-										<h3 className='text-sm font-medium text-yellow-800'>
-											{t.attentionNeededInOrderToDecrypt}
-										</h3>
-										<div className='mt-2 text-sm text-yellow-700'>
-											<p>
-												{t.weHaveARecordOfYourPgp}
-												<br />
-												{t.getYourPassphraseFromTheFirstDevice}
-												<br />
-												{t.generateANewKeyPair}
-											</p>
-											<button
-												onClick={async () => {
-													await Axios.post('/api/add_pgp_to_user', {
-														userId: user
-													})
-													router.reload() // reload page to make pgp cookie available
-												}}
-												className='btn-primary btn ml-2'>
-												{t.generateNewPgp}
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						)}
-
-						<div className='mt-2 max-w-xl text-sm '>
-							<p>{t.belowIsThePassphrase}</p>
-						</div>
-						<div className='mt-5 sm:flex sm:items-center'>
-							<div className='w-full sm:max-w-xs'>
-								<label htmlFor='email' className='sr-only'>
-									{t.pgpPassphrase}
-								</label>
-								<input
-									type='text'
-									name='privateKeyPassphrase'
-									id='privateKeyPassphrase'
-									onChange={(e) => {
-										setPassphrase(e.target.value)
-									}}
-									value={passphrase}
-									className='input input-bordered w-full'
-									placeholder={t.yourPgpPassphrase}
-									//defaultValue={privateKeyPassphrase}
-								/>
-							</div>
-							<button
-								//disabled={passphrase.length < 1}
-								onClick={async () => {
-									setCookie('privateKeyPassphrase', passphrase, {
-										maxAge: 2147483647,
-										path: '/'
-									})
-
-									router.reload()
-								}}
-								className='btn-primary btn mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-								{t.save}
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<ChatSlideOver
-					open={!!openChatPaywallId}
-					setOpen={setOpenChatPaywallId}
-					messages={openMessages}
-					isSendingMessage={createMessageMutation.isLoading}
-					createMessageMutation={async (body: string) => {
-						if (!openChatPaywallId || !body) return
-
-						const toUserId =
-							openMessages[0].fromUserId === user
-								? openMessages[0].toUserId
-								: openMessages[0].fromUserId
-
-						const toUser = await axios.post('/api/get_user', {
-							userId: toUserId
-						})
-
-						const toUserPgpPublicKey = toUser.data.pgpPublicKey
-
-						const publicKeyArmored = toUserPgpPublicKey
-						const myPublicKeyArmored =
-							userFromDatabase?.data?.data?.pgpPublicKey
-
-						let finalMessage = body
-						if (publicKeyArmored && myPublicKeyArmored) {
-							finalMessage = await encryptMessage({
-								publicKey1: publicKeyArmored,
-								publicKey2: myPublicKeyArmored,
-								message: body
-							})
-						}
-
-						const message: Omit<MessageType, '_id'> = {
-							body: finalMessage,
-							fromUserId: user,
-							toUserId,
-							postId: openMessages[0].postId,
-							seen: false,
-							sentDate: new Date(),
-							chatPaywallId: openMessages[0].chatPaywallId
-						}
-						createMessageMutation.mutate(message)
-					}}
-				/>
 			</div>
 
 			{/* <div className='my-5'>
 				<PostCard />
 			</div> */}
 
-			<div className='md:gap-4 prose max-w-none'>
-				{myPosts && myPosts.length > 0 && (
-					<MyPosts posts={myPosts} deletePost={deletePost} />
-				)}
-				{groupedMessages && groupedMessages.length > 0 && (
-					<Messages
-						messages={groupedMessages}
-						setOpenChatPaywallId={setOpenChatPaywallId}
-						setLocationProps={setLocationProps}
-						posts={posts}
-					/>
-				)}
-			</div>
 			{myPosts && myPosts.length > 0 && (
 				<div className='flex w-full justify-end'>
 					<div className='form-control'>
@@ -637,19 +349,6 @@ export default function Home({
 				setOpenId={setOpenId}
 				setShowPostModal={setShowPostModal}
 			/>
-
-			<div
-				aria-live='assertive'
-				className='pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6'>
-				<div className='flex w-full flex-col items-center space-y-4 sm:items-end'>
-					<SuccessAlert
-						show={showEmailSuccess}
-						setShow={() => setShowEmailSuccess(false)}
-						title={t.emailUpdated}
-						subtitle=''
-					/>
-				</div>
-			</div>
 		</div>
 	)
 }
@@ -659,7 +358,7 @@ Home.getLayout = function getLayout(page) {
 }
 
 export const getServerSideProps = async function ({ req, res }) {
-	const session = await getServerSession(req, res, authOptions)
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 
 	const user = session?.user?.userId
 	if (!user) {
@@ -679,16 +378,15 @@ export const getServerSideProps = async function ({ req, res }) {
 		})
 	}
 
-	//const posts = await getPosts()
+	const posts = await getPosts()
 	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
-	//	const messages = await getMessages(user, privateKeyPassphrase)
+	const messages = await getMessages(user, privateKeyPassphrase)
+
 	return {
 		props: {
 			user,
-			userFromDatabase: JSON.parse(JSON.stringify(userFromDb)),
-			posts: [], // JSON.parse(JSON.stringify(posts)),
-			messages: [], // JSON.parse(JSON.stringify(messages)),
-			privateKeyPassphrase: privateKeyPassphrase || null
+			posts: JSON.parse(JSON.stringify(posts)),
+			messages: JSON.parse(JSON.stringify(messages))
 		}
 	}
 }

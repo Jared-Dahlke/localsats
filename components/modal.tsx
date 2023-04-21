@@ -7,6 +7,7 @@ import {
 import { GroupedMessage } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+import { useText } from '@/hooks/useText'
 export default function Modal({
 	setOpen,
 	post,
@@ -24,6 +25,7 @@ export default function Modal({
 	openThisChat: (chatPaywallId: string) => void
 	isCreatingPaywall: boolean
 }) {
+	const t = useText()
 	const session = useSession()
 	const user = session?.data?.user?.userId
 	const isMyPost = user === post?.userId
@@ -59,7 +61,7 @@ export default function Modal({
 					<div className='text-center'>
 						<div className='text-md flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
-							{post?.amount} bitcoin. Posted {postDate}. Post ID:{' '}
+							{post?.amount} bitcoin. Posted {postDate}. {t.orderId}:{' '}
 							{getPostId(post?.id)}
 						</div>
 					</div>
@@ -79,7 +81,7 @@ export default function Modal({
 							{activeChats.length > 0 && (
 								<div className='mt-6'>
 									<p className='mb-2'>
-										You already have an open chat for this post
+										You already have an open chat for this order
 									</p>
 									<div className='flex flex-col gap-2'>
 										{activeChats.map((chat) => (
@@ -102,7 +104,7 @@ export default function Modal({
 					) : activeChats.length > 0 ? (
 						<div>
 							<p className='mb-4'>
-								You already have an open chat for this post
+								You already have an open chat for this order
 							</p>
 							<div className='flex flex-col gap-2'>
 								{activeChats.map((chat) => (

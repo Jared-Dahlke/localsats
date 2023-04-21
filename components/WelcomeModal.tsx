@@ -13,21 +13,21 @@ import { useText } from '@/hooks/useText'
 
 const features = [
 	{
-		name: 'Create a post',
+		name: 'Create a order',
 		description:
-			'To create a new post to buy or sell Bitcoin, just click on the map where you would like to meet.',
+			'To create a new order to buy or sell Bitcoin, just click on the map where you would like to meet.',
 		icon: MegaphoneIcon
 	},
 	{
-		name: 'Respond to a post',
+		name: 'Respond to a order',
 		description:
-			'To see other peoples posts and respond to them, click on the icons on the map.',
+			'To see other peoples orders and respond to them, click on the icons on the map.',
 		icon: ChatBubbleLeftIcon
 	},
 	{
 		name: 'Receive Messages',
 		description:
-			'When others respond to your post, you will receive a message. You can also optionally choose to receive an email.',
+			'When others respond to your order, you will receive a message. You can also optionally choose to receive an email.',
 		icon: EnvelopeIcon
 	},
 	{
@@ -39,7 +39,7 @@ const features = [
 	{
 		name: 'This is new!',
 		description:
-			'There are not many posts yet because this site is brand new, it was just shipped February 2023. Please, create a post and help us grow! Be patient.',
+			'There are not many orders yet because this site is brand new, it was just shipped February 2023. Please, create a order and help us grow! Be patient.',
 		icon: NewspaperIcon
 	}
 ]

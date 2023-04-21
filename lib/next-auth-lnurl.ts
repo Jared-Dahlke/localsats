@@ -1,21 +1,26 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-interface IProps {
+interface lnurlAuthKey {
+	id: string
+	k1: string
+	key: string | null
+}
+export interface LnurlProps {
 	adapter: NextAuthOptions['adapter']
-	getAuthKey: (k1: string) => Promise<any>
+	getAuthKey: (k1: string) => Promise<lnurlAuthKey | null>
 	deleteK1: (k1: string) => Promise<void>
 	findUserByKey: (key: string) => Promise<any>
 	createUser: (key: string) => Promise<any>
 }
 
-export const useNextAuthLnurl = ({
+export const getOptions = ({
 	adapter,
 	getAuthKey,
 	deleteK1,
 	findUserByKey,
 	createUser
-}: IProps) => {
+}: LnurlProps) => {
 	const nextAuthLnurlOptions: NextAuthOptions = {
 		adapter: adapter,
 		providers: [
@@ -39,15 +44,7 @@ export const useNextAuthLnurl = ({
 					let user = await findUserByKey(authKey.key)
 
 					if (!user) {
-						// user = await prisma.user.create({
-						// 	data: {
-						// 		userId: authKey.key,
-						// 		createDate: new Date()
-						// 	}
-						// })
-
 						user = await createUser(authKey.key)
-
 						user.userId = authKey.key
 					}
 
@@ -59,7 +56,7 @@ export const useNextAuthLnurl = ({
 			session: async ({ session, token }) => {
 				return Promise.resolve({
 					...session,
-					user: token.user as User
+					user: token.user as any
 				})
 			},
 			jwt: async ({ token, user }) => {
@@ -76,6 +73,5 @@ export const useNextAuthLnurl = ({
 		},
 		session: { strategy: 'jwt' }
 	}
-
-	return { nextAuthLnurlOptions }
+	return nextAuthLnurlOptions
 }

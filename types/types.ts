@@ -16,6 +16,7 @@ export type PostType = {
 	lat: number
 	lng: number
 	userId: string
+	chatPaywalls?: PaywallRecordType[]
 }
 
 export type MessageType = {

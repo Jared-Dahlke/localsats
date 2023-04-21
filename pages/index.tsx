@@ -1,10 +1,8 @@
 import React from 'react'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import mapPic from '@/public/buysellmap.jpg'
 import Image from 'next/image'
 import { Footer } from '@/components/footer'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]'
 import { useText } from '@/hooks/useText'
 import Head from 'next/head'
 import LnurlAuthSignIn from './auth/signin/lnurl'
@@ -14,6 +12,8 @@ import { transition } from '@/utils/utils'
 import { getEncoded } from './api/auth/lnurl/generate-secret'
 import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 export default function WelcomePage({
 	lnurlAuthLoginInfo,
 	isMobile
@@ -57,30 +57,15 @@ export default function WelcomePage({
 			</svg>
 			<div className='mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8'>
 				<div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8'>
-					<h2 className='text-7xl'>⚡️</h2>
-					<div className='mt-24 sm:mt-32 lg:mt-16'>
-						<a
-							href='https://github.com/Jared-Dahlke/localsats'
-							className='inline-flex space-x-6'>
-							<span className='rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold leading-6 text-base-content ring-1 ring-inset ring-indigo-600/10'>
-								{t.whatsNew}
-							</span>
-							<span className='inline-flex items-center space-x-2 text-sm font-medium leading-6 text-base-content'>
-								<span>{t.justShipped}</span>
-								<ChevronRightIcon
-									className='h-5 w-5 text-gray-400'
-									aria-hidden='true'
-								/>
-							</span>
-						</a>
-					</div>
-					<h1 className='mt-10 text-4xl font-bold tracking-tight  sm:text-6xl'>
+					<h2 className='text-7xl '>⚡️</h2>
+
+					<h1 className='text-4xl font-bold tracking-tight  sm:text-6xl mt-24 sm:mt-32 lg:mt-16'>
 						{t.buyAndSellBitcoinInPerson}
 					</h1>
 
 					<p className='mt-6 text-lg leading-8 '>{t.createAnAnonymousPostAt}</p>
-					<div className='mt-10 flex items-center gap-x-6'>
-						<div className='prose'>
+					<div className='mt-10 flex justify-start items-center gap-x-6'>
+						<div>
 							{!showingHelpModal && (
 								<>
 									{isMobile ? (
@@ -153,7 +138,7 @@ export default function WelcomePage({
 }
 
 export const getServerSideProps = async function ({ req, res }) {
-	const session = await getServerSession(req, res, authOptions)
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 	if (session) {
 		return {
 			redirect: {

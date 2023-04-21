@@ -38,11 +38,11 @@ export default function NewPostModal({
 			})
 			.catch((err) => {
 				//user should never see this, but just in case
-				alert('You can only have 3 active posts at any given time.')
+				alert('You can only have 1 active order at any given time.')
 				return
 			})
 
-		queryClient.invalidateQueries({ queryKey: rqKeys.postsKey() })
+		queryClient.invalidateQueries()
 		handleSuccess()
 	}
 

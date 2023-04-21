@@ -1,9 +1,10 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from './auth/[...nextauth]'
 import prisma from '@/lib/prisma'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 
 export default async function handler(req, res) {
-	const session = await getServerSession(req, res, authOptions)
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 	const postId = req.body.id
 	if (!session) {
 		res.status(401).json({ error: 'Not authenticated' })
@@ -25,19 +26,16 @@ export default async function handler(req, res) {
 
 	try {
 		// mark post and its messages as deleted
-		await prisma.message.updateMany({
-			where: { postId },
-			data: { deletedDate: new Date() }
+		await prisma.message.deleteMany({
+			where: { postId }
 		})
-		await prisma.chatPaywalls.updateMany({
-			where: { postId },
-			data: { deletedDate: new Date() }
+		await prisma.chatPaywalls.deleteMany({
+			where: { postId }
 		})
-		const result = await prisma.post.update({
+		const result = await prisma.post.deleteMany({
 			where: {
 				id: postId
-			},
-			data: { deletedDate: new Date() }
+			}
 		})
 
 		res.json(result)

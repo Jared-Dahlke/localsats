@@ -1,18 +1,28 @@
 import { sendEmail } from '@/lib/sendEmail'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './auth/[...nextauth]'
 import prisma from '@/lib/prisma'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 
 export default async function handler(req, res) {
 	try {
-		const session = await getServerSession(req, res, authOptions)
+		const session = await getServerSession(
+			req,
+			res,
+			getOptions(lnurlAuthConfig)
+		)
 
 		if (!session) {
 			res.status(401).json({ error: 'Not authenticated' })
 			return
 		}
 		const message = req.body.message
-
+		console.log(session?.user?.userId)
+		console.log(message.fromUserId)
+		console.log(
+			'message.fromUserId !== session?.user?.userId',
+			message.fromUserId !== session?.user?.userId
+		)
 		if (message.fromUserId !== session?.user?.userId) {
 			res.status(401).json({ error: 'Not authorized' })
 			return

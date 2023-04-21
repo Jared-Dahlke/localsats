@@ -1,8 +1,12 @@
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
+import { getOptions } from '@/lib/next-auth-lnurl'
 import prisma from '@/lib/prisma'
+import { setCookie } from 'cookies-next'
 import { StatusCodes } from 'http-status-codes'
 import { getAuthKey } from 'lib/lnurl/getAuthKey'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
 import { LNURLResponse } from 'types/LNURLResponse'
 
 type LNURLAuthResponse = LNURLResponse & {
@@ -13,12 +17,9 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<LNURLAuthResponse>
 ) {
-	const { k1, sig, key, jwt } = req.query
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 
-	const authKey = await getAuthKey(k1 as string)
-	if (!authKey) {
-		return res.status(StatusCodes.NOT_FOUND).end()
-	}
+	const { k1, sig, key } = req.query
 
 	if (
 		!lnurl.verifyAuthorizationSignature(
@@ -30,29 +31,27 @@ export default async function handler(
 		return res.json({ status: 'ERROR', reason: 'Invalid signature' })
 	}
 
+	console.log('sig', sig)
+	console.log('key', key)
+
+	setCookie('privateKeyPassphrase', sig, {
+		req,
+		res,
+		maxAge: 2147483647,
+		path: '/'
+	})
+
+	await prisma.user.update({
+		where: {
+			id: session?.user?.userId
+		},
+		data: {
+			seenLightningPgpPrompt: true
+		}
+	})
+
 	const response: LNURLAuthResponse = {
 		status: 'OK'
-	}
-	if (jwt === 'true') {
-		// this is old code from lightsats, keeping in case i decide to do jwt login
-		// response.token = generateJWTAuthToken({
-		// 	userId: key as string,
-		// 	callbackUrl: `${getAppUrl()}/dashboard`
-		// })
-		// we have a JWT, no need to keep the authkey now.
-		// user will use the 2fa auth method with the jwt token.
-		// await db.collection('lnurlAuthKey').deleteMany({
-		// 	k1: authKey.k1
-		// })
-	} else {
-		await prisma.lnurlAuthKey.update({
-			where: {
-				k1: authKey.k1
-			},
-			data: {
-				key: key
-			}
-		})
 	}
 
 	return res.status(200).json(response)

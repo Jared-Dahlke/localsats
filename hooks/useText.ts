@@ -21,11 +21,11 @@ export const useText = () => {
 }
 
 const english = {
-	youCanOnlyHaveOnePost: 'You can only have one post.',
+	youCanOnlyHaveOnePost: 'You can only have one order.',
 	maximumPostsReached: 'Maximum Posts Reached',
 	clickOrScan: 'Click or scan:',
 	deletePost: 'Delete Post',
-	areYouSureYouWantToDelete: 'Are you sure you want to delete this post?',
+	areYouSureYouWantToDelete: 'Are you sure you want to delete this order?',
 	hereAreSomeQuickTips: 'Here are some quick tips to get you started:',
 	youWillBeRedirected: 'You will be redirected to the home page',
 	acceptTheLogin: 'accept the Login in',
@@ -49,12 +49,12 @@ const english = {
 	postedAt: 'Posted At',
 	type: 'Type',
 	pgpPassphrase: 'PGP Passphrase',
-	yourMessages: 'Your Messages',
+	yourChats: 'Your Chats',
 	yourPgpPassphrase: 'Your PGP Passphrase...',
 	new: 'New',
 	youHaveANewMessage: 'You have a new message',
 	signIntoYourAccount: 'Sign into your account',
-	youHaveActivePosts: 'You have active posts',
+	youHaveActivePosts: 'You have active orders',
 	generateNewPgp: 'Generate new PGP key pair',
 	generateANewKeyPair:
 		'2. Generate a new keypair, you will be able to read all future messages, but this will prevent you from decrypting old messages',
@@ -65,13 +65,12 @@ const english = {
 	emailUpdated: 'Email updated',
 	attentionNeededInOrderToDecrypt:
 		'Attention needed in order to decrypt messages',
-	yourPosts: 'Your Posts',
+	yourOrders: 'Your Orders',
 	paymentSuccess: 'Payment Success!',
-	yourPostIsActive: 'Your post is active',
-	showOnlyYourPosts: 'Show only your posts',
+	showOnlyYourPosts: 'Show only your order',
 	learnMoreAboutLightningLogin: 'learn more about Lightning login',
 	toCreateANewPostToBuyOrSell:
-		'To create a new post to buy or sell bitcoin, just click anywhere on the map. To see other peoples posts, click on the icons on the map.',
+		'To create a new order to buy or sell bitcoin, just click anywhere on the map. To see other peoples orders, click on the icons on the map.',
 	emailSettings: 'Email Settings',
 	ifYoudLikeToReceiveAnEmailWhenSomeone:
 		"If you'd like to receive an email when someone messages you, add an email here. Otherwise you can just check back later to see if you have any messages. We will not share your email with anyone.",
@@ -82,11 +81,11 @@ const english = {
 	belowIsThePassphrase:
 		'Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie. Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.',
 	yourMessage: 'Your Messages',
-	postId: 'POST ID',
+	orderId: 'Order ID',
 	otherParty: 'Other Party',
 	latestMessage: 'Latest Message',
 	open: 'Open',
-	createANewPost: 'Create a new post',
+	createANewPost: 'Create a new order',
 	buy: 'Buy',
 	sell: 'Sell',
 	meetAt: 'meet at',
@@ -98,22 +97,22 @@ const english = {
 	wantsToSell: 'wants to sell',
 	posted: 'Posted',
 	chatWithThisUser: 'Chat with this user',
-	youAlreadyHaveAnOpenChat: 'You already have an open chat for this post',
+	youAlreadyHaveAnOpenChat: 'You already have an open chat for this order',
 	openChatWithUser: 'Open Chat With User',
-	thisIsYourPost: 'This is your post',
+	thisIsYourPost: 'This is your order',
 	delete: 'Delete',
 	daysLive: 'Days LocalSats.org has been Live',
-	totalPosts: 'Total Posts',
+	totalPosts: 'Total Orders',
 	totalUsers: 'Total Users',
 	totalMessages: 'Total Messages',
 	frequentlyAskedQ: 'Frequently Asked Questions',
 	cantFindTheAnswer: 'Can’t find the answer you’re looking for? Reach out to',
 	whatIsThis: 'What is this?',
 	itIsAnEasyWayToBuy:
-		'It is an easy way to buy and sell bitcoin locally. Just create a post to either buy or sell bitcoin, then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your post. We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.',
+		'It is an easy way to buy and sell bitcoin locally. Just create a order to either buy or sell bitcoin, then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your order. We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.',
 	whatDataDoYouStore: 'What data do you store?',
 	weStoreTheEncrypted:
-		'We store the encrypted messages and posts associated with your LNURL-Auth address. If you choose to add an email address for notifications, we will store that as well. When you delete a post, that post and all of its associated messages are permanently deleted as well. If you choose to remove your email, that is permanently deleted as well.',
+		'We store the encrypted messages and orders associated with your LNURL-Auth address. If you choose to add an email address for notifications, we will store that as well. If you choose to remove your email, that is permanently deleted as well.',
 	dumpAllOfTheSite:
 		'Dump all of the site data (except emails and messages) into a JSON file:',
 	download: 'Download',
@@ -132,25 +131,25 @@ const english = {
 	whatsNew: 'New Features',
 	justShipped: 'Just shipped v1.0.0',
 	createAnAnonymousPostAt:
-		'Create an anonymous post at the location you want to meet. Once someone responds to your post, meet up and complete the transaction in person. Free and open source.',
+		'Create an anonymous order at the location you want to meet. Once someone responds to your order, meet up and complete the transaction in person. Free and open source.',
 	messagesSentBetween: 'Messages sent between users are encrypted using PGP',
 	loginWithLightning: 'Login With Lightning',
 	learnMore: 'Learn More',
-	createAPost: 'Create a post',
+	createAPost: 'Create a order',
 	toCreateANewPostToBuy:
-		'To create a new post to buy or sell Bitcoin, just click on the map where you would like to meet.',
-	respondToAPost: 'Respond to a post',
+		'To create a new order to buy or sell Bitcoin, just click on the map where you would like to meet.',
+	respondToAPost: 'Respond to a order',
 	toSeeOtherPeoplesPosts:
-		'To see other peoples posts and respond to them, click on the icons on the map.',
+		'To see other peoples` orders and respond to them, click on the icons on the map.',
 	receiveMessages: 'Receive Messages',
 	whenOthersRespond:
-		'When others respond to your post, you will receive a message. You can also optionally choose to receive an email.',
+		'When others respond to your order, you will receive a message. You can also optionally choose to receive an email.',
 	beSafe: 'Be safe',
 	makeSureToMeetInACrowded:
 		'Make sure to meet in a crowded public place. Do not give out your personal information.',
 	thisIsNew: 'This is new!',
 	thereAreNotManyPosts:
-		'There are not many posts yet because this site is brand new, it was just shipped February 2023. Please, create a post and help us grow! Be patient.'
+		'There are not many orders yet because this site is brand new, it was just shipped February 2023. Please, create a order and help us grow! Be patient.'
 }
 
 const spanish = {
@@ -180,15 +179,14 @@ const spanish = {
 	amount: 'Cantidad',
 	type: 'Tipo',
 	new: 'Nuevo',
-	yourMessages: 'Tus mensajes',
+	yourChats: 'Tus chats',
 	pgpPassphrase: 'Frase de contraseña PGP',
 	postedAt: 'Publicado en',
 	yourPgpPassphrase: 'Tu frase de contraseña PGP...',
-	youHaveActivePosts: 'Tienes anuncios activos',
-	yourPostIsActive: 'Tu anuncio esta activo',
+	youHaveActivePosts: 'Tienes ordens activos',
 	youHaveANewMessage: 'Tienes un nuevo mensaje',
 	signIntoYourAccount: 'Inicia sesion en tu cuenta',
-	showOnlyYourPosts: 'Mostrar solo tus anuncios',
+	showOnlyYourPosts: 'Mostrar solo tus ordens',
 	generateNewPgp: 'Generar nuevo par de claves PGP',
 	feelFreeTomakeAPr:
 		'Siéntete libre de hacer una solicitud de extracción (PR) o abrir un problema (issue). Si tienes alguna pregunta, puedes escribirme a mi correo electrónico: jared.dahlke@protonmail.com.',
@@ -202,11 +200,11 @@ const spanish = {
 		'Tenemos un registro de tus claves pública y privada PGP, pero no encontramos tu frase de contraseña autogenerada en tus cookies. Tienes 2 opciones:',
 	emailUpdated: 'Email actualizado',
 	paymentSuccess: 'Pago exitoso!',
-	yourPosts: 'Tus anuncios',
+	yourOrders: 'Tus pedidos',
 
 	learnMoreAboutLightningLogin: 'Aprende mas sobre Lightning Login',
 	toCreateANewPostToBuyOrSell:
-		'Para crear un nuevo anuncio para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver los anuncios de otras personas haz click en los iconos en el mapa',
+		'Para crear un nuevo orden para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver los ordens de otras personas haz click en los iconos en el mapa',
 	emailSettings: 'Configuracion de Email',
 	ifYoudLikeToReceiveAnEmailWhenSomeone:
 		'Si deseas recibir un correo electronico cuando alguien te escriba escribe tu correo aqui, sino puedes regresar aqui luego para ver si tienes algun mensaje. no compartiremos tu correo electronico con nadie',
@@ -217,7 +215,7 @@ const spanish = {
 	belowIsThePassphrase:
 		'Debaje esta tu frase para tus llaves PGP que encriptan tus mensajes. esto esta almacenado en las cookies de tu ordenador. guardala en un lugar seguro en caso de que limpies as cookies de tu ordenador o si deseas acceder a tus mensajes desde otro ordenador ',
 	yourMessage: 'Tus Mensajes',
-	postId: 'ID De Anuncio',
+	postId: 'ID De Orden',
 	otherParty: 'Contraparte',
 	latestMessage: 'Ultimo mensaje',
 	open: 'Abrir',
@@ -240,7 +238,7 @@ const spanish = {
 	thisIsYourPost: 'Este es tu anuncio',
 	delete: 'Borrar',
 	daysLive: 'Dias que localsats.org esta activo',
-	totalPosts: 'Anuncios totales',
+	totalPosts: 'ordens totales',
 	totalUsers: 'Usuarios totales',
 	totalMessages: 'Mensajes totales',
 	frequentlyAskedQ: 'Preguntas comunes',
@@ -275,7 +273,7 @@ const spanish = {
 		'Para crear un nuevo anuncio para comprar o vender bitcoin haz click en el mapa en el lugar donde deseas encontrarte',
 	respondToAPost: 'Responder a un anuncio',
 	toSeeOtherPeoplesPosts:
-		'Para ver los anuncios de otras personas y responderlos, haz click en los inconos del mapa',
+		'Para ver los ordens de otras personas y responderlos, haz click en los inconos del mapa',
 	receiveMessages: 'Recibe mensaje',
 	whenOthersRespond:
 		'Cuando alguien responde a tu anuncio tu recibiras un mensaje. tambien puedes recibir un correo electronico opcional.',
@@ -284,7 +282,7 @@ const spanish = {
 		'Asegurate de reunirte en unlugar publico. no des tu informacion personal',
 	thisIsNew: 'Esto es nuevo!',
 	thereAreNotManyPosts:
-		'No hay muchos anuncios nuevos todavia por que este es un sitio nuevo, esta solamente desde febrero 2023, por favor crea un anuncio y ayudanos a crecer! se paciente.'
+		'No hay muchos ordens nuevos todavia por que este es un sitio nuevo, esta solamente desde febrero 2023, por favor crea un anuncio y ayudanos a crecer! se paciente.'
 }
 
 const german = {
@@ -317,7 +315,7 @@ const german = {
 	postedAt: 'Veröffentlicht am',
 	type: 'Art',
 	pgpPassphrase: 'PGP-Passwort',
-	yourMessages: 'Deine Nachrichten',
+	yourChats: 'Deine Chats',
 	yourPgpPassphrase: 'Dein PGP-Passwort...',
 	new: 'Neu',
 	youHaveANewMessage: 'Du hast eine neue Nachricht',
@@ -333,10 +331,9 @@ const german = {
 	emailUpdated: 'E-Mail aktualisiert',
 	attentionNeededInOrderToDecrypt:
 		'Zur Entschlüsselung Nachrichten ist besondere Aufmerksamkeit erforderlich',
-	yourPosts: 'Deine Beiträge',
+	yourOrders: 'Deine Bestellungen',
 	paymentSuccess: 'Zahlung erfolgreich!',
-	yourPostIsActive: 'Dein Beitrag ist aktiv',
-	showOnlyYourPosts: 'Nur deine Beiträge anzeigen',
+	showOnlyYourPosts: 'Zeige nur deine Bestellungen',
 	learnMoreAboutLightningLogin: 'Erfahren Sie mehr über Lightning-Login',
 	toCreateANewPostToBuyOrSell:
 		'Um einen neuen Beitrag zum Kauf oder Verkauf von Bitcoin zu erstellen, klicken Sie einfach irgendwo auf der Karte. Um die Beiträge anderer Personen zu sehen, klicken Sie auf die Symbole auf der Karte.',
