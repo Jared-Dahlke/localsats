@@ -15,7 +15,7 @@ type LnurlAuthSignInProps = {
 	isMobile?: boolean
 }
 
-export function LnurlAuthPgp({ isMobile }: LnurlAuthSignInProps) {
+export default function LnurlAuthPgp({ isMobile }: LnurlAuthSignInProps) {
 	const [isRedirecting, setRedirecting] = React.useState(false)
 
 	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
