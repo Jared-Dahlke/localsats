@@ -14,8 +14,7 @@ export const getMessages = async (
 				{
 					fromUserId: userId
 				}
-			],
-			deletedDate: null
+			]
 		},
 		orderBy: {
 			sentDate: 'asc'
@@ -34,6 +33,7 @@ export const getMessages = async (
 			privateKey: await openpgp.readPrivateKey({ armoredKey: pgpPrivateKey }),
 			passphrase: privateKeyPassphrase
 		})
+
 		const finalMessages = []
 		for await (const m of messages) {
 			if (m.body.includes('---BEGIN PGP MESSAGE---')) {
@@ -49,7 +49,7 @@ export const getMessages = async (
 					m.body = decrypted
 					finalMessages.push(m)
 				} catch (err) {
-					finalMessages.push(m)
+					finalMessages.push({ ...m, body: '---BEGIN PGP MESSAGE---....' })
 				}
 			} else {
 				finalMessages.push(m)

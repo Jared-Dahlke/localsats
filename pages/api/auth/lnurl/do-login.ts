@@ -1,8 +1,6 @@
 import prisma from '@/lib/prisma'
 import { StatusCodes } from 'http-status-codes'
-import { generateJWTAuthToken } from 'lib/generateJWTAuthToken'
 import { getAuthKey } from 'lib/lnurl/getAuthKey'
-import { getAppUrl } from 'lib/utils'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LNURLResponse } from 'types/LNURLResponse'
@@ -15,6 +13,7 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<LNURLAuthResponse>
 ) {
+	// this is the callback url for lnurl-auth. it provides k1, sig, key, and jwt
 	const { k1, sig, key, jwt } = req.query
 
 	const authKey = await getAuthKey(k1 as string)
@@ -22,6 +21,7 @@ export default async function handler(
 		return res.status(StatusCodes.NOT_FOUND).end()
 	}
 
+	// take the sig (the signature produced as a result of signing the k1) and the k1 (random string) and the key (userId) and verify it
 	if (
 		!lnurl.verifyAuthorizationSignature(
 			sig as string,
@@ -31,6 +31,8 @@ export default async function handler(
 	) {
 		return res.json({ status: 'ERROR', reason: 'Invalid signature' })
 	}
+
+	console.log('sig in do-login', sig)
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'

@@ -3,10 +3,11 @@ import prisma from '@/lib/prisma'
 export const getPosts = async () => {
 	const posts = await prisma.post.findMany({
 		include: {
-			user: true
+			user: true,
+			chatPaywalls: true
 		},
-		where: {
-			deletedDate: null
+		orderBy: {
+			postedAt: 'desc'
 		}
 	})
 	return posts

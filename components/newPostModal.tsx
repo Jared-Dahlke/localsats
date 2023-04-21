@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react'
-import { Dialog, RadioGroup, Transition } from '@headlessui/react'
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { classNames } from '@/utils/utils'
+import React from 'react'
+import { RadioGroup } from '@headlessui/react'
 import axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { rqKeys } from '@/constants'
+import { classNames } from '@/utils/utils'
 
 export default function NewPostModal({
 	open,
@@ -38,11 +37,11 @@ export default function NewPostModal({
 			})
 			.catch((err) => {
 				//user should never see this, but just in case
-				alert('You can only have 3 active posts at any given time.')
+				alert('You can only have 1 active order at any given time.')
 				return
 			})
 
-		queryClient.invalidateQueries({ queryKey: rqKeys.postsKey() })
+		queryClient.invalidateQueries()
 		handleSuccess()
 	}
 
@@ -142,8 +141,6 @@ const BuySellToggle = ({ value, setValue }) => {
 						value={option.value}
 						className={({ active, checked }) =>
 							classNames(
-								//	option.value === 'buy' ? 'btn-success' : 'btn-error',
-
 								checked ? 'btn btn-primary ' : 'btn btn-primary btn-outline '
 							)
 						}

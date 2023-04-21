@@ -34,7 +34,6 @@ model Post {
   userId  String
   postedAt     DateTime  @default(now()) @map(name: "created_at")
   messages Message[]
-  deletedDate DateTime?
   chatPaywalls chatPaywalls[]
   @@map(name: "posts")
 }
@@ -45,7 +44,6 @@ model chatPaywalls {
   userId String
   recipientUserId String
   messages Message[]
-  deletedDate DateTime?
   post Post @relation(fields: [postId], references: [id])
   postId String
   createdAt DateTime  @default(now()) @map(name: "created_at")
@@ -62,7 +60,6 @@ model Message {
   postId        String
   chatPaywall   chatPaywalls @relation(fields: [chatPaywallId], references: [id])
   chatPaywallId String
-  deletedDate DateTime?
   @@map(name: "messages")
 }
 

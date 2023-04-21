@@ -6,11 +6,12 @@ import dayjs from 'dayjs'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { Layout } from '@/components/layout'
-import { authOptions } from './api/auth/[...nextauth]'
 import { getPosts } from './api/get_posts'
 import { getUsers } from './api/get_users'
 import CountUp from 'react-countup'
 import { useText } from '@/hooks/useText'
+import { getOptions } from '@/lib/next-auth-lnurl'
+import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 
 export default function About({
 	posts: initialPosts,
@@ -187,7 +188,7 @@ About.getLayout = function getLayout(page) {
 }
 
 export const getServerSideProps = async function ({ req, res }) {
-	const session = await getServerSession(req, res, authOptions)
+	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
 	const user = session?.user?.userId
 	if (!user) {
 		return {
