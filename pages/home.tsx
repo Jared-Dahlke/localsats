@@ -35,7 +35,7 @@ import { motion } from 'framer-motion'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { LightningPassphraseModal } from '@/components/LightningPassphraseModal'
-import { getEncoded } from './api/generate-secret-pgp'
+import { getEncoded } from './api/pgpln/generate-secret-pgp'
 import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
 
 const stats = [

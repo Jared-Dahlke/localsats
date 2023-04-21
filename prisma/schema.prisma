@@ -17,7 +17,6 @@ model User {
   pgpPublicKey  String?
   email         String?
   seenWelcome   Boolean @default(false)
-  seenLightningPgpPrompt   Boolean @default(false)
   createDate    DateTime  @default(now()) @map(name: "created_at")
   updatedPrivateKeysDate DateTime?
   posts         Post[]
