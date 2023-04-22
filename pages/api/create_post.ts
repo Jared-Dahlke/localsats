@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 				userId: post.userId
 			}
 		})
-		if (myPosts.length > 0) {
+		if (myPosts.length > 1) {
 			res
 				.status(401)
 				.json({ error: 'You have reached the maximum number of posts' })

@@ -6,7 +6,6 @@ export default async function handler(req, res) {
 			select: {
 				createDate: true,
 				id: true,
-				mongoId: true,
 				pgpPrivateKeyEncrypted: true,
 				pgpPublicKey: true,
 				seenWelcome: true,

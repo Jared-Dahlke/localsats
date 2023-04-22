@@ -1,36 +1,33 @@
 import prisma from '@/lib/prisma'
 
 export const getPostsToDelete = async () => {
+	// for every post, loop through all of its messages and find the posts where the poster never sent a message
+
 	const posts = await prisma.post.findMany({
 		include: {
-			chatPaywalls: {
-				include: {
-					messages: true
-				}
+			messages: true
+		},
+		where: {
+			messages: {
+				some: {}
 			}
 		}
 	})
 
-	let postsToDelete = []
-
-	posts.forEach((post) => {
-		post.chatPaywalls.forEach((chatPaywall) => {
-			const messagesFromPoster = chatPaywall.messages.filter((message) => {
-				return (
-					message.postId === chatPaywall.postId &&
-					message.fromUserId === chatPaywall.recipientUserId
-				)
+	// find the posts where poster never sent a message
+	const postsToDelete = posts
+		.filter((post) => {
+			const messages = post.messages
+			const posterMessage = messages.find((message) => {
+				return message.fromUserId === post.userId
 			})
-			if (
-				messagesFromPoster.length === 0 &&
-				chatPaywall.createdAt <
-					new Date().getTime() - 1000 * 60 * 60 * 24 * 7 &&
-				!postsToDelete.includes(post.id)
-			) {
-				postsToDelete.push(post.id)
+			// if no poster message and the first message is more than 7 days old
+			if (!posterMessage && messages[0].sentDate < Date.now() - 604800000) {
+				return true
 			}
+			return false
 		})
-	})
+		.map((p) => p.id)
 
 	return postsToDelete
 }
