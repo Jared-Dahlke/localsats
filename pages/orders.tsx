@@ -82,7 +82,7 @@ export default function Orders({ user, posts: initialPosts }: IProps) {
 	)
 }
 Orders.getLayout = function getLayout(page) {
-	return <Layout title='My Order'>{page}</Layout>
+	return <Layout title='My Orders'>{page}</Layout>
 }
 
 export const getServerSideProps = async function ({ req, res }) {

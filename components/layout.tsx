@@ -44,7 +44,7 @@ export function Layout({
 			icon: <ChatBubbleLeftIcon className='h-6 w-6' />
 		},
 		{
-			name: 'My Order',
+			name: 'My Orders',
 			handleClick: () => router.push('/orders'),
 			icon: <PaperClipIcon className='h-6 w-6' />
 		},

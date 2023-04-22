@@ -21,16 +21,12 @@ export default function Chat({
 	user,
 	messages: initialMessages,
 	chatPaywallId,
-	chatIsDeleted,
-	posterHasResponded,
-	daysSinceChatCreated
+	chatIsDeleted
 }: {
 	user: string
 	messages: MessageType[]
 	chatPaywallId: string
 	chatIsDeleted: boolean
-	posterHasResponded: boolean
-	daysSinceChatCreated: number
 }) {
 	const t = useText()
 	const userFromDatabase = useDatabaseUser({ userId: user })
@@ -111,7 +107,6 @@ export default function Chat({
 		createMessageMutation.mutate(message)
 	}
 
-	const percentageOfChat = (1 - (7 - daysSinceChatCreated) / 7) * 100
 	if (chatIsDeleted) {
 		return <div>The order for this chat has been deleted.</div>
 	}
@@ -131,18 +126,6 @@ export default function Chat({
 						alt=''
 					/>
 					<div className='stat-desc'>{getNameFromId(otherPartyUserId)}</div>
-					{!posterHasResponded && (
-						<div className='flex flex-col items-center gap-1'>
-							<progress
-								className='progress progress-primary w-56 bg-base-100 mt-3'
-								value={percentageOfChat}
-								max='100'></progress>
-							<p className='stat-desc'>
-								If the user does not respond in {7 - daysSinceChatCreated} days,
-								this Order will be auto deleted.
-							</p>
-						</div>
-					)}
 				</div>
 				<div className='w-1/3 h-full flex justify-end items-center'></div>
 			</div>
@@ -241,25 +224,12 @@ export const getServerSideProps: GetServerSideProps<any> = async function ({
 		const messages =
 			allMyMessages?.filter((m) => m.chatPaywallId === chatPaywallId) || []
 
-		const chatPaywallPost = await prisma.post.findUnique({
-			where: {
-				id: chat?.postId
-			}
-		})
-		const posterHasResponded = messages.some(
-			(m) => m.fromUserId === chatPaywallPost?.userId
-		)
-		const daysSinceChatCreated = differenceInDays(new Date(), chat?.createdAt!)
-
-		console.log('daysSinceChatCreated', daysSinceChatCreated)
 		return {
 			props: {
 				user,
 				messages: JSON.parse(JSON.stringify(messages)),
 				chatPaywallId,
-				chatIsDeleted: false,
-				posterHasResponded,
-				daysSinceChatCreated
+				chatIsDeleted: false
 			}
 		}
 	} else {

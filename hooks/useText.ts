@@ -21,7 +21,7 @@ export const useText = () => {
 }
 
 const english = {
-	youCanOnlyHaveOnePost: 'You can only have one order.',
+	youCanOnlyHaveOnePost: 'You can only have two orders.',
 	maximumPostsReached: 'Maximum Posts Reached',
 	clickOrScan: 'Click or scan:',
 	deletePost: 'Delete Post',
@@ -67,7 +67,7 @@ const english = {
 		'Attention needed in order to decrypt messages',
 	yourOrders: 'Your Orders',
 	paymentSuccess: 'Payment Success!',
-	showOnlyYourPosts: 'Show only your order',
+	showOnlyYourPosts: 'Show only your orders',
 	learnMoreAboutLightningLogin: 'learn more about Lightning login',
 	toCreateANewPostToBuyOrSell:
 		'To create a new order to buy or sell bitcoin, just click anywhere on the map. To see other peoples orders, click on the icons on the map.',
@@ -153,8 +153,9 @@ const english = {
 }
 
 const spanish = {
-	youCanOnlyHaveOnePost: 'Solo puedes tener un post',
-	maximumPostsReached: 'Has alcanzado el máximo de posts',
+	orderId: 'ID de orden',
+	youCanOnlyHaveOnePost: 'Solo puedes tener dos ordens',
+	maximumPostsReached: 'Has alcanzado el máximo de ordens',
 	clickOrScan: 'Haz clic o escanea:',
 	deletePost: 'Eliminar post',
 	areYouSureYouWantToDelete: '¿Estás seguro de que quieres eliminar este post?',
@@ -286,7 +287,8 @@ const spanish = {
 }
 
 const german = {
-	youCanOnlyHaveOnePost: 'Sie können nur einen Beitrag haben',
+	orderId: 'Bestellnummer',
+	youCanOnlyHaveOnePost: 'Du kannst nur 2 Bestellungen haben.',
 	maximumPostsReached: 'Maximale Anzahl von Anzeigen erreicht',
 	clickOrScan: 'Klicken oder scannen:',
 	deletePost: 'Anzeige löschen',

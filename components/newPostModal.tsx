@@ -37,7 +37,7 @@ export default function NewPostModal({
 			})
 			.catch((err) => {
 				//user should never see this, but just in case
-				alert('You can only have 1 active order at any given time.')
+				alert('You can only have 2 active orders at any given time.')
 				return
 			})
 
