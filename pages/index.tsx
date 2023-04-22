@@ -96,6 +96,7 @@ export default function WelcomePage({
 					<div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
 						<div className='-m-2 rounded-xl   bg-base-300/70  p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4'>
 							<Image
+								priority
 								src={mapPic}
 								alt='App screenshot'
 								className='w-[76rem] rounded-md shadow-2xl ring-1 ring-gray-900/10'

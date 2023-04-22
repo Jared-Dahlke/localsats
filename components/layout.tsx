@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Disclosure } from '@headlessui/react'
 import {
-	Bars3Icon,
 	ChatBubbleLeftIcon,
 	CogIcon,
 	HomeIcon,
@@ -94,7 +92,7 @@ export function Layout({
 				/>
 				<div className='drawer-content flex flex-col'>
 					{/* page start */}
-					<div className='w-full flex items-center lg:justify-between sm:px-8 px-1  bg-base-300 h-14'>
+					<div className='w-full flex items-center lg:justify-between sm:px-8 px-1  bg-base-300 h-16'>
 						<div className='flex-none lg:hidden mr-3'>
 							<label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>
 								<svg
@@ -119,7 +117,7 @@ export function Layout({
 						</div>
 						<div className='flex-none hidden lg:block  w-3/5'>
 							<div className='flex gap-2 items-center justify-center'>
-								<div className='tabs h-14'>
+								<div className='tabs h-16'>
 									{navigation.map((item, index) => (
 										<button
 											key={item.name}
@@ -223,130 +221,3 @@ export function Layout({
 		</>
 	)
 }
-
-/*
-	<Disclosure as='nav' className='bg-base-300  justify-between h-16'>
-				{({ open }) => (
-					<>
-						<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-							<div className='flex h-16 items-center justify-between'>
-								<div className='flex items-center'>
-									<div className='flex-shrink-0'>
-										<Link
-											href='/'
-											className={
-												'cursor-pointer pr-3 py-2 rounded-md text-lg font-medium'
-											}>
-											localsats.org
-										</Link>
-									</div>
-									<div className='hidden md:block'>
-										<div className='ml-10 flex items-baseline space-x-4'>
-											{navigation.map((item, index) => (
-												<div
-													key={item.name}
-													onClick={item.handleClick}
-													className={classNames(
-														item.name.includes(title)
-															? 'btn btn-primary'
-															: 'btn btn-ghost',
-														'normal-case'
-													)}
-													aria-current={
-														item.name === title ? 'page' : undefined
-													}>
-													{item.name}
-												</div>
-											))}
-										</div>
-									</div>
-								</div>
-
-								<div className='hidden md:block'>
-									<div className='ml-4 flex items-center md:ml-6'>
-										
-										<ThemeSwitcher />
-										<div className=' dropdown dropdown-end ml-3'>
-											<label tabIndex={0} className='btn btn-ghost'>
-												<img
-													className='h-7 w-7 rounded-full cursor-pointer bg-base-100'
-													src={`https://robohash.org/${user}.png?size=500x500`}
-													alt=''
-												/>
-											</label>
-											<ul
-												tabIndex={0}
-												className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
-												<li>
-													<a onClick={handleLogout}>{t.signOut}</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div className='flex md:hidden'>
-									
-
-									<Disclosure.Button className='btn btn-ghost bg-base-100'>
-										<span className='sr-only'>Open main menu</span>
-										{open ? (
-											<XMarkIcon className='block h-6 w-6' aria-hidden='true' />
-										) : (
-											<Bars3Icon className='block h-6 w-6' aria-hidden='true' />
-										)}
-									</Disclosure.Button>
-								</div>
-							</div>
-						</div>
-
-						<Disclosure.Panel className='md:hidden !bg-red-500 !z-50'>
-							<div className='space-y-1 px-2 pt-2 pb-3 sm:px-3 flex flex-col '>
-								{navigation.map((item, index) => (
-									<Disclosure.Button
-										key={item.name}
-										onClick={item.handleClick}
-										className={classNames(
-											item.name.includes(title)
-												? 'btn btn-primary'
-												: 'btn btn-ghost',
-											'normal-case !'
-										)}
-										aria-current={item.name === title ? 'page' : undefined}>
-										{item.name} + {'mobile'}
-									</Disclosure.Button>
-								))}
-							</div>
-
-							<div className='border-t border-gray-700 pt-4 pb-3  px-2  sm:px-3 flex flex-col mt-3'>
-								<div className='flex items-center mt-3'>
-									<div className='flex-shrink-0 btn btn-ghost'>
-										<img
-											className='h-8 w-8 rounded-full bg-base-100'
-											src={`https://robohash.org/${user}.png?size=500x500`}
-											alt=''
-										/>
-									</div>
-									<div className='ml-3'>
-										<div className='text-base font-medium'>
-											{getNameFromId(user)}
-										</div>
-									</div>
-								</div>
-								<div className='flex justify-between mt-5'>
-									<ThemeSwitcher />
-									{userNavigation.map((item) => (
-										<Disclosure.Button
-											key={item.name}
-											onClick={item.handleClick}
-											className='btn btn-outline'>
-											{item.name} + 'test'
-										</Disclosure.Button>
-									))}
-								</div>
-							</div>
-						</Disclosure.Panel>
-					</>
-				)}
-			</Disclosure>
-
-*/
