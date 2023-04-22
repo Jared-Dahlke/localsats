@@ -402,9 +402,7 @@ export const getServerSideProps = async function ({ req, res }) {
 		'privateKeyPassphrase',
 		{ req, res }
 	)
-	if (!privateKeyPassphrase) {
-		throw new Error('No private key passphrase')
-	}
+
 	const messages = await getMessages(user, privateKeyPassphrase)
 
 	return {
