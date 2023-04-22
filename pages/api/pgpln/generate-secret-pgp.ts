@@ -12,7 +12,7 @@ export const getEncoded = async () => {
 
 	const callbackUrl = `${
 		process.env.NEXT_PUBLIC_APP_URL
-	}/api/do-login-pgp?${params.toString()}`
+	}/api/pgpln/do-login-pgp?${params.toString()}`
 
 	const encoded = lnurl.encode(callbackUrl).toUpperCase()
 	return {

@@ -21,7 +21,8 @@ export const useText = () => {
 }
 
 const english = {
-	youCanOnlyHaveOnePost: 'You can only have two orders.',
+	youCanOnlyHaveOnePost:
+		'You can only have two orders. Delete one to make room for a new one.',
 	maximumPostsReached: 'Maximum Posts Reached',
 	clickOrScan: 'Click or scan:',
 	deletePost: 'Delete Post',
@@ -119,7 +120,7 @@ const english = {
 	//
 	whatIsTheTechStack: 'What is the tech stack for this site?',
 	loginUsesLnurlAuth:
-		'Login uses LNURL-auth. The frontend is built with Next.js and Tailwind CSS. The database is MongoDB. The email service is hosted on AWS. The site is hosted on Vercel.',
+		'Login uses LNURL-auth. The frontend is built with Next.js and Tailwind CSS. The database is Cockroach DB. The email service is hosted on AWS. The site is hosted on Vercel.',
 	howDoIContribute: 'How do I contribute?',
 	IdeasContributorsAreWelcome:
 		'Ideas and contributions are welcome! Here is the github:',
@@ -154,7 +155,8 @@ const english = {
 
 const spanish = {
 	orderId: 'ID de orden',
-	youCanOnlyHaveOnePost: 'Solo puedes tener dos ordens',
+	youCanOnlyHaveOnePost:
+		'Sólo puedes tener dos pedidos. Elimina uno para hacer espacio para uno nuevo.',
 	maximumPostsReached: 'Has alcanzado el máximo de ordens',
 	clickOrScan: 'Haz clic o escanea:',
 	deletePost: 'Eliminar post',
@@ -254,7 +256,7 @@ const spanish = {
 	download: 'Descarga',
 	whatIsTheTechStack: '¿Cuál es la pila tecnológica de este sitio web?',
 	loginUsesLnurlAuth:
-		'El inicio de sesión utiliza LNURL-auth. El frontend está construido con Next.js y Tailwind CSS. La base de datos es MongoDB. El servicio de correo electrónico está alojado en AWS. El sitio está alojado en Vercel.',
+		'El inicio de sesión utiliza LNURL-auth. El frontend está construido con Next.js y Tailwind CSS. La base de datos es Cockroach DB. El servicio de correo electrónico está alojado en AWS. El sitio está alojado en Vercel.',
 	howDoIContribute: 'Como puedo contribuir?',
 	IdeasContributorsAreWelcome:
 		'¡Se aceptan ideas y contribuciones! Aquí está el enlace al repositorio de GitHub:',
@@ -288,7 +290,8 @@ const spanish = {
 
 const german = {
 	orderId: 'Bestellnummer',
-	youCanOnlyHaveOnePost: 'Du kannst nur 2 Bestellungen haben.',
+	youCanOnlyHaveOnePost:
+		'Du kannst nur zwei Bestellungen haben. Lösche eine, um Platz für eine neue zu machen.',
 	maximumPostsReached: 'Maximale Anzahl von Anzeigen erreicht',
 	clickOrScan: 'Klicken oder scannen:',
 	deletePost: 'Anzeige löschen',
@@ -386,7 +389,7 @@ const german = {
 	download: 'Herunterladen',
 	whatIsTheTechStack: 'Was ist der Tech-Stack für diese Seite?',
 	loginUsesLnurlAuth:
-		'Die Anmeldung verwendet LNURL-auth. Das Frontend ist mit Next.js und Tailwind CSS erstellt. Die Datenbank ist MongoDB. Der E-Mail-Dienst wird auf AWS gehostet. Die Website wird auf Vercel gehostet.',
+		'Die Anmeldung verwendet LNURL-auth. Das Frontend ist mit Next.js und Tailwind CSS erstellt. Die Datenbank ist Cockroach DB. Der E-Mail-Dienst wird auf AWS gehostet. Die Website wird auf Vercel gehostet.',
 	howDoIContribute: 'Wie kann ich beitragen?',
 	IdeasContributorsAreWelcome:
 		'Ideen und Beiträge sind willkommen! Hier ist das Github:',
