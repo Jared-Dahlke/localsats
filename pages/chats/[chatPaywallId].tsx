@@ -2,7 +2,7 @@ import { useText } from '@/hooks/useText'
 import { getServerSession } from 'next-auth'
 import React, { useEffect, useRef, useState } from 'react'
 import { Layout } from '@/components/layout'
-import { getCalendarDate, getNameFromId, getPostId } from '@/utils/utils'
+import { getCalendarDate, getNameFromId } from '@/utils/utils'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { GetServerSideProps } from 'next'
@@ -116,7 +116,7 @@ export default function Chat({
 			<div className='bg-base-200 flex  justify-between  w-full items-center relative p-3 rounded-lg'>
 				<div className='w-1/3 h-full '>
 					<h3 className='mb-0'>
-						{t.orderId} {messages ? getPostId(messages[0]?.postId) : ''}
+						{t.orderId} {messages ? getNameFromId(messages[0]?.postId) : ''}
 					</h3>
 				</div>
 				<div className='w-1/3 flex flex-col gap-1 items-center justify-center h-full'>
@@ -141,12 +141,14 @@ export default function Chat({
 								key={message.id}
 								message={message.body}
 								sentDate={message.sentDate}
+								userId={user}
 							/>
 						) : (
 							<RecipientMessage
 								key={message.id}
 								message={message.body}
 								sentDate={message.sentDate}
+								userId={otherPartyUserId}
 							/>
 						)
 					})}
@@ -169,7 +171,7 @@ Chat.getLayout = function getLayout(page) {
 			breadCrumbs={[
 				{ name: 'Home', href: '/home' },
 				{ name: 'Chats', href: '/chats' },
-				{ name: getPostId(chatPaywallId)!, href: '' }
+				{ name: getNameFromId(chatPaywallId)!, href: '' }
 			]}>
 			{page}
 		</Layout>
@@ -244,20 +246,25 @@ export const getServerSideProps: GetServerSideProps<any> = async function ({
 
 const RecipientMessage = ({
 	message,
-	sentDate
+	sentDate,
+	userId
 }: {
 	message: string
 	sentDate: Date
+	userId: string
 }) => {
 	return (
 		<div className='chat chat-start'>
 			<div className='chat-image avatar'>
 				<div className='w-10 rounded-full'>
-					<UserCircleIcon className='w-8 h-8' />
+					<img
+						src={`https://robohash.org/${userId}.png?size=500x500`}
+						className='w-8 h-8 bg-base-300'
+					/>
 				</div>
 			</div>
 			<div className='chat-header'>
-				Other user
+				{getNameFromId(userId)}
 				<time className='text-xs opacity-50 ml-2'>
 					{getCalendarDate(sentDate)}
 				</time>
@@ -270,16 +277,21 @@ const RecipientMessage = ({
 
 const YourMessage = ({
 	message,
-	sentDate
+	sentDate,
+	userId
 }: {
 	message: string
 	sentDate: Date
+	userId: string
 }) => {
 	return (
 		<div className='chat chat-end'>
 			<div className='chat-image avatar'>
 				<div className='w-10 rounded-full'>
-					<UserCircleIcon className='w-8 h-8' />
+					<img
+						src={`https://robohash.org/${userId}.png?size=500x500`}
+						className='w-8 h-8 bg-base-300'
+					/>
 				</div>
 			</div>
 			<div className='chat-header'>

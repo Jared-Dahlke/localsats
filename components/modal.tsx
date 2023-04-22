@@ -1,9 +1,4 @@
-import {
-	classNames,
-	getCalendarDate,
-	getNameFromId,
-	getPostId
-} from '@/utils/utils'
+import { classNames, getCalendarDate, getNameFromId } from '@/utils/utils'
 import { GroupedMessage } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -62,7 +57,7 @@ export default function Modal({
 						<div className='text-md flex'>
 							User {getNameFromId(post?.userId)} wants to {post?.type}{' '}
 							{post?.amount} bitcoin. Posted {postDate}. {t.orderId}:{' '}
-							{getPostId(post?.id)}
+							{getNameFromId(post?.id)}
 						</div>
 					</div>
 				</section>

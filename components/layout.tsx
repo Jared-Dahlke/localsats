@@ -6,11 +6,9 @@ import {
 	CogIcon,
 	HomeIcon,
 	InformationCircleIcon,
-	PaperClipIcon,
-	UserIcon,
-	XMarkIcon
+	PaperClipIcon
 } from '@heroicons/react/24/outline'
-import { classNames, getNameFromId, handleLogout } from '@/utils/utils'
+import { classNames, handleLogout } from '@/utils/utils'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -31,26 +29,39 @@ export function Layout({
 	const t = useText()
 	const session = useSession()
 	const user = session?.data?.user?.userId
+	const [drawerIsOpen, setDrawerIsOpen] = React.useState(false)
 
 	const navigation = [
 		{
 			name: t.home,
-			handleClick: () => router.push('/home'),
+			handleClick: () => {
+				setDrawerIsOpen(false)
+				router.push('/home')
+			},
 			icon: <HomeIcon className='h-6 w-6' />
 		},
 		{
 			name: 'Chats',
-			handleClick: () => router.push('/chats'),
+			handleClick: () => {
+				setDrawerIsOpen(false)
+				router.push('/chats')
+			},
 			icon: <ChatBubbleLeftIcon className='h-6 w-6' />
 		},
 		{
 			name: 'My Orders',
-			handleClick: () => router.push('/orders'),
+			handleClick: () => {
+				setDrawerIsOpen(false)
+				router.push('/orders')
+			},
 			icon: <PaperClipIcon className='h-6 w-6' />
 		},
 		{
 			name: t.about,
-			handleClick: () => router.push('/about'),
+			handleClick: () => {
+				setDrawerIsOpen(false)
+				router.push('/about')
+			},
 			icon: <InformationCircleIcon className='h-6 w-6' />
 		},
 		// {
@@ -59,7 +70,10 @@ export function Layout({
 		// },
 		{
 			name: 'Settings',
-			handleClick: () => router.push('/settings'),
+			handleClick: () => {
+				setDrawerIsOpen(false)
+				router.push('/settings')
+			},
 			icon: <CogIcon className='h-6 w-6' />
 		}
 	]
@@ -71,9 +85,16 @@ export function Layout({
 			</Head>
 
 			<div className='drawer'>
-				<input id='my-drawer-3' type='checkbox' className='drawer-toggle' />
+				<input
+					id='my-drawer-3'
+					type='checkbox'
+					className='drawer-toggle'
+					checked={drawerIsOpen}
+					onChange={() => setDrawerIsOpen((prev) => !prev)}
+				/>
 				<div className='drawer-content flex flex-col'>
-					<div className='w-full flex items-center sm:px-8 px-1  bg-base-300 h-16'>
+					{/* page start */}
+					<div className='w-full flex items-center lg:justify-between sm:px-8 px-1  bg-base-300 h-14'>
 						<div className='flex-none lg:hidden mr-3'>
 							<label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>
 								<svg
@@ -89,55 +110,59 @@ export function Layout({
 								</svg>
 							</label>
 						</div>
-						<div className='flex-1'>
+						<div className='flex-none w-1/5'>
 							<Link
 								href='/'
 								className={'cursor-pointer pr-3 py-2 rounded-md  text-xl'}>
 								localsats.org
 							</Link>
 						</div>
-						<div className='flex-none hidden lg:block'>
-							<div className='flex gap-2'>
-								{navigation.map((item, index) => (
-									<button
-										key={item.name}
-										className={classNames(
-											item.name.includes(title)
-												? 'btn btn-ghost bg-base-100 text-accent-content'
-												: 'btn btn-ghost',
-											''
-										)}
-										onClick={item.handleClick}
-										aria-current={item.name === title ? 'page' : undefined}>
-										{item.name}
-									</button>
-								))}
-								<div className='flex gap-0'>
-									<ThemeSwitcher />
-									<div className=' dropdown dropdown-end'>
-										<label tabIndex={0} className='btn btn-ghost'>
-											<img
-												className='h-7 w-7 rounded-full cursor-pointer bg-base-100'
-												src={`https://robohash.org/${user}.png?size=500x500`}
-												alt=''
-											/>
-										</label>
-										<ul
-											tabIndex={0}
-											className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
-											<li>
-												<a onClick={handleLogout}>{t.signOut}</a>
-											</li>
-										</ul>
-									</div>
+						<div className='flex-none hidden lg:block  w-3/5'>
+							<div className='flex gap-2 items-center justify-center'>
+								<div className='tabs h-14'>
+									{navigation.map((item, index) => (
+										<button
+											key={item.name}
+											className={classNames(
+												item.name.includes(title)
+													? 'tab tab-bordered tab-active'
+													: 'tab tab-bordered',
+												''
+											)}
+											onClick={item.handleClick}
+											aria-current={item.name === title ? 'page' : undefined}>
+											{item.name}
+										</button>
+									))}
+								</div>
+							</div>
+						</div>
+						<div className='flex-none hidden lg:flex justify-end  w-1/5'>
+							<div className='flex gap-0'>
+								<ThemeSwitcher />
+								<div className=' dropdown dropdown-end'>
+									<label tabIndex={0} className='btn btn-ghost'>
+										<img
+											className='h-7 w-7 rounded-full cursor-pointer bg-base-100'
+											src={`https://robohash.org/${user}.png?size=500x500`}
+											alt=''
+										/>
+									</label>
+									<ul
+										tabIndex={0}
+										className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
+										<li>
+											<a onClick={handleLogout}>{t.signOut}</a>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<header className='sm:px-8 px-4 bg-base shadow-base-300 shadow-sm h-24 flex justify-start items-center'>
-						<div className=''>
+					<header className='sm:px-8 px-4 bg-base shadow-base-300 shadow-sm h-12 flex justify-start items-center'>
+						<div className='flex gap-5'>
 							<div className='prose'>
-								<h2 className=''>{title}</h2>
+								<h3 className='font-normal'>{title}</h3>
 							</div>
 							{breadCrumbs && (
 								<div className='text-sm breadcrumbs'>
@@ -153,7 +178,9 @@ export function Layout({
 						</div>
 					</header>
 					<main className='flex-1 overflow-auto sm:p-8 p-4 '>{children}</main>
+					{/* page end */}
 				</div>
+
 				<div className='drawer-side'>
 					<label htmlFor='my-drawer-3' className='drawer-overlay'></label>
 					<div className='menu p-4 w-80 bg-base-100'>
@@ -165,15 +192,15 @@ export function Layout({
 							/>
 						</div>
 
-						<ul className='p-4 bg-base-100 flex flex-col gap-8 mt-8'>
+						<ul className='p-4 bg-base-100 flex flex-col gap-10 mt-8'>
 							{navigation.map((item, index) => (
 								<a
 									key={item.name}
 									className={classNames(
 										item.name.includes(title)
-											? 'btn btn-ghost bg-base-300 text-accent-content'
-											: 'btn btn-ghost',
-										'flex items-center gap-4 w-full '
+											? 'text-accent-content font-bold'
+											: '',
+										'flex items-center gap-6 w-full '
 									)}
 									onClick={item.handleClick}
 									aria-current={item.name === title ? 'page' : undefined}>

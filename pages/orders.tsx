@@ -11,7 +11,7 @@ import { getPosts } from './api/get_posts'
 import { useQueryClient } from '@tanstack/react-query'
 import { DeletePostConfirmationModal } from '@/components/deletePostConfirmationModal'
 import { CalendarDaysIcon } from '@heroicons/react/20/solid'
-import { getCalendarDate, getPostId } from '@/utils/utils'
+import { getCalendarDate, getNameFromId } from '@/utils/utils'
 import {
 	IdentificationIcon,
 	MapIcon,
@@ -112,7 +112,7 @@ const Post = ({
 }) => {
 	const t = useText()
 	return (
-		<div className='card shadow-xl bg-base-100'>
+		<div className='card  bg-base-300  shadow-2xl hover:scale-105 transition-all'>
 			<div className='card-body'>
 				<div className='card-title flex justify-between'>
 					<div className='capitalize'>
@@ -129,7 +129,7 @@ const Post = ({
 						/>
 					</dt>
 					<dd className='text-sm leading-6 text-gray-500'>
-						Order ID: {getPostId(post.id)}
+						Order ID: {getNameFromId(post.id)}
 					</dd>
 				</div>
 

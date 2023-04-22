@@ -1,14 +1,9 @@
-import {
-	classNames,
-	getCalendarDate,
-	getNameFromId,
-	getPostId
-} from '@/utils/utils'
+import { classNames, getCalendarDate, getNameFromId } from '@/utils/utils'
 import { GroupedMessage } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useText } from '@/hooks/useText'
-import { LnurlAuthPgp } from '@/pages/lnurlpgp'
+import LnurlAuthPgp from '@/pages/lnurlpgp'
 export function LightningPassphraseModal() {
 	return (
 		<div id='passphrase-modal' className='modal'>
