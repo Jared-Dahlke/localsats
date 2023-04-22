@@ -59,18 +59,6 @@ export default function Home({
 }: IProps) {
 	const router = useRouter()
 
-	// const { data: passphraseCookie, isFetched: passphraseCookieIsFetched } =
-	// 	useQuery<string>(
-	// 		['status-cookie'],
-	// 		() => axios.get(`/api/get_passphrase_cookie`).then((data) => data.data),
-	// 		{
-	// 			refetchInterval: 5000,
-	// 			refetchIntervalInBackground: true
-	// 		}
-	// 	)
-
-	// console.log('passphraseCookie', passphraseCookie)
-
 	const posts = usePosts({ initialPosts })
 
 	const myPosts = posts?.filter((post: PostType) => post.userId === user)
@@ -210,16 +198,6 @@ export default function Home({
 
 	return (
 		<div>
-			{/* <input
-				readOnly
-				checked={!!!passphraseCookie}
-				type='checkbox'
-				id='passphrase-modal'
-				className='modal-toggle'
-			/>
-
-			<LightningPassphraseModal /> */}
-
 			{/* <WelcomeModal
 				open={!!!passphraseCookie}
 				setOpen={() => setShowWelcomeModal(false)}

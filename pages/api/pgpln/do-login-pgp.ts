@@ -7,6 +7,7 @@ import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import { LNURLResponse } from 'types/LNURLResponse'
+import { addPgpToUserLn } from './add_pgp_to_userln'
 
 type LNURLAuthResponse = LNURLResponse & {
 	token?: string // for breez jwt login https://doc.breez.technology/Adding-a-WebLN-widget-with-LNURL-Auth.html
@@ -34,12 +35,12 @@ export default async function handler(
 	console.log('key', key)
 	console.log('session', session?.user.userId)
 
-	// await addPgpToUser({
-	// 	req,
-	// 	res,
-	// 	userId: session?.user?.userId,
-	// 	privateKeyPassphrase: sig
-	// })
+	await addPgpToUserLn({
+		req,
+		res,
+		userId: session?.user?.userId,
+		privateKeyPassphrase: sig
+	})
 
 	console.log('about to set cookie')
 	//	localStorage.setItem('test', '123')
