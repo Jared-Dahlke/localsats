@@ -12,10 +12,6 @@ export function getNameFromId(id: string | undefined | null) {
 	return id?.slice(-5)
 }
 
-export function getPostId(id: string | undefined | null) {
-	return id?.slice(-4)
-}
-
 export const handleLogout = () => {
 	signOut().then(() => (window.location.href = '/'))
 }

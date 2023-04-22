@@ -15,7 +15,7 @@ import {
 } from '@/types/types'
 import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
-import { getCookie } from 'cookies-next'
+import { CookieValueTypes, getCookie } from 'cookies-next'
 import { addPgpToUser } from './api/add_pgp_to_user'
 import { getUser } from './api/get_user'
 import getDistance from 'geolib/es/getDistance'
@@ -365,9 +365,6 @@ export default function Home({
 			<SimpleMap
 				user={user}
 				posts={filteredPosts}
-				messages={messages}
-				groupedMessages={groupedMessages}
-				createMessageMutation={createMessageMutation}
 				handleMapClick={handleMapClick}
 				locationProps={locationProps}
 				setOpenId={setOpenId}
@@ -401,7 +398,11 @@ export const getServerSideProps = async function ({ req, res }) {
 		})
 	}
 	const posts = await getPosts()
-	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
+	const privateKeyPassphrase: CookieValueTypes = getCookie(
+		'privateKeyPassphrase',
+		{ req, res }
+	)
+
 	const messages = await getMessages(user, privateKeyPassphrase)
 
 	return {
