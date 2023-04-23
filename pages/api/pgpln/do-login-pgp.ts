@@ -17,8 +17,6 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<LNURLAuthResponse>
 ) {
-	const session = await getServerSession(req, res, getOptions(lnurlAuthConfig))
-
 	const { k1, sig, key } = req.query
 	console.log('req.query', req.query)
 	if (
@@ -33,22 +31,22 @@ export default async function handler(
 
 	console.log('sig', sig)
 	console.log('key', key)
-	console.log('session', session?.user.userId)
 
-	await addPgpToUserLn({
-		req,
-		res,
-		userId: session?.user?.userId,
-		privateKeyPassphrase: sig
-	})
+	// await addPgpToUserLn({
+	// 	req,
+	// 	res,
+	// 	userId: key,
+	// 	privateKeyPassphrase: sig
+	// })
 
 	console.log('about to set cookie')
 	//	localStorage.setItem('test', '123')
-	// setCookie('testdd', '123', {
-	// 	req,
-	// 	res,
-	// 	maxAge: 23444
-	// })
+	setCookie('privateKeyPassphraseLn', 'test12345', {
+		req,
+		res,
+		maxAge: 2147483647,
+		path: '/'
+	})
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'
