@@ -45,7 +45,8 @@ export default async function handler(
 		req,
 		res,
 		maxAge: 2147483647,
-		path: '/'
+		path: '/',
+		sameSite: 'lax'
 	})
 
 	const response: LNURLAuthResponse = {
