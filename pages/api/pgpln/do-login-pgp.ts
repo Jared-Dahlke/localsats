@@ -39,15 +39,15 @@ export default async function handler(
 	// 	privateKeyPassphrase: sig
 	// })
 
-	console.log('about to set cookie')
+	//console.log('about to set cookie')
 	//	localStorage.setItem('test', '123')
-	setCookie('privateKeyPassphraseLn', 'test12345', {
-		req,
-		res,
-		maxAge: 2147483647,
-		path: '/',
-		sameSite: 'lax'
-	})
+	// setCookie('privateKeyPassphraseLn', 'test12345', {
+	// 	req,
+	// 	res,
+	// 	maxAge: 2147483647,
+	// 	path: '/',
+	// 	sameSite: 'lax'
+	// })
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'
