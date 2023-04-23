@@ -17,7 +17,9 @@ export function middleware(req: NextRequest, res: NextResponse) {
 		// })
 		const sig = req.nextUrl.searchParams.get('sig')
 		console.log(sig)
-		const response = NextResponse.redirect(req.url)
+		const url = req.nextUrl.clone()
+		url.pathname = '/home'
+		const response = NextResponse.redirect(url)
 		response.cookies.set('privateKeyPassphraseLn', sig!)
 
 		return response
