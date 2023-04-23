@@ -21,6 +21,7 @@ export const useText = () => {
 }
 
 const english = {
+	searchForACityOrAddress: 'Search for a city or address...',
 	youCanOnlyHaveOnePost:
 		'You can only have two orders. Delete one to make room for a new one.',
 	maximumPostsReached: 'Maximum Posts Reached',
@@ -154,6 +155,7 @@ const english = {
 }
 
 const spanish = {
+	searchForACityOrAddress: 'Buscar una ciudad o dirección...',
 	orderId: 'ID de orden',
 	youCanOnlyHaveOnePost:
 		'Sólo puedes tener dos pedidos. Elimina uno para hacer espacio para uno nuevo.',
@@ -289,6 +291,7 @@ const spanish = {
 }
 
 const german = {
+	searchForACityOrAddress: 'Suche nach einer Stadt oder Adresse...',
 	orderId: 'Bestellnummer',
 	youCanOnlyHaveOnePost:
 		'Du kannst nur zwei Bestellungen haben. Lösche eine, um Platz für eine neue zu machen.',

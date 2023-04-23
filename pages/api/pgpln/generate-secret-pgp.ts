@@ -10,6 +10,9 @@ export const getEncoded = async () => {
 		tag: 'login'
 	})
 
+	// const callbackUrl = `${
+	// 	process.env.NEXT_PUBLIC_APP_URL
+	// }/api/pgpln/do-login-pgp?${params.toString()}`
 	const callbackUrl = `${
 		process.env.NEXT_PUBLIC_APP_URL
 	}/api/pgpln/do-login-pgp?${params.toString()}`

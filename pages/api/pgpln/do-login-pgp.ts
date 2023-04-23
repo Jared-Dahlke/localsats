@@ -2,11 +2,11 @@ import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { addPgpToUser } from '@/pages/api/add_pgp_to_user'
 import axios from 'axios'
-import { serialize } from 'cookie'
 import { setCookie } from 'cookies-next'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
+import { signIn } from 'next-auth/react'
 import { LNURLResponse } from 'types/LNURLResponse'
 import { addPgpToUserLn } from './add_pgp_to_userln'
 
@@ -33,6 +33,7 @@ export default async function handler(
 	console.log('sig', sig)
 	console.log('key', key)
 
+	//return res.redirect(200, '/home')
 	// await addPgpToUserLn({
 	// 	req,
 	// 	res,
@@ -50,13 +51,13 @@ export default async function handler(
 	// 	sameSite: 'lax'
 	// })
 
-	res.setHeader(
-		'Set-Cookie',
-		serialize('privateKeyPassphraseLn', 'token_cookie_value', {
-			path: '/',
-			sameSite: 'lax'
-		})
-	)
+	// res.setHeader(
+	// 	'Set-Cookie',
+	// 	serialize('privateKeyPassphraseLn', 'token_cookie_value', {
+	// 		path: '/',
+	// 		sameSite: 'lax'
+	// 	})
+	// )
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'

@@ -34,9 +34,7 @@ import { useLocationProps } from '@/hooks/useLocationProps'
 import { motion } from 'framer-motion'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
-import { LightningPassphraseModal } from '@/components/LightningPassphraseModal'
-import { getEncoded } from './api/pgpln/generate-secret-pgp'
-import { LnurlAuthLoginInfo } from '@/types/LnurlAuthLoginInfo'
+import debounce from 'just-debounce-it'
 
 const stats = [
 	{ name: 'Posted Date', value: '12/31/ 2022' },
@@ -90,6 +88,26 @@ export default function Home({
 	const t = useText()
 
 	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
+
+	const handleAddressChange = async (e: any) => {
+		if (!e.target.value) return
+		const coord = await axios.post('/api/get_coordinates', {
+			address: e.target.value
+		})
+		//const coord = await getCoordinatesBasedOnAddress(e.target.value)
+		if (!coord.data[0]) return
+		const lat = coord.data[0].latitude
+		const lng = coord.data[0].longitude
+		console.log(lat)
+		setLocationProps({
+			center: {
+				lat,
+				lng
+			},
+			zoom: 14
+		})
+	}
+
 	React.useEffect(() => {
 		if (!user) return
 		const processUser = async () => {
@@ -339,6 +357,13 @@ export default function Home({
 					</div>
 				</div>
 			)}
+
+			<input
+				onChange={debounce((e) => handleAddressChange(e), 1000)}
+				placeholder={t.searchForACityOrAddress}
+				type='text'
+				className='input input-bordered block  lg:w-1/3 w-full '
+			/>
 
 			<SimpleMap
 				user={user}
