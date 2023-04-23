@@ -35,6 +35,7 @@ import { motion } from 'framer-motion'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import debounce from 'just-debounce-it'
+import { DeletePostConfirmationModal } from '@/components/deletePostConfirmationModal'
 
 const stats = [
 	{ name: 'Posted Date', value: '12/31/ 2022' },
@@ -84,6 +85,10 @@ export default function Home({
 	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
 	const [showNewPostModal, setShowNewPostModal] = React.useState(false)
 	const [showOnlyMyPosts, setShowOnlyMyPosts] = React.useState(false)
+
+	const [deleteConfirmationId, setDeleteConfirmationId] = React.useState<
+		string | null
+	>(null)
 
 	const t = useText()
 
@@ -216,6 +221,17 @@ export default function Home({
 
 	return (
 		<div>
+			<DeletePostConfirmationModal
+				open={!!deleteConfirmationId}
+				setOpen={() => setDeleteConfirmationId(null)}
+				handleDelete={() => {
+					if (deleteConfirmationId) {
+						deletePost(deleteConfirmationId)
+					}
+					setDeleteConfirmationId(null)
+				}}
+			/>
+
 			{/* <WelcomeModal
 				open={!!!passphraseCookie}
 				setOpen={() => setShowWelcomeModal(false)}
@@ -236,11 +252,13 @@ export default function Home({
 				post={openPost}
 				setOpen={() => {
 					setShowPostModal(false)
-					setOpenId(null)
+					setTimeout(() => {
+						setOpenId(null)
+					}, 300)
 				}}
 				createPaywall={createPaywall}
 				isCreatingPaywall={isCreatingPaywall}
-				deletePost={deletePost}
+				deletePost={(id: string) => setDeleteConfirmationId(id)}
 				activeChats={groupedMessages.filter((m) => m.postId === openId)}
 				openThisChat={(chatPaywallId: string) => {
 					router.push(`/chats/${chatPaywallId}`)
