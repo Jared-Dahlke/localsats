@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 import { setCookie } from 'cookies-next'
 
 // This function can be marked `async` if using `await` inside
-export function middleware(req: NextRequest, res: NextResponse) {
+export function middleware(req: NextRequest) {
 	console.log('in mid')
 	if (req.nextUrl.pathname.includes('do-login-pgp')) {
 		console.log('setting cooki in middleware')
@@ -18,11 +18,13 @@ export function middleware(req: NextRequest, res: NextResponse) {
 		const sig = req.nextUrl.searchParams.get('sig')
 		console.log(sig)
 		const url = req.nextUrl.clone()
-		url.pathname = '/home'
+		//	url.pathname = '/home'
 		const response = NextResponse.redirect(url)
-		response.cookies.set('privateKeyPassphraseLn', sig!)
 
-		return response
+		if (!!!response.cookies.get('privateKeyPassphraseLn')) {
+			response.cookies.set('privateKeyPassphraseLn', sig!)
+			return response
+		}
 	}
 }
 
