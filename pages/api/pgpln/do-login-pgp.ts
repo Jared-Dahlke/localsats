@@ -2,6 +2,7 @@ import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { addPgpToUser } from '@/pages/api/add_pgp_to_user'
 import axios from 'axios'
+import { serialize } from 'cookie'
 import { setCookie } from 'cookies-next'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -48,6 +49,11 @@ export default async function handler(
 	// 	path: '/',
 	// 	sameSite: 'lax'
 	// })
+
+	res.setHeader(
+		'Set-Cookie',
+		serialize('privateKeyPassphraseLn', 'token_cookie_value', { path: '/' })
+	)
 
 	const response: LNURLAuthResponse = {
 		status: 'OK'
