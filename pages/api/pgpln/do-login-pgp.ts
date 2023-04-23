@@ -52,7 +52,10 @@ export default async function handler(
 
 	res.setHeader(
 		'Set-Cookie',
-		serialize('privateKeyPassphraseLn', 'token_cookie_value', { path: '/' })
+		serialize('privateKeyPassphraseLn', 'token_cookie_value', {
+			path: '/',
+			sameSite: 'lax'
+		})
 	)
 
 	const response: LNURLAuthResponse = {
