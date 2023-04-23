@@ -61,7 +61,7 @@ export default async function handler(req, res) {
 			return
 		}
 
-		const user = await addPgpToUser({ req, res, userId: req.body.userId })
+		const user = await addPgpToUserLn({ req, res, userId: req.body.userId })
 
 		res.json(user)
 	} catch (e) {
