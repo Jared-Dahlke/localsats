@@ -14,7 +14,7 @@ export const addPgpToUserLn = async ({
 	privateKeyPassphrase
 }) => {
 	//const privateKeyPassphrase = crypto.randomBytes(20).toString('hex')
-
+	res.redirect(307, '/home')
 	const { privateKey, publicKey } = await openpgp.generateKey({
 		type: 'ecc', // Type of the key, defaults to ECC
 		curve: 'curve25519', // ECC curve name, defaults to curve25519
@@ -46,22 +46,27 @@ export const addPgpToUserLn = async ({
 
 export default async function handler(req, res) {
 	try {
-		const session = await getServerSession(
+		// const session = await getServerSession(
+		// 	req,
+		// 	res,
+		// 	getOptions(lnurlAuthConfig)
+		// )
+
+		// if (!session) {
+		// 	res.status(401).json({ error: 'Not authenticated' })
+		// 	return
+		// }
+		// if (req.body.userId !== session?.user?.userId) {
+		// 	res.status(401).json({ error: 'Not authorized' })
+		// 	return
+		// }
+
+		const user = await addPgpToUserLn({
 			req,
 			res,
-			getOptions(lnurlAuthConfig)
-		)
-
-		if (!session) {
-			res.status(401).json({ error: 'Not authenticated' })
-			return
-		}
-		if (req.body.userId !== session?.user?.userId) {
-			res.status(401).json({ error: 'Not authorized' })
-			return
-		}
-
-		const user = await addPgpToUserLn({ req, res, userId: req.body.userId })
+			userId: req.body.userId,
+			privateKeyPassphrase: '123'
+		})
 
 		res.json(user)
 	} catch (e) {

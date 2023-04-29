@@ -21,8 +21,10 @@ export const getPostsToDelete = async () => {
 			const posterMessage = messages.find((message) => {
 				return message.fromUserId === post.userId
 			})
-			// if no poster message and the first message is more than 7 days old
-			if (!posterMessage && messages[0].sentDate < Date.now() - 604800000) {
+			//14 days in milliseconds, no e
+
+			// if no poster message and the first message is more than 14 days old
+			if (!posterMessage && messages[0].sentDate < Date.now() - 1209600000) {
 				return true
 			}
 			return false
