@@ -6,36 +6,36 @@ import { getPostsToDelete } from '../get_unanswered_posts'
 export default async function handler(req: NextRequest) {
 	const postIdsToDelete = await getPostsToDelete()
 
-	// await prisma.message.deleteMany({
-	// 	where: {
-	// 		postId: {
-	// 			in: postIdsToDelete
-	// 		}
-	// 	}
-	// })
+	await prisma.message.deleteMany({
+		where: {
+			postId: {
+				in: postIdsToDelete
+			}
+		}
+	})
 
-	// await prisma.chatPaywalls.deleteMany({
-	// 	where: {
-	// 		postId: {
-	// 			in: postIdsToDelete
-	// 		}
-	// 	}
-	// })
+	await prisma.chatPaywalls.deleteMany({
+		where: {
+			postId: {
+				in: postIdsToDelete
+			}
+		}
+	})
 
-	// await prisma.post.deleteMany({
-	// 	where: {
-	// 		id: {
-	// 			in: postIdsToDelete
-	// 		}
-	// 	}
-	// })
+	await prisma.post.deleteMany({
+		where: {
+			id: {
+				in: postIdsToDelete
+			}
+		}
+	})
 
 	await sendEmail({
 		toAddress: 'jared.dahlke@protonmail.com',
 		fromAddress: 'notifications@localsats.org',
-		subject: 'delete proposal from localsats.org',
+		subject: 'deleted orders from localsats.org',
 		body: `<div>
-              these were marked inactive due to poster not responding: ${JSON.stringify(
+              these were deleted due to poster not responding: ${JSON.stringify(
 								postIdsToDelete
 							)}
            </div>`

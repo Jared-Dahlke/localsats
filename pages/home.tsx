@@ -80,7 +80,6 @@ export default function Home({
 	const [isCreatingPaywall, setIsCreatingPaywall] = React.useState(false)
 	const [showPostModal, setShowPostModal] = React.useState(false)
 	const [newPost, setNewPost] = React.useState<PostType | null>(null)
-	const [showQr, setShowQr] = React.useState(false)
 	const [showNewPostSuccess, setShowNewPostSuccess] = React.useState(false)
 	const [showMaxPostsModal, setShowMaxPostsModal] = React.useState(false)
 	const [showNewPostModal, setShowNewPostModal] = React.useState(false)
@@ -166,34 +165,6 @@ export default function Home({
 			paywall: paywallRecord
 		})
 		setOpenId(null)
-		setShowQr(false)
-
-		const publicKeyArmored = openPost?.user.pgpPublicKey
-		const myPublicKeyArmored = userFromDatabase?.data?.data?.pgpPublicKey
-
-		let finalMessage = 'Hello, I am interested in your order.'
-		try {
-			const encryptedMessage = await encryptMessage({
-				publicKey1: publicKeyArmored,
-				publicKey2: myPublicKeyArmored,
-				message: 'Hello, I am interested in your order.'
-			})
-			finalMessage = encryptedMessage
-		} catch (e) {
-			// ok, user may not have a pgp key (maybe signed up before we added this feature)
-		}
-
-		// insert new initial message here
-		const newMessage: Omit<MessageType, '_id'> = {
-			chatPaywallId: newPaywallId.data,
-			body: finalMessage,
-			postId: openPost?.id,
-			fromUserId: user,
-			toUserId: openPost?.userId,
-			seen: false,
-			sentDate: new Date()
-		}
-		createMessageMutation.mutate(newMessage)
 
 		router.push(`/chats/${newPaywallId.data}`)
 	}
@@ -303,13 +274,6 @@ export default function Home({
 				lat={newPost?.lat}
 				lng={newPost?.lng}
 				userId={user}
-			/>
-			<QrCodeModal
-				code={showQr}
-				setOpen={() => {
-					setShowQr(false)
-				}}
-				open={!!showQr}
 			/>
 
 			<div className='prose max-w-none'>

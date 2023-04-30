@@ -20,6 +20,7 @@ export default function LnurlAuthPgp({ isMobile }: LnurlAuthSignInProps) {
 
 	const { data: lnurlAuthLoginInfo, refetch: fetchNewQR } = useQuery(
 		['generate-secret-pgp'],
+		// () => axios.get(`/api/pgpln/generate-secret-pgp`).then((data) => data.data),
 		() => axios.get(`/api/pgpln/generate-secret-pgp`).then((data) => data.data),
 		{
 			refetchOnWindowFocus: false
