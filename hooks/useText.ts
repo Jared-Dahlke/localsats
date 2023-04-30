@@ -159,7 +159,7 @@ const spanish = {
 	orderId: 'ID de orden',
 	youCanOnlyHaveOnePost:
 		'Sólo puedes tener dos pedidos. Elimina uno para hacer espacio para uno nuevo.',
-	maximumPostsReached: 'Has alcanzado el máximo de ordens',
+	maximumPostsReached: 'Has alcanzado el máximo de ordenes',
 	clickOrScan: 'Haz clic o escanea:',
 	deletePost: 'Eliminar post',
 	areYouSureYouWantToDelete: '¿Estás seguro de que quieres eliminar este post?',
@@ -188,10 +188,10 @@ const spanish = {
 	pgpPassphrase: 'Frase de contraseña PGP',
 	postedAt: 'Publicado en',
 	yourPgpPassphrase: 'Tu frase de contraseña PGP...',
-	youHaveActivePosts: 'Tienes ordens activos',
+	youHaveActivePosts: 'Tienes ordenes activas',
 	youHaveANewMessage: 'Tienes un nuevo mensaje',
-	signIntoYourAccount: 'Inicia sesion en tu cuenta',
-	showOnlyYourPosts: 'Mostrar solo tus ordens',
+	signIntoYourAccount: 'Inicia sesión en tu cuenta',
+	showOnlyYourPosts: 'Mostrar solo tus ordenes',
 	generateNewPgp: 'Generar nuevo par de claves PGP',
 	feelFreeTomakeAPr:
 		'Siéntete libre de hacer una solicitud de extracción (PR) o abrir un problema (issue). Si tienes alguna pregunta, puedes escribirme a mi correo electrónico: jared.dahlke@protonmail.com.',
@@ -204,25 +204,25 @@ const spanish = {
 	weHaveARecordOfYourPgp:
 		'Tenemos un registro de tus claves pública y privada PGP, pero no encontramos tu frase de contraseña autogenerada en tus cookies. Tienes 2 opciones:',
 	emailUpdated: 'Email actualizado',
-	paymentSuccess: 'Pago exitoso!',
+	paymentSuccess: '¡Pago exitoso!',
 	yourOrders: 'Tus pedidos',
 
-	learnMoreAboutLightningLogin: 'Aprende mas sobre Lightning Login',
+	learnMoreAboutLightningLogin: 'Aprende más sobre Lightning Login',
 	toCreateANewPostToBuyOrSell:
-		'Para crear un nuevo orden para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver los ordens de otras personas haz click en los iconos en el mapa',
-	emailSettings: 'Configuracion de Email',
+		'Para crear una nueva orden para comprar o vender bitcoin solo haz click en cualquier parte del mapa, para ver las ordenes de otras personas haz click en los íconos en el mapa',
+	emailSettings: 'Configuración de Email',
 	ifYoudLikeToReceiveAnEmailWhenSomeone:
-		'Si deseas recibir un correo electronico cuando alguien te escriba escribe tu correo aqui, sino puedes regresar aqui luego para ver si tienes algun mensaje. no compartiremos tu correo electronico con nadie',
+		'Si deseas recibir un correo electronico cuando alguien te escriba escribe tu correo aqui, sino puedes regresar aquí luego para ver si tienes algún mensaje. No compartiremos tu correo electrónico con nadie',
 	optional: 'Opcional',
 	save: 'Guardar',
 	yourMessagesAre:
 		'Tus mensajes son encriptados de extremo a extremo utilizando PGP',
 	belowIsThePassphrase:
-		'Debaje esta tu frase para tus llaves PGP que encriptan tus mensajes. esto esta almacenado en las cookies de tu ordenador. guardala en un lugar seguro en caso de que limpies as cookies de tu ordenador o si deseas acceder a tus mensajes desde otro ordenador ',
+		'Debajo está tu frase para tus llaves PGP que encriptan tus mensajes. Esto está almacenado en las cookies de tu ordenador. Guardala en un lugar seguro en caso de que limpies las cookies de tu ordenador o si deseas acceder a tus mensajes desde otro ordenador ',
 	yourMessage: 'Tus Mensajes',
 	postId: 'ID De Orden',
 	otherParty: 'Contraparte',
-	latestMessage: 'Ultimo mensaje',
+	latestMessage: 'Último mensaje',
 	open: 'Abrir',
 	dumpAllOfTheSite:
 		'Crear un archivo JSON con todos los datos del sitio web (excepto los correos electrónicos y mensajes).',
@@ -236,35 +236,35 @@ const spanish = {
 	user: 'Usuario',
 	wantsToBuy: 'Desea comprar',
 	wantsToSell: 'Desea vender',
-	posted: 'Anunciado',
+	posted: 'Publicado',
 	chatWithThisUser: 'Chatea con este usuario',
 	youAlreadyHaveAnOpenChat: 'Ya tienes abierto un chat para este anuncio',
 	openChatWithUser: 'Abrir el chat con el usuario',
 	thisIsYourPost: 'Este es tu anuncio',
 	delete: 'Borrar',
-	daysLive: 'Dias que localsats.org esta activo',
-	totalPosts: 'ordens totales',
+	daysLive: 'Días que localsats.org está activo',
+	totalPosts: 'Ordenes totales',
 	totalUsers: 'Usuarios totales',
 	totalMessages: 'Mensajes totales',
 	frequentlyAskedQ: 'Preguntas comunes',
 	cantFindTheAnswer:
-		'No encuentras la respuesta que estabas buscando? comunicate a',
-	whatIsThis: 'Que es esto?',
+		'¿No encuentras la respuesta que estabas buscando? Comunicate a',
+	whatIsThis: '¿Qué es esto?',
 	itIsAnEasyWayToBuy:
-		'Es una manera facil de comprar y vender bitcoin localmente. solo crea un anuncio para comprar o vender bitcoin y espera a que alguien responda. cuando alguien responda, veras los menssajes en tu pagina principal',
-	whatDataDoYouStore: 'Que datos conservan?',
+		'Es una manera fácil de comprar y vender bitcoin localmente. Solo crea un anuncio para comprar o vender bitcoin y espera a que alguien responda. Cuando alguien responda, veras los mensajes en tu página principal',
+	whatDataDoYouStore: '¿Qué datos conservan?',
 	weStoreTheEncrypted:
 		'Almacenamos los mensajes y publicaciones encriptados asociados a tu dirección de LNURL-Auth. Si eliges agregar una dirección de correo electrónico para recibir notificaciones, también la almacenaremos. Cuando borras una publicación, tanto la publicación como todos los mensajes asociados se eliminan permanentemente. Si decides eliminar tu dirección de correo electrónico, también se elimina de manera permanente.',
 	download: 'Descarga',
 	whatIsTheTechStack: '¿Cuál es la pila tecnológica de este sitio web?',
 	loginUsesLnurlAuth:
 		'El inicio de sesión utiliza LNURL-auth. El frontend está construido con Next.js y Tailwind CSS. La base de datos es Cockroach DB. El servicio de correo electrónico está alojado en AWS. El sitio está alojado en Vercel.',
-	howDoIContribute: 'Como puedo contribuir?',
+	howDoIContribute: '¿Cómo puedo contribuir?',
 	IdeasContributorsAreWelcome:
 		'¡Se aceptan ideas y contribuciones! Aquí está el enlace al repositorio de GitHub:',
 	signOut: 'Desconectar',
 	yourUserIdFromLnurl: 'Tu id de usuario y autorizacion lnurl',
-	buyAndSellBitcoinInPerson: 'Compra y Bende Bitcoin en persona',
+	buyAndSellBitcoinInPerson: 'Compra y Vende Bitcoin en persona',
 	whatsNew: 'Novedades',
 	justShipped: 'Acaba de arribar v1.0.0',
 	createAnAnonymousPostAt:
@@ -278,16 +278,16 @@ const spanish = {
 		'Para crear un nuevo anuncio para comprar o vender bitcoin haz click en el mapa en el lugar donde deseas encontrarte',
 	respondToAPost: 'Responder a un anuncio',
 	toSeeOtherPeoplesPosts:
-		'Para ver los ordens de otras personas y responderlos, haz click en los inconos del mapa',
+		'Para ver las ordenes de otras personas y responderlos, haz click en los íconos del mapa',
 	receiveMessages: 'Recibe mensaje',
 	whenOthersRespond:
-		'Cuando alguien responde a tu anuncio tu recibiras un mensaje. tambien puedes recibir un correo electronico opcional.',
+		'Cuando alguien responde a tu anuncio tú recibirás un mensaje. También puedes recibir un correo electrónico opcional.',
 	beSafe: 'Mantente seguro',
 	makeSureToMeetInACrowded:
-		'Asegurate de reunirte en unlugar publico. no des tu informacion personal',
-	thisIsNew: 'Esto es nuevo!',
+		'Asegurate de reunirte en un lugar público. no des tu información personal',
+	thisIsNew: '¡Esto es nuevo!',
 	thereAreNotManyPosts:
-		'No hay muchos ordens nuevos todavia por que este es un sitio nuevo, esta solamente desde febrero 2023, por favor crea un anuncio y ayudanos a crecer! se paciente.'
+		'No hay muchas ordenes nuevas todavía por que este es un sitio nuevo, esta solamente desde febrero 2023, por favor crea un anuncio y ayudanos a crecer! Se paciente.'
 }
 
 const german = {
