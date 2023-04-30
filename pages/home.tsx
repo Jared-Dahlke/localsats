@@ -1,9 +1,7 @@
 import React from 'react'
 import SimpleMap from '@/components/map'
 import { Layout } from '@/components/layout'
-import { WelcomeModal } from '@/components/WelcomeModal'
 import Axios from 'axios'
-import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 import { classNames, getNameFromId, transition } from '@/utils/utils'
 import { getServerSession } from 'next-auth'
 import { getPosts } from './api/get_posts'
@@ -22,13 +20,11 @@ import getDistance from 'geolib/es/getDistance'
 import { usePosts } from '@/hooks/usePosts'
 import { useMessages } from '@/hooks/useMessages'
 import Modal from '@/components/modal'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { NewPostSuccessModal } from '@/components/newPostSuccessModal'
-import { encryptMessage } from '@/lib/pgp'
 import { MaxPostsModal } from '@/components/maxPostsModal'
 import NewPostModal from '@/components/newPostModal'
-import QrCodeModal from '@/components/qrCodeModal'
 import { useText } from '@/hooks/useText'
 import { useLocationProps } from '@/hooks/useLocationProps'
 import { motion } from 'framer-motion'
@@ -130,8 +126,6 @@ export default function Home({
 		processUser()
 	}, [user])
 
-	const userFromDatabase = useDatabaseUser({ userId: user })
-
 	const deletePost = async (id: string) => {
 		setShowPostModal(false)
 
@@ -202,14 +196,6 @@ export default function Home({
 					setDeleteConfirmationId(null)
 				}}
 			/>
-
-			{/* <WelcomeModal
-				open={!!!passphraseCookie}
-				setOpen={() => setShowWelcomeModal(false)}
-				handleAddEmail={() => {
-					setShowWelcomeModal(false)
-				}}
-			/> */}
 
 			<input
 				readOnly
