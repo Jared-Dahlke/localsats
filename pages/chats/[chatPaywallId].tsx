@@ -16,17 +16,20 @@ import { encryptMessage } from '@/lib/pgp'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 import prisma from '@/lib/prisma'
 import { differenceInDays } from 'date-fns'
+import { chatPaywalls, Prisma } from '@prisma/client'
 
 export default function Chat({
 	user,
 	messages: initialMessages,
 	chatPaywallId,
-	chatIsDeleted
+	chatIsDeleted,
+	chat
 }: {
 	user: string
 	messages: MessageType[]
 	chatPaywallId: string
 	chatIsDeleted: boolean
+	chat: chatPaywalls
 }) {
 	const t = useText()
 	const userFromDatabase = useDatabaseUser({ userId: user })
@@ -43,12 +46,9 @@ export default function Chat({
 	const markMessagesAsSeen = async () => {
 		await axios.post('/api/mark_messages_as_seen', {
 			data: {
-				postId: messages[0].postId,
+				postId: chat?.postId,
 				toUserId: user,
-				fromUserId:
-					messages[0].fromUserId === user
-						? messages[0].toUserId
-						: messages[0].fromUserId
+				fromUserId: otherPartyUserId
 			}
 		})
 	}
@@ -65,20 +65,13 @@ export default function Chat({
 	}, [messages])
 
 	const otherPartyUserId =
-		messages[0]?.toUserId === user
-			? messages[0]?.fromUserId
-			: messages[0]?.toUserId
+		chat?.userId === user ? chat?.recipientUserId : chat?.userId
 
 	const sendMessage = async (body: string) => {
 		if (!body) return
 
-		const toUserId =
-			messages[0].fromUserId === user
-				? messages[0].toUserId
-				: messages[0].fromUserId
-
 		const toUser = await axios.post('/api/get_user', {
-			userId: toUserId
+			userId: otherPartyUserId
 		})
 
 		const toUserPgpPublicKey = toUser.data.pgpPublicKey
@@ -98,11 +91,11 @@ export default function Chat({
 		const message: Omit<MessageType, '_id'> = {
 			body: finalMessage,
 			fromUserId: user,
-			toUserId,
-			postId: messages[0].postId,
+			toUserId: otherPartyUserId,
+			postId: chat?.postId,
 			seen: false,
 			sentDate: new Date(),
-			chatPaywallId: messages[0].chatPaywallId
+			chatPaywallId: chat?.id
 		}
 		createMessageMutation.mutate(message)
 	}
@@ -116,7 +109,7 @@ export default function Chat({
 			<div className='bg-base-200 flex  justify-between  w-full items-center relative p-3 rounded-lg'>
 				<div className='w-1/3 h-full '>
 					<h3 className='mb-0'>
-						{t.orderId} {messages ? getNameFromId(messages[0]?.postId) : ''}
+						{t.orderId} {messages ? getNameFromId(chat?.postId) : ''}
 					</h3>
 				</div>
 				<div className='w-1/3 flex flex-col gap-1 items-center justify-center h-full'>
@@ -231,7 +224,8 @@ export const getServerSideProps: GetServerSideProps<any> = async function ({
 				user,
 				messages: JSON.parse(JSON.stringify(messages)),
 				chatPaywallId,
-				chatIsDeleted: false
+				chatIsDeleted: false,
+				chat: JSON.parse(JSON.stringify(chat))
 			}
 		}
 	} else {
