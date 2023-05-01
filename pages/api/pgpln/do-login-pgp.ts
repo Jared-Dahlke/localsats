@@ -4,7 +4,7 @@ import { getOptions } from '@/lib/next-auth-lnurl'
 import { getAppUrl } from '@/lib/utils'
 import { addPgpToUser } from '@/pages/api/add_pgp_to_user'
 import axios from 'axios'
-import { setCookie } from 'cookies-next'
+import { setCookie } from 'nookies'
 import * as lnurl from 'lnurl'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
@@ -47,9 +47,8 @@ export default async function handler(
 
 	//console.log('about to set cookie')
 	//	localStorage.setItem('test', '123')
-	setCookie('test', 'test12345', {
-		req,
-		res,
+
+	setCookie({ res }, 'privateKeyPassphraseLn', 'test12345', {
 		maxAge: 34000,
 		path: '/',
 		sameSite: 'lax'

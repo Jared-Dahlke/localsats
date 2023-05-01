@@ -148,6 +148,7 @@ export default function Home({
 	}
 
 	const createPaywall = async () => {
+		setIsCreatingPaywall(true)
 		setShowPostModal(false)
 		const paywallRecord: Omit<PaywallRecordType, 'id'> = {
 			userId: user,
@@ -159,7 +160,7 @@ export default function Home({
 			paywall: paywallRecord
 		})
 		setOpenId(null)
-
+		setIsCreatingPaywall(false)
 		router.push(`/chats/${newPaywallId.data}`)
 	}
 
