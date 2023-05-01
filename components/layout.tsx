@@ -150,15 +150,17 @@ export function Layout({
 									<ul
 										tabIndex={0}
 										className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
-										<li className='w-full flex mr-auto'>
-											<label tabIndex={0} className='btn btn-ghost'>
+										<li
+											className='w-full flex justify-start'
+											onClick={() => router.push('/settings')}>
+											<label tabIndex={0}>
 												<img
 													className='h-7 w-7 rounded-full cursor-pointer bg-base-100'
 													src={`https://robohash.org/${user}.png?size=500x500`}
 													alt=''
 												/>
 
-												<a onClick={handleLogout}>{getNameFromId(user)}</a>
+												{getNameFromId(user)}
 											</label>
 										</li>
 										<li>
