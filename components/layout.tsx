@@ -6,7 +6,7 @@ import {
 	InformationCircleIcon,
 	PaperClipIcon
 } from '@heroicons/react/24/outline'
-import { classNames, handleLogout } from '@/utils/utils'
+import { classNames, getNameFromId, handleLogout } from '@/utils/utils'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -146,9 +146,23 @@ export function Layout({
 											alt=''
 										/>
 									</label>
+
 									<ul
 										tabIndex={0}
 										className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'>
+										<li
+											className='w-full flex justify-start'
+											onClick={() => router.push('/settings')}>
+											<label tabIndex={0}>
+												<img
+													className='h-7 w-7 rounded-full cursor-pointer bg-base-100'
+													src={`https://robohash.org/${user}.png?size=500x500`}
+													alt=''
+												/>
+
+												{getNameFromId(user)}
+											</label>
+										</li>
 										<li>
 											<a onClick={handleLogout}>{t.signOut}</a>
 										</li>
