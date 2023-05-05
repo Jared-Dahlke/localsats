@@ -1,6 +1,6 @@
 import { useText } from '@/hooks/useText'
 import { getServerSession } from 'next-auth'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout } from '@/components/layout'
 import axios from 'axios'
 import * as EmailValidator from 'email-validator'
@@ -19,8 +19,10 @@ interface IProps {
 
 export default function Settings({ user, privateKeyPassphrase }: IProps) {
 	const userFromDatabase = useDatabaseUser({ userId: user })
+
+	console.log('userFromDatabase', userFromDatabase?.data?.data)
 	const router = useRouter()
-	const [email, setEmail] = React.useState(userFromDatabase?.email || '')
+	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
 	const [passphrase, setPassphrase] = React.useState(privateKeyPassphrase)
 
@@ -34,13 +36,14 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 	const t = useText()
 	return (
 		<div className='h-screen flex items-center flex-col gap-8 '>
-			<div
-				tabIndex={0}
-				className='collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
-				<div className='collapse-title'>
-					<h3 className='text-md font-medium leading-6 '>{t.emailSettings}</h3>
-				</div>
-				<div className='collapse-content'>
+			<div className='card shadow-xl bg-base-300'>
+				<div className='card-body'>
+					<div className='card-title'>
+						<h3 className='text-md font-medium leading-6 '>
+							{t.emailSettings}
+						</h3>
+					</div>
+
 					<div className='mt-2 max-w-xl text-sm '>
 						<p>{t.ifYoudLikeToReceiveAnEmailWhenSomeone}</p>
 					</div>
@@ -56,9 +59,9 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 								onChange={(e) => {
 									setEmail(e.target.value)
 								}}
-								className='input input-bordered w-full'
+								className='input  w-full'
 								placeholder={`you@example.com (${t.optional})`}
-								value={email}
+								defaultValue={userFromDatabase?.data?.data?.email}
 							/>
 						</div>
 						<button
@@ -71,28 +74,9 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 				</div>
 			</div>
 
-			<div
-				aria-live='assertive'
-				className='pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6'>
-				<div className='flex w-full flex-col items-center space-y-4 sm:items-end'>
-					<SuccessAlert
-						show={showEmailSuccess}
-						setShow={() => setShowEmailSuccess(false)}
-						title={t.emailUpdated}
-						subtitle=''
-					/>
-				</div>
-			</div>
-
-			<div
-				tabIndex={0}
-				className='mt-8 collapse collapse-open border border-base-300 bg-base-100 rounded-box'>
-				<div className='collapse-title'>
-					<h3 className='text-md font-medium leading-6 '>
-						{t.yourMessagesAre}
-					</h3>
-				</div>
-				<div className='collapse-content'>
+			<div className='card shadow-xl bg-base-300'>
+				<div className='card-body'>
+					<div className='card-title'>{t.yourMessagesAre}</div>
 					{!privateKeyPassphrase && (
 						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
 							<div className='flex'>
@@ -145,14 +129,13 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 								onChange={(e) => {
 									setPassphrase(e.target.value)
 								}}
-								value={passphrase}
+								//value={passphrase}
 								className='input input-bordered w-full'
 								placeholder={t.yourPgpPassphrase}
-								//defaultValue={privateKeyPassphrase}
+								defaultValue={privateKeyPassphrase}
 							/>
 						</div>
 						<button
-							//disabled={passphrase.length < 1}
 							onClick={async () => {
 								setCookie('privateKeyPassphrase', passphrase, {
 									maxAge: 2147483647,
@@ -165,6 +148,19 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 							{t.save}
 						</button>
 					</div>
+				</div>
+			</div>
+
+			<div
+				aria-live='assertive'
+				className='pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6'>
+				<div className='flex w-full flex-col items-center space-y-4 sm:items-end'>
+					<SuccessAlert
+						show={showEmailSuccess}
+						setShow={() => setShowEmailSuccess(false)}
+						title={t.emailUpdated}
+						subtitle=''
+					/>
 				</div>
 			</div>
 		</div>
