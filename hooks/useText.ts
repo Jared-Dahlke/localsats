@@ -21,6 +21,9 @@ export const useText = () => {
 }
 
 const english = {
+	howLongDoYouKeepOrders: 'How long do you keep orders?',
+	weKeepOrders:
+		'The app keeps orders on the map permanently, but if a user does not respond to messages regarding their order within 14 days, the order and related messages are deleted.',
 	searchForACityOrAddress: 'Search for a city or address...',
 	youCanOnlyHaveOnePost:
 		'You can only have two orders. Delete one to make room for a new one.',
@@ -155,6 +158,10 @@ const english = {
 }
 
 const spanish = {
+	howLongDoYouKeepOrders: '¿Cuánto tiempo mantienes las ordens?',
+	weKeepOrders:
+		'La aplicación mantiene las ordens en el mapa permanentemente, pero si un usuario no responde a los mensajes relacionados con su orden dentro de los 14 días, la orden y los mensajes relacionados se eliminan.',
+
 	searchForACityOrAddress: 'Buscar una ciudad o dirección...',
 	orderId: 'ID de orden',
 	youCanOnlyHaveOnePost:
@@ -291,6 +298,9 @@ const spanish = {
 }
 
 const german = {
+	howLongDoYouKeepOrders: 'Wie lange behalten Sie Bestellungen?',
+	weKeepOrders:
+		'Die App behält Bestellungen auf der Karte dauerhaft, aber wenn ein Benutzer nicht innerhalb von 14 Tagen auf Nachrichten zu seiner Bestellung antwortet, werden die Bestellung und die zugehörigen Nachrichten gelöscht.',
 	searchForACityOrAddress: 'Suche nach einer Stadt oder Adresse...',
 	orderId: 'Bestellnummer',
 	youCanOnlyHaveOnePost:

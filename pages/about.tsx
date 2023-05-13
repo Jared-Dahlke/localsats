@@ -27,6 +27,10 @@ export default function About({
 			answer: t.itIsAnEasyWayToBuy
 		},
 		{
+			question: t.howLongDoYouKeepOrders,
+			answer: t.weKeepOrders
+		},
+		{
 			question: t.whatDataDoYouStore,
 			answer: (
 				<div>
