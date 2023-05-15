@@ -13,6 +13,12 @@ import Link from 'next/link'
 import { useText } from '@/hooks/useText'
 import Head from 'next/head'
 import { ThemeSwitcher } from './ThemeSwitcher'
+import { PgpPasswordModal } from '@/components/PgpPasswordModal'
+import { usePgpPassword } from '@/hooks/usePgpPassword'
+import { deleteCookie, getCookie } from 'cookies-next'
+import axios from 'axios'
+import { PasswordStatuses } from '@/types/types'
+import { PgpPasswordModalIncorrect } from './PgpPasswordModalIncorrect'
 
 export function Layout({
 	children,
@@ -26,8 +32,14 @@ export function Layout({
 	const router = useRouter()
 	const t = useText()
 	const session = useSession()
+	const { pgpPassword, setPgpPassword } = usePgpPassword()
+
 	const user = session?.data?.user?.userId
 	const [drawerIsOpen, setDrawerIsOpen] = React.useState(false)
+	const [pgpPasswordStatus, setPgpPasswordStatus] =
+		React.useState<PasswordStatuses>('loading')
+	const [hasMessagesSentToOldKeys, setHasMessagesSentToOldKeys] =
+		React.useState(false)
 
 	const navigation = [
 		{
@@ -76,11 +88,57 @@ export function Layout({
 		}
 	]
 
+	React.useEffect(() => {
+		if (!user) return
+
+		const oldPasswordFromCookie = getCookie('privateKeyPassphrase')
+		if (oldPasswordFromCookie && typeof oldPasswordFromCookie === 'string') {
+			// existing user with old cookie, just set their password in local storage and remove cookie since we are using local storage now
+			setPgpPassword(oldPasswordFromCookie)
+			deleteCookie('privateKeyPassphrase')
+			window.location.reload()
+			return
+		}
+
+		const handlePgpStatus = async () => {
+			const res = await axios.post('/api/get_pgppassword_status', {
+				userId: user,
+				password: pgpPassword
+			})
+
+			setPgpPasswordStatus(res.data.status)
+
+			console.log('status from useeffect', res.data)
+			setHasMessagesSentToOldKeys(res.data.hasMessagesSentToOldKeys)
+		}
+		handlePgpStatus()
+	}, [pgpPassword])
+
 	return (
 		<>
 			<Head>
 				<title>{title}</title>
 			</Head>
+
+			<input
+				readOnly
+				checked={pgpPasswordStatus === 'notset'}
+				type='checkbox'
+				id='pgpPassword-modal'
+				className='modal-toggle'
+			/>
+
+			<PgpPasswordModal user={user} status={pgpPasswordStatus} />
+
+			<input
+				readOnly
+				checked={pgpPasswordStatus === 'incorrect'}
+				type='checkbox'
+				id='pgpPasswordincorrect-modal'
+				className='modal-toggle'
+			/>
+
+			<PgpPasswordModalIncorrect user={user} status={pgpPasswordStatus} />
 
 			<div className='drawer'>
 				<input

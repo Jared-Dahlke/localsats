@@ -44,3 +44,5 @@ export type PaywallRecordType = {
 	postId: string
 	createdAt: Date
 }
+
+export type PasswordStatuses = 'loading' | 'incorrect' | 'correct' | 'notset'

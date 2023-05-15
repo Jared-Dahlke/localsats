@@ -9,22 +9,49 @@ import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { SuccessAlert } from '@/components/successAlert'
 import { useRouter } from 'next/router'
-import { getCookie, setCookie } from 'cookies-next'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { usePgpPassword } from '@/hooks/usePgpPassword'
+import { PasswordStatuses } from '@/types/types'
+import { LoadingPage } from '@/components/loading'
 
 interface IProps {
 	user: string
-	privateKeyPassphrase: string
 }
 
-export default function Settings({ user, privateKeyPassphrase }: IProps) {
+export default function Settings({ user }: IProps) {
 	const userFromDatabase = useDatabaseUser({ userId: user })
+	const { pgpPassword, setPgpPassword } = usePgpPassword()
 
-	console.log('userFromDatabase', userFromDatabase?.data?.data)
+	const [initialPassword, setInitialPassword] = React.useState('')
+	const [hasMessagesSentToOldKeys, setHasMessagesSentToOldKeys] =
+		React.useState(false)
+	const [pgpPasswordStatus, setPgpPasswordStatus] =
+		React.useState<PasswordStatuses>('loading')
+
 	const router = useRouter()
 	const [email, setEmail] = React.useState('')
 	const [showEmailSuccess, setShowEmailSuccess] = React.useState(false)
-	const [passphrase, setPassphrase] = React.useState(privateKeyPassphrase)
+	const [passphrase, setPassphrase] = React.useState('')
+	const [loaded, setLoaded] = React.useState(false)
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			// You can safely use localStorage here
+			setInitialPassword(pgpPassword)
+			setPassphrase(pgpPassword)
+			setLoaded(true)
+
+			const handlePgpStatus = async () => {
+				const res = await axios.post('/api/get_pgppassword_status', {
+					userId: user,
+					password: pgpPassword
+				})
+
+				setHasMessagesSentToOldKeys(res.data.hasMessagesSentToOldKeys)
+				setPgpPasswordStatus(res.data.status)
+			}
+			handlePgpStatus()
+		}
+	}, [])
 
 	const saveEmail = async () => {
 		await axios.post('/api/update_user_email', {
@@ -34,9 +61,17 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 		setShowEmailSuccess(true)
 	}
 	const t = useText()
+
+	if (pgpPasswordStatus === 'loading') {
+		return (
+			<div>
+				<LoadingPage size={64} />
+			</div>
+		)
+	}
 	return (
 		<div className='h-screen flex items-center flex-col gap-8 '>
-			<div className='card shadow-xl bg-base-300'>
+			<div className='card shadow-xl bg-base-300 w-full'>
 				<div className='card-body'>
 					<div className='card-title'>
 						<h3 className='text-md font-medium leading-6 '>
@@ -74,42 +109,35 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 				</div>
 			</div>
 
-			<div className='card shadow-xl bg-base-300'>
+			<div className='card shadow-xl bg-base-300 w-full'>
 				<div className='card-body'>
 					<div className='card-title'>{t.yourMessagesAre}</div>
-					{!privateKeyPassphrase && (
-						<div className='rounded-md bg-yellow-50 p-4 mb-3'>
-							<div className='flex'>
-								<div className='flex-shrink-0'>
-									<ExclamationTriangleIcon
-										className='h-5 w-5 text-yellow-400'
-										aria-hidden='true'
+
+					{pgpPasswordStatus === 'correct' && (
+						<div className='alert alert-success shadow-lg my-4'>
+							<div>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className='stroke-current flex-shrink-0 h-6 w-6'
+									fill='none'
+									viewBox='0 0 24 24'>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth='2'
+										d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
 									/>
-								</div>
-								<div className='ml-3'>
-									<h3 className='text-sm font-medium text-yellow-800'>
-										{t.attentionNeededInOrderToDecrypt}
-									</h3>
-									<div className='mt-2 text-sm text-yellow-700'>
-										<p>
-											{t.weHaveARecordOfYourPgp}
-											<br />
-											{t.getYourPassphraseFromTheFirstDevice}
-											<br />
-											{t.generateANewKeyPair}
-										</p>
-										<button
-											onClick={async () => {
-												await axios.post('/api/add_pgp_to_user', {
-													userId: user
-												})
-												router.reload() // reload page to make pgp cookie available
-											}}
-											className='btn-primary btn ml-2'>
-											{t.generateNewPgp}
-										</button>
-									</div>
-								</div>
+								</svg>
+								<span>
+									Your messages are e2e encrypted, your PGP keys are good to go.
+									{hasMessagesSentToOldKeys && (
+										<>
+											{' '}
+											However, some of your old messages may not be readable
+											since they were generated with your old pgp keys{' '}
+										</>
+									)}
+								</span>
 							</div>
 						</div>
 					)}
@@ -117,8 +145,8 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 					<div className='mt-2 max-w-xl text-sm '>
 						<p>{t.belowIsThePassphrase}</p>
 					</div>
-					<div className='mt-5 sm:flex sm:items-center'>
-						<div className='w-full sm:max-w-xs'>
+					<div className='mt-5 sm:flex flex-col gap-8 justify-start w-full items-start '>
+						<div className='w-full  flex flex-col'>
 							<label htmlFor='pgpPassphrase' className='sr-only'>
 								{t.pgpPassphrase}
 							</label>
@@ -126,26 +154,20 @@ export default function Settings({ user, privateKeyPassphrase }: IProps) {
 								type='text'
 								name='privateKeyPassphrase'
 								id='privateKeyPassphrase'
-								onChange={(e) => {
-									setPassphrase(e.target.value)
-								}}
-								//value={passphrase}
+								disabled
 								className='input input-bordered w-full'
 								placeholder={t.yourPgpPassphrase}
-								defaultValue={privateKeyPassphrase}
+								value={passphrase}
 							/>
 						</div>
 						<button
 							onClick={async () => {
-								setCookie('privateKeyPassphrase', passphrase, {
-									maxAge: 2147483647,
-									path: '/'
-								})
+								setPgpPassword('')
 
 								router.reload()
 							}}
 							className='btn-primary btn mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'>
-							{t.save}
+							Edit my password
 						</button>
 					</div>
 				</div>
@@ -182,9 +204,7 @@ export const getServerSideProps = async function ({ req, res }) {
 		}
 	}
 
-	const privateKeyPassphrase = getCookie('privateKeyPassphrase', { req, res })
-
 	return {
-		props: { user, privateKeyPassphrase: privateKeyPassphrase || null }
+		props: { user }
 	}
 }
