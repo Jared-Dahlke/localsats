@@ -19,6 +19,7 @@ import { deleteCookie, getCookie } from 'cookies-next'
 import axios from 'axios'
 import { PasswordStatuses } from '@/types/types'
 import { PgpPasswordModalIncorrect } from './PgpPasswordModalIncorrect'
+import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 
 export function Layout({
 	children,
@@ -88,6 +89,8 @@ export function Layout({
 		}
 	]
 
+	const userFromDb = useDatabaseUser({ userId: user })
+
 	React.useEffect(() => {
 		if (!user) return
 
@@ -112,7 +115,7 @@ export function Layout({
 			setHasMessagesSentToOldKeys(res.data.hasMessagesSentToOldKeys)
 		}
 		handlePgpStatus()
-	}, [pgpPassword])
+	}, [pgpPassword, userFromDb])
 
 	return (
 		<>
