@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { GroupedMessage } from '@/types/types'
 import { rqKeys } from '@/constants'
-import { getCookie } from 'cookies-next'
+import { usePgpPassword } from './usePgpPassword'
 
 export const useMessages = ({
 	userId,
@@ -12,7 +12,7 @@ export const useMessages = ({
 	userId: string
 	initialMessages: MessageType[]
 }) => {
-	const privateKeyPassphrase = getCookie('privateKeyPassphrase', {}) // => 'value'
+	const { pgpPassword: privateKeyPassphrase } = usePgpPassword()
 	const messagesQuery = useQuery(
 		rqKeys.messagesKey(),
 		() => {
@@ -24,7 +24,7 @@ export const useMessages = ({
 				.then((data) => data.data)
 		},
 		{
-			enabled: !!userId,
+			enabled: !!userId && !!privateKeyPassphrase,
 			refetchInterval: 10000,
 			initialData: initialMessages
 		}

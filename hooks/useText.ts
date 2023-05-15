@@ -61,15 +61,9 @@ const english = {
 	signIntoYourAccount: 'Sign into your account',
 	youHaveActivePosts: 'You have active orders',
 	generateNewPgp: 'Generate new PGP key pair',
-	generateANewKeyPair:
-		'2. Generate a new keypair, you will be able to read all future messages, but this will prevent you from decrypting old messages',
-	getYourPassphraseFromTheFirstDevice:
-		'1. (Recommended) Get your passphrase from the first device you logged into with this account and save it in the input field below. This will allow you to decrypt old messages and future messages.',
-	weHaveARecordOfYourPgp:
-		'We have a record of your PGP public and private keys, but your auto-generated passphrase is not found in your cookies. You have 2 options:',
+
 	emailUpdated: 'Email updated',
-	attentionNeededInOrderToDecrypt:
-		'Attention needed in order to decrypt messages',
+
 	yourOrders: 'Your Orders',
 	paymentSuccess: 'Payment Success!',
 	showOnlyYourPosts: 'Show only your orders',
@@ -84,7 +78,7 @@ const english = {
 	save: 'save',
 	yourMessagesAre: 'Your Messages are end-to-end encrypted using PGP',
 	belowIsThePassphrase:
-		'Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser as a cookie. Save it somewhere safe in case you clear your cookies or you want to access your messages from another device.',
+		'Below is the passphrase to your PGP keys that encrypt your messages. This is stored in your browser in local storage. Save it somewhere safe in case you clear your local storage or you want to access your messages from another device.',
 	yourMessage: 'Your Messages',
 	orderId: 'Order ID',
 	otherParty: 'Other Party',
@@ -202,14 +196,7 @@ const spanish = {
 	generateNewPgp: 'Generar nuevo par de claves PGP',
 	feelFreeTomakeAPr:
 		'Siéntete libre de hacer una solicitud de extracción (PR) o abrir un problema (issue). Si tienes alguna pregunta, puedes escribirme a mi correo electrónico: jared.dahlke@protonmail.com.',
-	generateANewKeyPair:
-		'2. Genera un nuevo par de claves, podrás leer todos los mensajes futuros, pero esto impedirá que puedas descifrar los mensajes antiguos.',
-	getYourPassphraseFromTheFirstDevice:
-		'1. (Recomendado) Obtén tu frase de contraseña del primer dispositivo en el que iniciaste sesión con esta cuenta y guárdala en el campo de entrada a continuación. Esto te permitirá descifrar mensajes antiguos y futuros.',
-	attentionNeededInOrderToDecrypt:
-		'Atención necesaria para poder descifrar mensajes',
-	weHaveARecordOfYourPgp:
-		'Tenemos un registro de tus claves pública y privada PGP, pero no encontramos tu frase de contraseña autogenerada en tus cookies. Tienes 2 opciones:',
+
 	emailUpdated: 'Email actualizado',
 	paymentSuccess: '¡Pago exitoso!',
 	yourOrders: 'Tus pedidos',
@@ -340,15 +327,9 @@ const german = {
 	signIntoYourAccount: 'Melde dich in deinem Konto an',
 	youHaveActivePosts: 'Du hast aktive Beiträge',
 	generateNewPgp: 'Neues PGP-Schlüsselpaar generieren',
-	generateANewKeyPair:
-		'2. Generieren Sie ein neues Schlüsselpaar. Sie können alle zukünftigen Nachrichten lesen, können jedoch alte Nachrichten nicht mehr entschlüsseln',
-	getYourPassphraseFromTheFirstDevice:
-		'1. (Empfohlen) Holen Sie sich Ihr Passwort vom ersten Gerät, mit dem Sie sich mit diesem Konto angemeldet haben, und speichern Sie es im folgenden Eingabefeld. Dadurch können Sie alte und zukünftige Nachrichten entschlüsseln.',
-	weHaveARecordOfYourPgp:
-		'Wir haben einen Datensatz Ihrer PGP-Public- und Private-Keys, aber Ihr automatisch generiertes Passwort wurde nicht in Ihren Cookies gefunden. Sie haben 2 Optionen:',
+
 	emailUpdated: 'E-Mail aktualisiert',
-	attentionNeededInOrderToDecrypt:
-		'Zur Entschlüsselung Nachrichten ist besondere Aufmerksamkeit erforderlich',
+
 	yourOrders: 'Deine Bestellungen',
 	paymentSuccess: 'Zahlung erfolgreich!',
 	showOnlyYourPosts: 'Zeige nur deine Bestellungen',
@@ -362,7 +343,7 @@ const german = {
 	save: 'speichern',
 	yourMessagesAre: 'Ihre Nachrichten sind Ende-zu-Ende verschlüsselt mit PGP',
 	belowIsThePassphrase:
-		'Nachfolgend finden Sie das Passwort zu Ihren PGP-Schlüsseln, mit dem Ihre Nachrichten verschlüsselt sind. Dies wird als Cookie in Ihrem Browser gespeichert. Speichern Sie es an einem sicheren Ort, falls Sie Ihre Cookies löschen oder von einem anderen Gerät aus auf Ihre Nachrichten zugreifen möchten.',
+		'Nachfolgend finden Sie das Passwort zu Ihren PGP-Schlüsseln, mit dem Ihre Nachrichten verschlüsselt sind. Dies wird als local storage in Ihrem Browser gespeichert. Speichern Sie es an einem sicheren Ort, falls Sie Ihre Local storage löschen oder von einem anderen Gerät aus auf Ihre Nachrichten zugreifen möchten.',
 	yourMessage: 'Ihre Nachrichten',
 	postId: 'POST-ID',
 	otherParty: 'Andere Partei',

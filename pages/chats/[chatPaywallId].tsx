@@ -6,27 +6,21 @@ import { getCalendarDate, getNameFromId } from '@/utils/utils'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { GetServerSideProps } from 'next'
-import { getMessages } from '../api/get_messages'
-import { getCookie } from 'cookies-next'
 import { MessageType } from '@/types/types'
-import { UserCircleIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
 import { useMessages } from '@/hooks/useMessages'
 import { encryptMessage } from '@/lib/pgp'
 import { useDatabaseUser } from '@/hooks/useDatabaseUser'
 import prisma from '@/lib/prisma'
-import { differenceInDays } from 'date-fns'
-import { chatPaywalls, Prisma } from '@prisma/client'
+import { chatPaywalls } from '@prisma/client'
 
 export default function Chat({
 	user,
-	messages: initialMessages,
 	chatPaywallId,
 	chatIsDeleted,
 	chat
 }: {
 	user: string
-	messages: MessageType[]
 	chatPaywallId: string
 	chatIsDeleted: boolean
 	chat: chatPaywalls
@@ -34,12 +28,10 @@ export default function Chat({
 	const t = useText()
 	const userFromDatabase = useDatabaseUser({ userId: user })
 
-	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
-		{
-			userId: user,
-			initialMessages
-		}
-	)
+	const { messagesQuery, createMessageMutation } = useMessages({
+		userId: user,
+		initialMessages: []
+	})
 	const messages =
 		messagesQuery?.data?.filter((m) => m.chatPaywallId === chatPaywallId) || []
 
@@ -211,18 +203,9 @@ export const getServerSideProps: GetServerSideProps<any> = async function ({
 			}
 		}
 
-		const privateKeyPassphrase = getCookie('privateKeyPassphrase', {
-			req,
-			res
-		})
-		const allMyMessages = await getMessages(user, privateKeyPassphrase)
-		const messages =
-			allMyMessages?.filter((m) => m.chatPaywallId === chatPaywallId) || []
-
 		return {
 			props: {
 				user,
-				messages: JSON.parse(JSON.stringify(messages)),
 				chatPaywallId,
 				chatIsDeleted: false,
 				chat: JSON.parse(JSON.stringify(chat))

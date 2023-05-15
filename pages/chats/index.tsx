@@ -1,7 +1,12 @@
 import { getServerSession } from 'next-auth'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout } from '@/components/layout'
-import { GroupedMessage, MessageType, PostType } from '@/types/types'
+import {
+	GroupedMessage,
+	MessageType,
+	PasswordStatuses,
+	PostType
+} from '@/types/types'
 import { useMessages } from '@/hooks/useMessages'
 import { usePosts } from '@/hooks/usePosts'
 import { getOptions } from '@/lib/next-auth-lnurl'
@@ -9,21 +14,50 @@ import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
 import { useRouter } from 'next/router'
 import { getNameFromId } from '@/utils/utils'
 import Link from 'next/link'
+import axios from 'axios'
+import { usePgpPassword } from '@/hooks/usePgpPassword'
+import { LoadingPage } from '@/components/loading'
 
 interface IProps {
 	user: string
 	messages: MessageType[]
 }
 
-export default function Chats({ user, messages: initialMessages }: IProps) {
-	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
-		{
-			userId: user,
-			initialMessages
-		}
-	)
+export default function Chats({ user }: IProps) {
+	const { messagesQuery, groupedMessages } = useMessages({
+		userId: user,
+		initialMessages: []
+	})
+
+	const [hasMessagesSentToOldKeys, setHasMessagesSentToOldKeys] =
+		React.useState(false)
+	const [pgpPasswordStatus, setPgpPasswordStatus] =
+		React.useState<PasswordStatuses>('loading')
 
 	const posts = usePosts({ initialPosts: [] })
+
+	const { pgpPassword } = usePgpPassword()
+
+	useEffect(() => {
+		const handlePgpStatus = async () => {
+			const res = await axios.post('/api/get_pgppassword_status', {
+				userId: user,
+				password: pgpPassword
+			})
+
+			setHasMessagesSentToOldKeys(res.data.hasMessagesSentToOldKeys)
+			setPgpPasswordStatus(res.data.status)
+		}
+		handlePgpStatus()
+	}, [])
+
+	if (pgpPasswordStatus === 'loading') {
+		return (
+			<div>
+				<LoadingPage size={64} />
+			</div>
+		)
+	}
 
 	return (
 		<div className='flex items-center flex-col gap-4 py-16'>
@@ -41,6 +75,34 @@ export default function Chats({ user, messages: initialMessages }: IProps) {
 				</div>
 			) : (
 				<>
+					{pgpPasswordStatus === 'correct' && (
+						<div className='alert alert-success shadow-lg mb-16'>
+							<div>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className='stroke-current flex-shrink-0 h-6 w-6'
+									fill='none'
+									viewBox='0 0 24 24'>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth='2'
+										d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+									/>
+								</svg>
+								<span>
+									Your messages are e2e encrypted, your PGP keys are good to go.
+									{hasMessagesSentToOldKeys && (
+										<>
+											{' '}
+											However, some of your old messages may not be readable
+											since they were generated with your old pgp keys{' '}
+										</>
+									)}
+								</span>
+							</div>
+						</div>
+					)}
 					{groupedMessages &&
 						groupedMessages.map((messageGroup, personIdx) => {
 							const post = posts?.find((p) => p.id === messageGroup.postId)

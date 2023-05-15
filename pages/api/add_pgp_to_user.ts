@@ -1,28 +1,23 @@
 import { getServerSession } from 'next-auth'
-import { setCookie } from 'cookies-next'
 const openpgp = require('openpgp')
 import dayjs from 'dayjs'
 import prisma from '@/lib/prisma'
 import { getOptions } from '@/lib/next-auth-lnurl'
 import { lnurlAuthConfig } from '@/lib/lnurlAuthConfig'
-var crypto = require('crypto')
 
-export const addPgpToUser = async ({ req, res, userId }) => {
-	const privateKeyPassphrase = crypto.randomBytes(20).toString('hex')
-
+export const addPgpToUser = async ({
+	userId,
+	password
+}: {
+	userId: string
+	password: string
+}) => {
 	const { privateKey, publicKey } = await openpgp.generateKey({
 		type: 'ecc', // Type of the key, defaults to ECC
 		curve: 'curve25519', // ECC curve name, defaults to curve25519
 		userIDs: [{ name: 'Jon Smith', email: 'jon@example.com' }], // you can pass multiple user IDs
-		passphrase: privateKeyPassphrase, // protects the private key
+		passphrase: password, // protects the private key
 		format: 'armored' // output key format, defaults to 'armored' (other options: 'binary' or 'object')
-	})
-
-	setCookie('privateKeyPassphrase', privateKeyPassphrase, {
-		req,
-		res,
-		maxAge: 2147483647,
-		path: '/'
 	})
 
 	const user = await prisma.user.update({
@@ -56,7 +51,10 @@ export default async function handler(req, res) {
 			return
 		}
 
-		const user = await addPgpToUser({ req, res, userId: req.body.userId })
+		const user = await addPgpToUser({
+			userId: req.body.userId,
+			password: req.body.password
+		})
 
 		res.json(user)
 	} catch (e) {

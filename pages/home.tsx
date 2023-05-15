@@ -11,12 +11,7 @@ import {
 	PostType,
 	UserType
 } from '@/types/types'
-import { getMessages } from './api/get_messages'
 import { useRouter } from 'next/router'
-import { CookieValueTypes, getCookie } from 'cookies-next'
-import { addPgpToUser } from './api/add_pgp_to_user'
-import { getUser } from './api/get_user'
-import getDistance from 'geolib/es/getDistance'
 import { usePosts } from '@/hooks/usePosts'
 import { useMessages } from '@/hooks/useMessages'
 import Modal from '@/components/modal'
@@ -47,11 +42,7 @@ interface IProps {
 	messages: MessageType[]
 }
 
-export default function Home({
-	user,
-	posts: initialPosts,
-	messages: initialMessages
-}: IProps) {
+export default function Home({ user, posts: initialPosts }: IProps) {
 	const router = useRouter()
 
 	const posts = usePosts({ initialPosts })
@@ -60,12 +51,10 @@ export default function Home({
 	const { locationProps, setLocationProps } = useLocationProps(myPosts[0])
 
 	const queryClient = useQueryClient()
-	const { messagesQuery, groupedMessages, createMessageMutation } = useMessages(
-		{
-			userId: user,
-			initialMessages
-		}
-	)
+	const { messagesQuery, groupedMessages } = useMessages({
+		userId: user,
+		initialMessages: []
+	})
 
 	const messages = messagesQuery?.data
 	const hasUnreadMessages = messages?.some(
@@ -87,8 +76,6 @@ export default function Home({
 
 	const t = useText()
 
-	const [showWelcomeModal, setShowWelcomeModal] = React.useState(false)
-
 	const handleAddressChange = async (e: any) => {
 		if (!e.target.value) return
 		const coord = await axios.post('/api/get_coordinates', {
@@ -98,7 +85,6 @@ export default function Home({
 		if (!coord.data[0]) return
 		const lat = coord.data[0].latitude
 		const lng = coord.data[0].longitude
-		console.log(lat)
 		setLocationProps({
 			center: {
 				lat,
@@ -107,24 +93,6 @@ export default function Home({
 			zoom: 14
 		})
 	}
-
-	React.useEffect(() => {
-		if (!user) return
-		const processUser = async () => {
-			const userFromDb = await Axios.post('/api/get_user', {
-				userId: user
-			})
-
-			if (!userFromDb.data.seenWelcome) {
-				setShowWelcomeModal(true)
-				router.push('#welcomemodal')
-				await Axios.post('/api/update_user_seen_welcome', {
-					userId: user
-				})
-			}
-		}
-		processUser()
-	}, [user])
 
 	const deletePost = async (id: string) => {
 		setShowPostModal(false)
@@ -361,27 +329,13 @@ export const getServerSideProps = async function ({ req, res }) {
 			}
 		}
 	}
-	const userFromDb = await getUser(user)
-	if (userFromDb && !userFromDb?.pgpPrivateKeyEncrypted) {
-		await addPgpToUser({
-			req,
-			res,
-			userId: user
-		})
-	}
-	const posts = await getPosts()
-	const privateKeyPassphrase: CookieValueTypes = getCookie(
-		'privateKeyPassphrase',
-		{ req, res }
-	)
 
-	const messages = await getMessages(user, privateKeyPassphrase)
+	const posts = await getPosts()
 
 	return {
 		props: {
 			user,
-			posts: JSON.parse(JSON.stringify(posts)),
-			messages: JSON.parse(JSON.stringify(messages))
+			posts: JSON.parse(JSON.stringify(posts))
 		}
 	}
 }
