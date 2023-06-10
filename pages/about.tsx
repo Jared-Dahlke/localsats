@@ -27,6 +27,11 @@ export default function About({
 			answer: t.itIsAnEasyWayToBuy
 		},
 		{
+			question: 'How does encrypted messaging work?',
+			answer:
+				"All messages sent between users on localsats.org are encrypted using PGP. So only you and the recipient can read the messages. I don't have access to the messages. A PGP private and public key are generated the first time you login. The private key is encrypted using the passphrase that you entered after logging in. That passphrase is stored in local storage. So everytime you open your messages, the code reads your passphrase from local storage and decrypts your messages in real time so you can read them. This can be edited on the settings page at any time. In the case that your local storage gets cleared , or if you login on a different device or browser, a popup will appear asking you to enter that passphrase again."
+		},
+		{
 			question: t.howLongDoYouKeepOrders,
 			answer: t.weKeepOrders
 		},

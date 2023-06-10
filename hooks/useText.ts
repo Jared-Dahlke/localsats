@@ -108,7 +108,7 @@ const english = {
 	cantFindTheAnswer: 'Can’t find the answer you’re looking for? Reach out to',
 	whatIsThis: 'What is this?',
 	itIsAnEasyWayToBuy:
-		'It is an easy way to buy and sell bitcoin locally. Just create a order to either buy or sell bitcoin, then wait for someone to respond. Once someone responds, you will see their message on the home page. Additionally, you can add an email address to receive an email when someone responds to your order. We will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin.',
+		'It is an easy, and completely open source and free way to buy and sell bitcoin locally. Just create a order to either buy or sell bitcoin, then wait for someone to respond. Once someone responds, you will see their message on the home page. All messages are e2e encrypted. Optionally, you can add an email address to receive an email when someone responds to your order. I will never share your email with anyone. From there, you can use the chat to arrange a time to meet and buy/sell your bitcoin. Dont be scared, just create an order and try it out! If you create an order and do not provide an email, then be sure to check back every few days to see if anyone messaged you. If someone messages you and you dont respond within 14 days, the order will be deleted. I had to do this to keep the map clean and not have a bunch of old orders on there.',
 	whatDataDoYouStore: 'What data do you store?',
 	weStoreTheEncrypted:
 		'We store the encrypted messages and orders associated with your LNURL-Auth address. If you choose to add an email address for notifications, we will store that as well. If you choose to remove your email, that is permanently deleted as well.',
@@ -130,7 +130,7 @@ const english = {
 	whatsNew: 'New Features',
 	justShipped: 'Just shipped v1.0.0',
 	createAnAnonymousPostAt:
-		'Create an anonymous order at the location you want to meet. Once someone responds to your order, meet up and complete the transaction in person. Free and open source.',
+		'Create an anonymous order at the location you want to meet. Once someone responds to your order, meet up and complete the transaction in person. Free and open source. All messages are end to end encrypted using PGP.',
 	messagesSentBetween: 'Messages sent between users are encrypted using PGP',
 	loginWithLightning: 'Login With Lightning',
 	learnMore: 'Learn More',
